@@ -17,7 +17,7 @@ class PokeBattle_Battler
     def crestStats
       klincrest_crestStats
       case @crested
-        when :KLINGLANG
+        when :KLINKLANG
             @spatk = @defense
       end
     end
