@@ -1,0 +1,9 @@
+/**
+!/.gitignore
+!/patch/
+/patch/**
+!/patch/Mods/
+/patch/Mods/**
+!/patch/Mods/LyraVickyCrests/
+!/patch/Mods/LyraVickyCrests/**
+!/patch/Mods/LyraVickyCrestsMain.rb
