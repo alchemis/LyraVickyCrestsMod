@@ -1,8 +1,8 @@
-PBStuff::POKEMONTOCREST[:MAWILE] = :MAWCREST
+PBStuff::POKEMONTOCREST[:MAWILE] = :LVCMAWCREST
 
 
 ModCacheInjection.hook(:items) {
-  $cache.items[:MAWCREST] = ItemData.new(:MAWCREST, {
+  $cache.items[:LVCMAWCREST] = ItemData.new(:LVCMAWCREST, {
     name: "Mawile Crest",
     desc: "Adds Mawile's Attack to its Special Attack.",
     price: 0,
