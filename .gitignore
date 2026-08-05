@@ -5,11 +5,11 @@
 !/patch/Mods/
 !/patch/Graphics/
 /patch/Graphics/**
-!/patch/Graphics/Icon/
-/patch/Graphics/Icon/**
-!/patch/Graphics/Icon/Item
-/patch/Graphics/Icon/Item/**
-!/patch/Graphics/Icon/Item/lvc*
+!/patch/Graphics/Icons/
+/patch/Graphics/Icons/**
+!/patch/Graphics/Icons/Item
+/patch/Graphics/Icons/Item/**
+!/patch/Graphics/Icons/Item/lvc*
 /patch/Mods/**
 !/patch/Mods/LyraVickyCrests/
 !/patch/Mods/LyraVickyCrests/**
