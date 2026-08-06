@@ -22,3 +22,15 @@ ModCacheInjection.hook(:marts) {
         ]
       ))
 }
+
+ModCacheInjection.hook(:marts) {
+  $cache.marts[:CairoRE].Inventory["Buy"].push(ItemStock.of(:LVCKLINCREST).costs(5000, :RedEssence).limit().properties(
+        conditions: [
+          '$Trainer.numbadges >= 5',
+          '!$game_switches[self.item]'
+        ],
+        on_purchase: [
+          '$game_switches[item.item] = true'
+        ]
+      ))
+}
