@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Move
-  alias articrest_irregularTypeMods irregularTypeMods
+  alias articrest_irregularTypeMods irregularTypeMods if !defined?(articrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = articrest_irregularTypeMods(attacker, opponent, typemod, type)
     case opponent.crested
@@ -27,7 +27,7 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battle
-    alias articrest_pbCrestEntry pbCrestEntry
+    alias articrest_pbCrestEntry pbCrestEntry if !defined?(articrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       articrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
