@@ -5,8 +5,8 @@ PBStuff::POKEMONTOMEGASTONE[:GARDEVOIR].append(:LVCGARDECREST)
 
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCGARDECREST] = ItemData.new(:LVCGARDECREST, {
-    name: "Gardevoir Crest",
-    desc: "Shifts into Dark form, Psychic moves become Dark. Might do something special if you have a Gardevoirite in your bag.",
+    name: "Broken Halo",
+    desc: "Touching it brings forth a loyal servant's broken faith... Perhaps it could resonate with a Gardevoirite.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -14,12 +14,14 @@ ModCacheInjection.hook(:items) {
   })
 }
 
+
+
 #Forms
 ModCacheInjection.hook(:pkmn) {
   ModCacheInjection.createNewForm(:GARDEVOIR,"Crested Form",5,
       {
         :Type1 => :DARK,
-
+        :BaseStats => [68, 65, 65, 120, 110, 100],
         :MegaEvolutions => {
           :LVCGARDECREST => "Mega Crested Form",
         },
@@ -29,10 +31,10 @@ ModCacheInjection.hook(:pkmn) {
   ModCacheInjection.createNewForm(:GARDEVOIR,"Mega Crested Form",6,
       {
         :baseForm => "Crested Form",
-        :BaseStats => [68, 85, 65, 165, 135, 100],
+        :BaseStats => [68, 150, 65, 160, 65, 120],
         :Abilities => [:EXECUTION],
         :HiddenAbility => nil,
-        :BattlerPlayerX => 16,
+        :BattlerPlayerX => -9,
         :BattlerPlayerY => 9,
         :BattlerEnemyX => -9,
         :BattlerEnemyY => 14,
@@ -98,14 +100,32 @@ class PokeBattle_Battle
     def pbCanMegaEvolve?(index, aiBattler: nil)
       ret = aiBattler ? gardecrest_pbCanMegaEvolve?(index, aiBattler) : gardecrest_pbCanMegaEvolve?(index)
       battler = aiBattler || @battlers[index]
-      puts "canmegaevolve ret:"
-      puts ret
       if battler.species == :GARDEVOIR && battler.form == 5 then
-          puts "garde detected"
-          puts "ite?"
-          puts $PokemonBag.pbQuantity(:GARDEVOIRITE) > 0
           return true if $PokemonBag.pbQuantity(:GARDEVOIRITE) > 0 and ret
       else return ret
       end
     end
 end
+
+
+#EV112 21,77 MAP634 
+InjectionHelper.defineMapPatch(634) { # core crown
+  crest = nil
+
+  crest = createNewEvent(21, 78, "gardevoir crest", "gardevoircrest") {
+    newPage {
+      @step_anime = true
+      @move_speed = 4
+      @move_frequency = 3
+      requiresSwitch 1791
+      setGraphic 'sparkle'
+      interact {
+        text "... There seems to be something still here."
+        branch("Kernel.pbItemBall(:LVCGARDECREST)") {
+          self_switch["A"] = true
+        }
+      }
+    }
+    newPage { requiresSelfSwitch 'A' }
+  }
+}
