@@ -162,7 +162,7 @@ InjectionHelper.defineMapPatch(230) { # Chrysola Hotel
     }
 
     newPage {
-      requiresSwitch(1791, 31) # Saved rift gardevoir
+      requiresSwitch(1791) # Saved rift gardevoir
       instance_exec(&applicator)
     }
   }

@@ -18,6 +18,7 @@ class PokeBattle_Battle
       battler = @battlers[index]
       case battler.crested
         when :TSAREENA
+          pbDisplay(_INTL("Bow before the queen!"))
           for i in [battler.pbOpposing1, battler.pbOpposing2,battler.pbPartner]
             next unless i.passiveAbilityApplies?
 
