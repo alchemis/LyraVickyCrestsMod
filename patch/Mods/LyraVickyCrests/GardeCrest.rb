@@ -1,3 +1,7 @@
+if !(File.exist?('patch/Init/0000.cache_injection.rb') and File.exist?('patch/Init/0000.map_injection.rb')) then 
+  print("Error, patching libraries not found. Please download 0000.cache_injection.rb and 0000.map_injection.rb from wiresegal's modpack at: github.com/yrsegal/rejuvenation-modpack")
+end
+
 #Item
 
 PBStuff::POKEMONTOCREST[:GARDEVOIR] = :LVCGARDECREST
@@ -18,20 +22,22 @@ ModCacheInjection.hook(:items) {
 
 #Forms
 ModCacheInjection.hook(:pkmn) {
+
+ 
   ModCacheInjection.createNewForm(:GARDEVOIR,"Crested Form",5,
       {
         :Type1 => :DARK,
-        :BaseStats => [68, 65, 65, 120, 110, 100],
+        :BaseStats => [68, 85, 85, 120, 110, 100],
         :MegaEvolutions => {
           :LVCGARDECREST => "Mega Crested Form",
         },
       }
   )
 
-  ModCacheInjection.createNewForm(:GARDEVOIR,"Mega Crested Form",6,
+  ModCacheInjection.createNewForm(:GARDEVOIR,"Mega Gardevoir Z",6,
       {
         :baseForm => "Crested Form",
-        :BaseStats => [68, 150, 65, 160, 65, 120],
+        :BaseStats => [68, 150, 85, 160, 85, 120],
         :Abilities => [:EXECUTION],
         :HiddenAbility => nil,
         :BattlerPlayerX => -9,
@@ -75,7 +81,7 @@ class PokeBattle_Pokemon
   def changeFormOnBattleEnd
       if @species == :GARDEVOIR && (@form == 5 || @form == 6) then
           self.form = 0
-          self.ability = originalAbility if @form == 6
+          self.ability = self.originalAbility
           self.originalAbility = nil
           self.originalForm = nil
       else return gardecrest_changeFormOnBattleEnd
@@ -98,7 +104,7 @@ class PokeBattle_Battle
     alias gardecrest_pbCanMegaEvolve? pbCanMegaEvolve?
 
     def pbCanMegaEvolve?(index, aiBattler: nil)
-      ret = aiBattler ? gardecrest_pbCanMegaEvolve?(index, aiBattler) : gardecrest_pbCanMegaEvolve?(index)
+      ret = aiBattler ? gardecrest_pbCanMegaEvolve?(index, aiBattler: aiBattler) : gardecrest_pbCanMegaEvolve?(index)
       battler = aiBattler || @battlers[index]
       if battler.species == :GARDEVOIR && battler.form == 5 then
           return true if $PokemonBag.pbQuantity(:GARDEVOIRITE) > 0 and ret
