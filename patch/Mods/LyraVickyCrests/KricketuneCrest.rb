@@ -27,32 +27,32 @@ class PokeBattle_Move_083
   end
 end
 
-# class PokeBattle_Move
-#     alias krickcrest_pbCalcDamage pbCalcDamage
-#     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
-#           if movetype then
-#             damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
-#           else damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
-#           end
-#           basedmg = @basedamage
-#           basedmg = pbBaseDamage(basedmg, attacker, opponent) 
-#           if attacker.crested == :KRICKETUNE then
-#               case attacker.ability
-#                 when :TECHNICIAN
-#                     if basedmg > 60 #only if technician didn't already apply
-#                       damage *=1.5
-#                     end
-#               end
+class PokeBattle_Move
+    alias krickcrest_pbCalcDamage pbCalcDamage
+    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
+          if movetype then
+            damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
+          else damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
+          end
+          basedmg = @basedamage
+          basedmg = pbBaseDamage(basedmg, attacker, opponent) 
+          if attacker.crested == :KRICKETUNE then
+              case attacker.ability
+                when :TECHNICIAN
+                    if basedmg > 60 #only if technician didn't already apply
+                      damage *=1.5
+                    end
+              end
 
-#             if @battle.state.effects[:Round] && @function != 0x083 then 
-#               damage *= 2 
-#             end #make sure not to double round damage twice
-#             #doubling base damage is not *exactly* equivalent to doubling total damage, but it is close enough
-#           end
-#           return damage
-#     end
+            if @battle.state.effects[:Round] && @function != 0x083 then 
+              damage *= 2 
+            end #make sure not to double round damage twice
+            #doubling base damage is not *exactly* equivalent to doubling total damage, but it is close enough
+          end
+          return damage
+    end
 
-# end
+end
 
 class PokeBattle_Battler
   alias krickcrest_pbUseMove pbUseMove
