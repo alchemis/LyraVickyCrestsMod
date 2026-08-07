@@ -15,6 +15,7 @@ class PokeBattle_Battle
   alias tsarcrest_pbCrestEffects pbCrestEffects if !defined?(tsarcrest_pbCrestEffects)
   def pbCrestEffects(index, pokemon)
       tsarcrest_pbCrestEffects(index, pokemon)
+      battler = @battlers[index]
       case battler.crested
         when :TSAREENA
           for i in [battler.pbOpposing1, battler.pbOpposing2,battler.pbPartner]
@@ -23,7 +24,7 @@ class PokeBattle_Battle
             pbShowAbilityBox(battler, item: true)
             i.pbChangeStats(PBStats::SPEED, -1, battler, :Intimidate)
           end
-
+          pbHideAbilityBox(battler)
       end
   end
 end
