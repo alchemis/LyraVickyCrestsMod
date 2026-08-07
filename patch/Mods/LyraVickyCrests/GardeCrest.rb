@@ -29,7 +29,7 @@ ModCacheInjection.hook(:pkmn) {
         :Type1 => :DARK,
         :BaseStats => [68, 85, 85, 120, 110, 100],
         :MegaEvolutions => {
-          :LVCGARDECREST => "Mega Crested Form",
+          :LVCGARDECREST => "Mega Gardevoir Z",
         },
       }
   )
@@ -54,7 +54,7 @@ ModCacheInjection.hook(:pkmn) {
 #Move type change
 
 
-alias gardecrest_pbCrestMoveTypeChange pbCrestMoveTypeChange
+alias gardecrest_pbCrestMoveTypeChange pbCrestMoveTypeChange if !defined?(gardecrest_pbCrestMoveTypeChange)
 def pbCrestMoveTypeChange(species, form, item, type)
     if species == :GARDEVOIR && item == :LVCGARDECREST && type == :PSYCHIC then 
       return :DARK 
@@ -65,19 +65,27 @@ end
 
 
 #Form change
-class PokeBattle_Pokemon
+class PokeBattle_Battle
 
-  alias gardecrest_changeFormOnBattleStart changeFormOnBattleStart
-  def changeFormOnBattleStart
-      if @species == :GARDEVOIR && @item == :LVCGARDECREST && @form == 0 then
-        self.originalForm = 0
-        self.originalAbility = self.abilityIndex
-        self.form = 5
-      else return gardecrest_changeFormOnBattleStart
+  alias gardecrest_pbCrestEntry pbCrestEntry if !defined?(gardecrest_pbCrestEntry)
+  def pbCrestEntry(index, pokemon)
+      battler = @battlers[index]
+      if battler.species == :GARDEVOIR && battler.item == :LVCGARDECREST && battler.form == 0 then
+        battler.pokemon.originalForm = 0
+        battler.pokemon.originalAbility = battler.pokemon.abilityIndex
+        pbShowAbilityBox(battler, item: true)
+        pbDisplay(_INTL("{1}'s Broken Halo is glowing!", battler.pbThis))
+        pbAnimation(:TRANSFORM,  battler, battler)
+        battler.form = 5
+        @scene.pbChangePokemon(battler, battler.pokemon)
+        battler.pbUpdate(true)
+        pbHideAbilityBox(battler)
+      else return gardecrest_pbCrestEntry(index, pokemon)
       end
   end
-
-  alias gardecrest_changeFormOnBattleEnd changeFormOnBattleEnd
+end
+class PokeBattle_Pokemon
+  alias gardecrest_changeFormOnBattleEnd changeFormOnBattleEnd if !defined?(gardecrest_changeFormOnBattleEnd)
   def changeFormOnBattleEnd
       if @species == :GARDEVOIR && (@form == 5 || @form == 6) then
           self.form = 0
@@ -88,10 +96,9 @@ class PokeBattle_Pokemon
       end 
   end
 
-  alias gardecrest_hasMegaForm? hasMegaForm?
+  alias gardecrest_hasMegaForm? hasMegaForm? if !defined?(gardecrest_hasMegaForm?)
   def hasMegaForm?
       if @species == :GARDEVOIR && form == 5 then
-          puts "has mega!"
           return true 
       else
         return gardecrest_hasMegaForm?
@@ -101,7 +108,7 @@ class PokeBattle_Pokemon
 end
 
 class PokeBattle_Battle
-    alias gardecrest_pbCanMegaEvolve? pbCanMegaEvolve?
+    alias gardecrest_pbCanMegaEvolve? pbCanMegaEvolve? if !defined?(gardecrest_pbCanMegaEvolve?)
 
     def pbCanMegaEvolve?(index, aiBattler: nil)
       ret = aiBattler ? gardecrest_pbCanMegaEvolve?(index, aiBattler: aiBattler) : gardecrest_pbCanMegaEvolve?(index)
