@@ -24,4 +24,16 @@ class PokeBattle_Battler
     end
 end
 
+class PokeBattle_Move
+    alias wailcrest_pbCalcDamage pbCalcDamage if !defined?(wailcrest_pbCalcDamage)
+    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
+          if opponent.crested && oponent.species == :WAILORD then
+            opponent.pbUpdate()
+          end
+          if movetype then
+            damage = wailcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
+          else damage = wailcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
+          end
+    end
+end
 # Put Leftovers-style healing here
