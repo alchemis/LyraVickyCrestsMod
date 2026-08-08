@@ -22,18 +22,26 @@ class PokeBattle_Battler
             @spdef = @spdef + @hp * 0.5
       end
     end
-end
 
-class PokeBattle_Move
-    alias wailcrest_pbCalcDamage pbCalcDamage if !defined?(wailcrest_pbCalcDamage)
-    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
-          if opponent.crested && oponent.species == :WAILORD then
-            opponent.pbUpdate()
-          end
-          if movetype then
-            damage = wailcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
-          else damage = wailcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
-          end
+    alias wailcrest_pbRecoverHP pbRecoverHP if !defined?(wailcrest_pbRecoverHP)
+    def pbRecoverHP(amt, anim = false, hpbaranim = true, message: nil, hpamt: amt)
+      anim = anim
+      hpbaranim = hpbaranim
+      message = nil if message.nil?
+      ret = wailcrest_pbRecoverHP(amt, anim, hpbaranim, message: message, hpamt: amt)
+      if @crested and @species == :WAILORD then
+        puts "should update?"
+        self.pbUpdate() 
+      end
+      return ret
+    end
+
+    alias wailcrest_pbEffectsOnDealingDamage pbEffectsOnDealingDamage if !defined?(wailcrest_pbEffectsOnDealingDamage)
+    def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+      if target.crested and target.species == :WAILORD then
+        target.pbUpdate() 
+      end
+      return wailcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
     end
 end
-# Put Leftovers-style healing here
+
