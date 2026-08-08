@@ -27,13 +27,22 @@ class PokeBattle_Battler
     def pbRecoverHP(amt, anim = false, hpbaranim = true, message: nil, hpamt: amt)
       anim = anim
       hpbaranim = hpbaranim
-      message = nil if message.nil?
+      message = nil if !defined?(message)
       ret = wailcrest_pbRecoverHP(amt, anim, hpbaranim, message: message, hpamt: amt)
       if @crested and @species == :WAILORD then
-        puts "should update?"
         self.pbUpdate() 
       end
       return ret
+    end
+
+    alias wailcrest_pbReduceHP pbReduceHP if !defined?(wailcrest_pbReduceHP)
+    def pbReduceHP(amt, anim = false, emercheck = true, message: nil)
+        message = nil if !defined?(message)
+        ret = wailcrest_pbReduceHP(amt, anim, emercheck, message: message)
+        if @crested and @species == :WAILORD then
+          self.pbUpdate() 
+        end
+        return ret
     end
 
     alias wailcrest_pbEffectsOnDealingDamage pbEffectsOnDealingDamage if !defined?(wailcrest_pbEffectsOnDealingDamage)
