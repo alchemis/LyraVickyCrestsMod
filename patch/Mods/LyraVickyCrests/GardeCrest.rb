@@ -1,4 +1,4 @@
-if !(File.exist?('patch/Init/0000.cache_injection.rb') and File.exist?('patch/Init/0000.map_injection.rb')) then 
+if !(File.exist?('patch/Init/0000.cache_injection.rb') or !File.exist?('patch/Init/0000.map_injection.rb')) then 
   print("Error, patching libraries not found. Please download 0000.cache_injection.rb and 0000.map_injection.rb from wiresegal's modpack at: github.com/yrsegal/rejuvenation-modpack")
 end
 
@@ -28,6 +28,8 @@ ModCacheInjection.hook(:pkmn) {
       {
         :Type1 => :DARK,
         :BaseStats => [68, 85, 85, 120, 110, 100],
+		:Abilities => [:TRACE],
+        :HiddenAbility => nil,
         :MegaEvolutions => {
           :LVCGARDECREST => "Mega Gardevoir Z",
         },
@@ -89,7 +91,7 @@ class PokeBattle_Pokemon
   def changeFormOnBattleEnd
       if @species == :GARDEVOIR && (@form == 5 || @form == 6) then
           self.form = 0
-          self.ability = self.originalAbility
+          self.ability = :TRACE
           self.originalAbility = nil
           self.originalForm = nil
       else return gardecrest_changeFormOnBattleEnd

@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:MAWILE] = :LVCMAWCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCMAWCREST] = ItemData.new(:LVCMAWCREST, {
     name: "Mawile Crest",
-    desc: "Adds Mawile's Attack to its Special Attack.",
+    desc: "Raises Mawile's Sp. Atk, Defense and Sp. Def based on its Attack.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -18,7 +18,9 @@ class PokeBattle_Battler
       mawcrest_crestStats
       case @crested
         when :MAWILE
-            @spatk = @attack + @spatk
+            @defense += @attack/2
+            @spdef += @attack/2
+            @spatk += @attack
       end
     end
 end
