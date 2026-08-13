@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:SCREAMTAIL] = :LVCSTCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCSTCREST] = ItemData.new(:LVCSTCREST, {
     name: "Scream Tail Crest",
-    desc: "Gains Beast Boost and Air Balloon effect.",
+    desc: "Scream Tail floats in the air until hit, and KOs raise its highest stat. Swaps its offenses and defenses.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -14,6 +14,17 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     
+    alias stcrest_crestStats crestStats if !defined?(stcrest_crestStats)
+    def crestStats
+      stcrest_crestStats
+      case @crested
+        when :SCREAMTAIL
+            @spatk, @spdef = @spdef, @spatk
+            @attack, @defense = @defense, @attack
+      end
+    end
+
+
     alias stcrest_hasWorkingItem hasWorkingItem if !defined?(stcrest_hasWorkingItem)
     def hasWorkingItem(item, ignorefainted: false)
       ignorefainted = false if !defined?(ignorefainted)
