@@ -12,6 +12,15 @@ ModCacheInjection.hook(:items) {
   })
 }
 
+alias aurocrest_pbCrestMoveTypeChange pbCrestMoveTypeChange if !defined?(aurocrest_pbCrestMoveTypeChange)
+def pbCrestMoveTypeChange(species, form, item, type)
+    if species == :AURORUS && item == :LVCAUROCREST && type == :ROCK then 
+      return :DRAGON
+
+    end
+    return aurocrest_pbCrestMoveTypeChange(species, form, item, type)
+end
+
 class PokeBattle_Battle
   alias aurocrest_pbCrestEntry pbCrestEntry if !defined?(aurocrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
@@ -42,16 +51,3 @@ class PokeBattle_Battler
       end
     end
 end
-
-# (This was meant to turn Rock moves into Dragon ones, but I couldn't figure out how)
-# class PBMove
-#   alias aurocrest_pbMoveTypeChange pbMoveTypeChange if !defined?(aurocrestpbMoveTypeChange)
-#   def pbMoveTypeChange(species, item, type)
-#     aurocrest_pbMoveTypeChange
-#     return type unless type == :ROCK
-#     case true
-#       when species == :AURORUS && item == :AUROCREST then return :DRAGON
-#     end
-#     return type
-#   end
-# end
