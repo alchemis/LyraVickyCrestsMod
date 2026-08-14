@@ -30,10 +30,11 @@ class PokeBattle_Battle
       when :AURORUS
         pbShowAbilityBox(battler, item: true)
         pbAnimation(:AURORAVEIL, battler, nil)
-        pbDisplay(_INTL("{1} raised an Aurora Veil!", battler.pbThis))
         if battler.pbOwnSide.effects[:AuroraVeil] == 0
+          pbDisplay(_INTL("{1} raised an Aurora Veil!", battler.pbThis))
           pbApplySideEffect(:AuroraVeil, 3, battler.pbOwnSide, battler)
         else
+          pbDisplay(_INTL("{1} extended the Aurora Veil!", battler.pbThis))
           battler.pbOwnSide.effects[:AuroraVeil]+=3
         end
         pbHideAbilityBox(battler)
