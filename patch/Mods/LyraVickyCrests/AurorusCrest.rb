@@ -34,11 +34,11 @@ class PokeBattle_Battle
         if battler.pbOwnSide.effects[:AuroraVeil] == 0
           pbApplySideEffect(:AuroraVeil, 3, battler.pbOwnSide, battler)
         else
-          pbApplySideEffect(:AuroraVeil, + 3, battler.pbOwnSide, battler)
+          battler.pbOwnSide.effects[:AuroraVeil]+=3
         end
         pbHideAbilityBox(battler)
-      end
-   end
+    end
+  end
 end
 
 class PokeBattle_Battler
