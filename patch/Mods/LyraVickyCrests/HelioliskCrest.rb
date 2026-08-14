@@ -18,9 +18,9 @@ class PokeBattle_Move
     type = heliocrest_pbType(attacker,@type)
     if attacker.crested == :HELIOLISK && type == :NORMAL then
         case attacker.ability
-        when :DRYSKIN then type = :WATER
-        when :SANDVEIL then type = :GROUND
-        when :SOLARPOWER then type = :FIRE
+          when :DRYSKIN then type = :WATER
+          when :SANDVEIL then type = :GROUND
+          when :SOLARPOWER then type = :FIRE
         end
     end
     return type
