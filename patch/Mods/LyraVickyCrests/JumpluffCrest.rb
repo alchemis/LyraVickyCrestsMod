@@ -15,7 +15,7 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battle
   alias jmplffcrest_pbCrestEntry pbCrestEntry if !defined?(jmplffcrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
-    jmplffcrest_pbCrestEntry(index, pokemon)
+    
     battler = @battlers[index]
     case battler.crested
       when :JUMPLUFF
@@ -23,14 +23,25 @@ class PokeBattle_Battle
         pbAnimation(:TAILWIND, battler, nil)
         if battler.pbOwnSide.effects[:Tailwind] == 0
           pbDisplay(_INTL("{1} stirred up a short Tailwind!", battler.pbThis))
-          pbSetTailwind(2, battler.pbOwnSide)
+          jmplffcrest_noabilcheck_pbSetTailwind(2, battler.pbOwnSide)
         else
           pbDisplay(_INTL("{1} replenished the Tailwind!", battler.pbThis))
-          pbSetTailwind(battler.pbOwnSide.effects[:Tailwind] += 2, battler.pbOwnSide)
+          jmplffcrest_noabilcheck_pbSetTailwind(battler.pbOwnSide.effects[:Tailwind] + 1, battler.pbOwnSide)
         end
         pbHideAbilityBox(battler)
     end    
+    jmplffcrest_pbCrestEntry(index, pokemon)
   end
+
+  def jmplffcrest_noabilcheck_pbSetTailwind(duration, side)
+    side.effects[:Tailwind] = duration
+    if [:MOUNTAIN, :SNOWYMOUNTAIN, :VOLCANICTOP, :SKY].include?(@field.effect) && canSetWeather?(:STRONGWINDS)
+      duration = @field.effect == :SKY ? duration+3 : duration+1
+      pbSetWeather(:STRONGWINDS, duration)
+    end
+  end
+
+
 end
 
 class PokeBattle_Battler
