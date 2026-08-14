@@ -19,7 +19,7 @@ class PokeBattle_Move
     case attacker.crested
       when :ZAPDOS
         if @battle.pbWeather(attacker) == :RAINDANCE then
-          typemod = Typemod.half if [:ELECTRIC].include?(type) and opponent.types.include?(:GROUND)
+          typemod = Typemod.normal if [:ELECTRIC].include?(type) and opponent.types.include?(:GROUND)
         end
     end
     return typemod
