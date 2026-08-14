@@ -1,0 +1,46 @@
+PBStuff::POKEMONTOCREST[:JUMPLUFF] = :LVCJMPLFFCREST
+
+
+ModCacheInjection.hook(:items) {
+  $cache.items[:LVCJMPLFFCREST] = ItemData.new(:LVCJMPLFFCREST, {
+    name: "Jumpluff Crest",
+    desc: "Ability becomes Wind Rider, also sets a 2-turn Tailwind on entry.",
+    price: 0,
+    crest: true,
+    noUseInBattle: true,
+    noUse: true,
+  })
+}
+
+class PokeBattle_Battle
+  alias jmplffcrest_pbCrestEntry pbCrestEntry if !defined?(jmplffcrest_pbCrestEntry)
+  def pbCrestEntry(index, pokemon)
+    jmplffcrest_pbCrestEntry(index, pokemon)
+    battler = @battlers[index]
+    case battler.crested
+      when :JUMPLUFF
+        pbShowAbilityBox(battler, item: true)
+        pbAnimation(:TAILWIND, battler, nil)
+        if battler.pbOwnSide.effects[:Tailwind] == 0
+          pbDisplay(_INTL("{1} stirred up a short Tailwind!", battler.pbThis))
+          pbSetTailwind(2, battler.pbOwnSide)
+        else
+          pbDisplay(_INTL("{1} replenished the Tailwind!", battler.pbThis))
+          pbSetTailwind(battler.pbOwnSide.effects[:Tailwind] += 2, battler.pbOwnSide)
+        end
+        pbHideAbilityBox(battler)
+    end    
+  end
+end
+
+class PokeBattle_Battler
+    alias jmplffcrest_crestStats crestStats
+    def crestStats
+      jmplffcrest_crestStats
+      case @crested
+        when :JUMPLUFF
+            @ability = :WINDRIDER
+            # @attack, @defense, @spatk, @spdef += @speed * 0.1 # maybe Jumpluff should hurt people
+      end
+    end
+end
