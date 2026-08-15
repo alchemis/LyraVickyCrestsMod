@@ -15,7 +15,7 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Move
   alias heliocrest_pbType pbType if !defined?(heliocrest_pbType)
   def pbType(attacker, type = @type)
-    type = heliocrest_pbType(attacker,@type)
+    type = heliocrest_pbType(attacker,type)
     if attacker.crested == :HELIOLISK && type == :NORMAL then
         case attacker.ability
           when :DRYSKIN then type = :WATER
