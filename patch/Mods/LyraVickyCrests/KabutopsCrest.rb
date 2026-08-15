@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:KABUTOPS] = :LVCKABUTOPSCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCKABUTOPSCREST] = ItemData.new(:LVCKABUTOPSCREST, {
     name: "Kabutops Crest",
-    desc: "Replaces first move with Techno Blast in battle, changes Rock-type to type of held drive. Special moves use Attack.",
+    desc: "If holding a Drive, replaces first move with Techno Blast in battle. Special moves use Attack.",
     price: 0,
     crest: true,
     keyitem: true, #NON HELD CREST
@@ -30,12 +30,12 @@ class PokeBattle_Battler
     def crestStats
       kabucrest_crestStats
       if @crested == :KABUTOPS
-          case @item
-          when :BURNDRIVE    then @type1 = :FIRE
-          when :DOUSEDRIVE   then @type1 = :WATER
-          when :SHOCKDRIVE   then @type1 = :ELECTRIC
-          when :CHILLDRIVE   then @type1 = :ICE #just a chill guy
-          end
+          # case @item
+          # when :BURNDRIVE    then @type1 = :FIRE
+          # when :DOUSEDRIVE   then @type1 = :WATER
+          # when :SHOCKDRIVE   then @type1 = :ELECTRIC
+          # when :CHILLDRIVE   then @type1 = :ICE #just a chill guy
+          # end
           #gain move
           @kabucrest_ogmove = {:move => @moves[0].move, :pp => @moves[0].pp, :totalpp => @moves[0].totalpp}
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:TECHNOBLAST), @pokemon)
@@ -72,3 +72,54 @@ class PokeBattle_Move
   end
 end
 
+#Put drives axis factory
+InjectionHelper.defineMapPatch(111, 64) { |event| #Axis factory, left chest
+  event.patch(:ShockDrive) {
+    matched = lookForAll([:Script, 'Kernel.pbItemBall(:EXPCANDYXL,3)'])
+    for insn in matched
+      insertBefore(insn, 
+        [:Script, 'Kernel.pbItemBall(:SHOCKDRIVE)']
+      )
+    end
+  }
+}
+InjectionHelper.defineMapPatch(111, 74) { |event| #Axis factory, right chest
+  event.patch(:FreezeDrive) {
+    matched = lookForAll([:Script, 'Kernel.pbItemBall(:ADAMANTMINT)'])
+    for insn in matched
+      insertBefore(insn, 
+        [:Script, 'Kernel.pbItemBall(:FREEZEDRIVE)']
+      )
+    end
+  }
+}
+InjectionHelper.defineMapPatch(111, 11) { |event| #Axis factory, statue chest
+  event.patch(:BurnDrive) {
+    matched = lookForAll([:Script, 'Kernel.pbItemBall(:GREENSHARD,3)'])
+    for insn in matched
+      insertBefore(insn, 
+        [:Script, 'Kernel.pbItemBall(:BURNDRIVE)']
+      )
+    end
+  }
+}
+InjectionHelper.defineMapPatch(111, 10) { |event| #Axis factory, trainchest
+  event.patch(:DouseDrive) {
+    matched = lookForAll([:Script, 'Kernel.pbItemBall(:YELLOWSHARD,3)'])
+    for insn in matched
+      insertBefore(insn, 
+        [:Script, 'Kernel.pbItemBall(:DOUSEDRIVE)']
+      )
+    end
+  }
+}
+InjectionHelper.defineMapPatch(111, 86) { |event| #Axis factory, master key chest
+  event.patch(:DouseDrive) {
+    matched = lookForAll([:Script, 'Kernel.pbItemBall(:MASTERKEY)'])
+    for insn in matched
+      insertBefore(insn, 
+        [:Script, 'Kernel.pbItemBall(:LCVKABUTOPSCREST)']
+      )
+    end
+  }
+}

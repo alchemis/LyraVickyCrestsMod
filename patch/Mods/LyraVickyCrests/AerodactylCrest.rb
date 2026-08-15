@@ -59,3 +59,20 @@ class PokeBattle_Battler
     
 end
 
+InjectionHelper.defineMapPatch(72) { # Garufa sanctuary
+  createNewEvent(22, 68, "aero Crest", "aerocrest") { #by the "something emerged from the earth here"
+    newPage {
+      @step_anime = true
+      @move_speed = 1
+      @move_frequency = 1
+      requiresVariable 723, 1 #.karma started
+      setGraphic 'object_megazcrystal_1' #crest graphic
+      interact {
+        branch("Kernel.pbItemBall(:LVCAERODACTYLCREST)") {
+          self_switch["A"] = true
+        }
+      }
+    }
+    newPage { requiresSelfSwitch 'A' }
+  }
+}

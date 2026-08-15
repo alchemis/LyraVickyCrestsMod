@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:OMASTAR] = :LVCOMASTARCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCOMASTARCREST] = ItemData.new(:LVCOMASTARCREST, {
     name: "Omastar Crest",
-    desc: "Replaces first move with Judgment in battle, changes Rock-type to type of held plate.",
+    desc: "Replaces first move with Judgment in battle, changes Rock-type to type of held Plate.",
     price: 0,
     crest: true,
     keyitem: true, #NON HELD CREST
@@ -62,3 +62,20 @@ class PokeBattle_Battler
     
 end
 
+InjectionHelper.defineMapPatch(337) { # Church of Theolia
+  createNewEvent(56, 22, "Omastar Crest", "omastarcrest") { #By the altar
+    newPage {
+      @step_anime = true
+      @move_speed = 1
+      @move_frequency = 1
+      requiresVariable 723, 1 #.karma started
+      setGraphic 'object_megazcrystal_1' #crest graphic
+      interact {
+        branch("Kernel.pbItemBall(:LVCOMASTARCREST)") {
+          self_switch["A"] = true
+        }
+      }
+    }
+    newPage { requiresSelfSwitch 'A' }
+  }
+}
