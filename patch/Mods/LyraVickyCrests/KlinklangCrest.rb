@@ -29,6 +29,6 @@ class PokeBattle_Move
   def pbBaseAccuracy(baseacc, attacker, opponent)
     baseacc = klinklangcrest_pbBaseAccuracy(baseacc, attacker, opponent)
     return baseacc * 1.5 if [:KLINKLANG].include?(attacker.crested)
-    return baseacc
+    return baseacc.floor
   end
 end
