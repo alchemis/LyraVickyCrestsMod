@@ -19,7 +19,8 @@ class PokeBattle_Battler
       case @crested
         when :PYROAR
             @attack = @spatk
-            @defense, @spdef *= 1.2
+            @defense *= 1.2
+            @spdef *= 1.2
       end
     end
 end
