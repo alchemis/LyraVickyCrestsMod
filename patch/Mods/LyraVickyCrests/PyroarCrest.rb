@@ -13,15 +13,15 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battler
-    alias pyroarcrest_crestStats crestStats
+    alias pyroarcrest_crestStats crestStats if !defined?(pyroarcrest_crestStats)
     def crestStats
-      pyroar_crestStats
+      pyroarcrest_crestStats
       case @crested
         when :PYROAR
-          @attack = @spatk
-          @defense *= 1.2
-          @spdef *= 1.2
-        end
+            @attack = @spatk
+            @defense *= 1.2
+            @spdef *= 1.2
+      end
     end
 end
 
