@@ -18,10 +18,10 @@ class PokeBattle_Battler
       pyroar_crestStats
       case @crested
         when :PYROAR
-            @attack = @spatk
-            @defense *= 1.2
-            @spdef *= 1.2
-      end
+          @attack = @spatk
+          @defense *= 1.2
+          @spdef *= 1.2
+        end
     end
 end
 
