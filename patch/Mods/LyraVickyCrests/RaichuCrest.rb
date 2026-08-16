@@ -21,7 +21,9 @@ class PokeBattle_Battle
       battler = @battlers[index]
       case battler.crested
         when :RAICHU
+          pbShowAbilityBox(battler, item: true)
           battler.pbUseMoveSimple(:IONDELUGE, -1, -1)
+          pbHideAbilityBox(battler)
       end
     end
 end
