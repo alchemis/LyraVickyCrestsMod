@@ -116,7 +116,7 @@ class PokeBattle_Battle
         when :POISONHEAL then 
           @battle.pbDisplay(_INTL("{1}'s hunkers down!", battler.pbThis))
           battler.pbPoison(battler, true, message: _INTL("{1} was poisoned by its {2}!", battler.pbThis, getItemName(battler.item))) if battler.status != :POISON
-        when :TECHNICIAN then @battle.pbDisplay(_INTL("{1} is punching <c3="+colorToRgb32(Color.new(247, 238, 143))+","+colorToRgb32(Color.new(221, 167, 79))+">specially<\/c3> hard today!", battler.pbThis))
+        when :TECHNICIAN then @battle.pbDisplay(_INTL("{1} is punching <c3="+colorToRgb32(Color.new(237, 209, 99))+","+colorToRgb32(Color.new(157, 129, 19))+">specially<\/c3> hard today!", battler.pbThis))
         when :TOUGHCLAWS then @battle.pbDisplay(_INTL("{1} is sharpening its claws!", battler.pbThis))
         when :STATIC then @battle.pbDisplay(_INTL("{1}'s claws are electrified!", battler.pbThis))
         end
