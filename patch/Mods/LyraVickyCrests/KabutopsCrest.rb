@@ -65,7 +65,7 @@ class PokeBattle_Move
   alias kabucrest_pbHitsSpecialStat? pbHitsSpecialStat? if !defined?(kabucrest_pbHitsSpecialStat?)
   def pbHitsSpecialStat?(attacker, type = @type)
     if attacker.crested == :KABUTOPS then
-      return !@category == :special if @function == 0x122 #psyshock, etc
+      return !(@category == :special) if @function == 0x122 #psyshock, etc
       return @category == :special #check category directly instead of calling pbIsSpecial since we overrode the behavior on that
     else return kabucrest_pbHitsSpecialStat?(attacker,type)
     end
