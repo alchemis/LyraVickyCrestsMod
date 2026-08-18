@@ -19,7 +19,7 @@ class PokeBattle_Move
     if attacker.crested == :HELIOLISK && type == :NORMAL then
         case attacker.ability
           when :DRYSKIN then type = :WATER
-          when :SANDVEIL then type = :GROUND
+          when :SANDVEIL then type = :ROCK
           when :SOLARPOWER then type = :FIRE
         end
     end
@@ -35,7 +35,7 @@ class PokeBattle_Battler
         when :HELIOLISK
             case @ability
               when :DRYSKIN then @type2 = :WATER
-              when :SANDVEIL then @type2 = :GROUND
+              when :SANDVEIL then @type2 = :ROCK
               when :SOLARPOWER then @type2 = :FIRE            
             end
       end
