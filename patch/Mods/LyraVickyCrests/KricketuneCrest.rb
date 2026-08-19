@@ -55,9 +55,9 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battler
-  alias krickcrest_pbTryUseMove pbTryUseMove if !defined?(krickcrest_pbUseMove)
+  alias krickcrest_pbTryUseMove pbTryUseMove if !defined?(krickcrest_pbTryUseMove)
   def pbTryUseMove(*args)
-      ret = krickcrest_pbUseMove(*args)
+      ret = krickcrest_pbTryUseMove(*args)
       if self.crested == :KRICKETUNE && ret then
           @battle.state.effects[:Round] = true
       end
