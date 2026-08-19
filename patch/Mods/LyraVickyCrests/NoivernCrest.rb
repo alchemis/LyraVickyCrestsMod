@@ -34,10 +34,11 @@ end
 
 #ECHO
 class PokeBattle_Battler
-  alias noivcrest_pbUseMove pbUseMove if !defined?(noivcrest_pbDancerMoveCheck)
+  alias noivcrest_pbTryUseMove pbTryUseMove if !defined?(noivcrest_pbDancerMoveCheck)
   
-  def pbUseMove(choice, flags = { danced: false, totaldamage: 0, specialusage: false, specialZ: false })
-    ret = noivcrest_pbUseMove(choice,flags)
+  def pbTryUseMove(choice, basemove, flags = { passedtrying: false, instructed: false })
+    ret = noivcrest_pbTryUseMove(choice,basemove,flags)
+    return ret if !ret
     id = choice[2].move
     priority = @battle.setSpeedOrder
     for i in priority

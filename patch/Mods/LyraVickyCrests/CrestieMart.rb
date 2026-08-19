@@ -34,6 +34,8 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCJMPLFFCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
       ItemStock.of(:LVCBRELCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
 
+      ItemStock.of(:LVCARCHCREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
+      ItemStock.of(:LVCCARRACREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
       ItemStock.of(:LVCNINETALESCREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
       ItemStock.of(:LVCATALESCREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
       ItemStock.of(:LVCALTACREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
