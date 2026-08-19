@@ -25,7 +25,7 @@ class PokeBattle_Move
       end
       if opponent.crested == :ARCHEOPS and opponent.hp == opponent.totalhp and damage >= (opponent.totalhp/2)
         opponent.effects[:LVC_TANKEDHIT] = true
-        damage = [damage, (opponent.totalhp/2.to_f).ceil].min()
+        damage = [damage, (opponent.totalhp/4.to_f).ceil].min()
 
       end
       return damage
