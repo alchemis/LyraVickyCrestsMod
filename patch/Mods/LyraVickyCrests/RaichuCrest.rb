@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:RAICHU] = :LVCRAICHUCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCRAICHUCREST] = ItemData.new(:LVCRAICHUCREST, {
     name: "Raichu Crest",
-    desc: "Raichu uses Ion Deluge on switch-in, also increases attacking stats by 30%.",
+    desc: "Raichu uses Ion Deluge on switch-in, also increases its offenses by 30%.",
     price: 0,
     crest: true,
     noUseInBattle: true,

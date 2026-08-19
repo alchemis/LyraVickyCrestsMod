@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:AERODACTYL] = :LVCAERODACTYLCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCAERODACTYLCREST] = ItemData.new(:LVCAERODACTYLCREST, {
     name: "Aerodactyl Crest",
-    desc: "Replaces first move with Multi-Attack in battle, changes Rock-type to type of held Memory.",
+    desc: "Its first move becomes Multi-Attack in battle, also replaces its Rock-Type with its held Memory type.",
     price: 0,
     crest: true,
     keyitem: true, #NON HELD CREST

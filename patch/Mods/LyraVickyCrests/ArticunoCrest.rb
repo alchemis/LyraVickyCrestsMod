@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:ARTICUNO] = :LVCARTICREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCARTICREST] = ItemData.new(:LVCARTICREST, {
     name: "Articuno Crest",
-    desc: "Articuno causes it to snow for 8 turns on switch-in, its ice-type weaknesses are negated during snow.",
+    desc: "Articuno causes it to snow for 8 turns on entry, also removes its Ice-Type's weaknesses during snow.",
     price: 0,
     crest: true,
     noUseInBattle: true,

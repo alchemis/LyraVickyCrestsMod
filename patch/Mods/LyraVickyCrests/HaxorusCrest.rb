@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:HAXORUS] = :LVCHAXCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCHAXCREST] = ItemData.new(:LVCHAXCREST, {
     name: "Haxorus Crest",
-    desc: "Ability becomes Sharpness, also its Defenses and Sp.ATK are boosted by 10% of its ATK.",
+    desc: "Its ability becomes Sharpness, also its Defenses are boosted by 10% of its ATK.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -38,7 +38,7 @@ class PokeBattle_Battler
             @ability = :SHARPNESS
             # Used to give this on top of what its ability originally was, changed because that was too broken.
             @defense += (@attack * 0.1)
-            @spatk += (@attack * 0.1)
+            #@spatk += (@attack * 0.1)
             @spdef += (@attack * 0.1)
             #@speed += (@attack * 0.1)
             # removed "all stats gain 10% of its ATK" cuz it's like a +40 to everything 

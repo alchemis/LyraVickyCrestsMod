@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:OMASTAR] = :LVCOMASTARCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCOMASTARCREST] = ItemData.new(:LVCOMASTARCREST, {
     name: "Omastar Crest",
-    desc: "Replaces first move with Judgment in battle, changes Rock-type to type of held Plate.",
+    desc: "Omastar's first move becomes Judgment in battle, also replaces its Rock-Type with its held Plate type.",
     price: 0,
     crest: true,
     keyitem: true, #NON HELD CREST

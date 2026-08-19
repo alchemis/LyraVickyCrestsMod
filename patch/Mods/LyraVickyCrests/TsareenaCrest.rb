@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:TSAREENA] = :LVCTSARCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCTSARCREST] = ItemData.new(:LVCTSARCREST, {
     name: "Tsareena Crest",
-    desc: "Tsareena lowers the speed of all other Pokémon in the field on entry.",
+    desc: "Tsareena decreases the Speed of adjacent Pokemon on entry.",
     price: 0,
     crest: true,
     noUseInBattle: true,

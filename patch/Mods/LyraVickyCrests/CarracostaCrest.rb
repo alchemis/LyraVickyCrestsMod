@@ -5,7 +5,7 @@ PBStuff::POKEMONTOCREST[:CARRACOSTA] = :LVCCARRACREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCCARRACREST] = ItemData.new(:LVCCARRACREST, {
     name: "Carracosta Crest",
-    desc: "If at full hp, can't take over half its health in damage. Sharply boosts defenses at half health or less.",
+    desc: "If at full HP Carracosta will endure moves at 50% HP, also sharply increases its Defenses when its HP drops to half or less.",
     price: 0,
     crest: true,
     noUseInBattle: true,

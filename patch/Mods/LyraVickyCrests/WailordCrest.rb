@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:WAILORD] = :LVCWAILCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCWAILCREST] = ItemData.new(:LVCWAILCREST, {
     name: "Wailord Crest",
-    desc: "Increases Defenses based on current HP.",
+    desc: "Wailord's Defenses are increased depending on its current HP.",
     price: 0,
     crest: true,
     noUseInBattle: true,

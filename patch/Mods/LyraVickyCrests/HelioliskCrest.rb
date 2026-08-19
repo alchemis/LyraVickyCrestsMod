@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:HELIOLISK] = :LVCHELIOCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCHELIOCREST] = ItemData.new(:LVCHELIOCREST, {
     name: "Heliolisk Crest",
-    desc: "Changes its type and the type of its Normal-type moves depending on its Ability.",
+    desc: "Heliolisk's Normal-Type and Normal moves change to match the Type of its Ability.",
     price: 0,
     crest: true,
     noUseInBattle: true,

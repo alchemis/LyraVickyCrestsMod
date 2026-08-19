@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:SLAKING] = :LVCSLAKCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCSLAKCREST] = ItemData.new(:LVCSLAKCREST, {
     name: "Slaking Crest",
-    desc: "Falls asleep when loafing around, healing 25% HP. Wakes up if not loafing around.",
+    desc: "Slaking sleeps and heals 25% of its HP when loafing around. Wakes up when not loafing around.",
     price: 0,
     crest: true,
     noUseInBattle: true,

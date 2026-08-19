@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:KABUTOPS] = :LVCKABUTOPSCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCKABUTOPSCREST] = ItemData.new(:LVCKABUTOPSCREST, {
     name: "Kabutops Crest",
-    desc: "If holding a Drive, replaces first move with Techno Blast in battle. Special moves use Attack.",
+    desc: "If holding a Drive, Kabutops' first move becomes Techno Blast in battle. Special moves use its Attack.",
     price: 0,
     crest: true,
     keyitem: true, #NON HELD CREST

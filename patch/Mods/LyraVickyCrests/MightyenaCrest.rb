@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:MIGHTYENA] = :LVCMIGHTYCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCMIGHTYCREST] = ItemData.new(:LVCMIGHTYCREST, {
     name: "Mightyena Crest",
-    desc: "Mightyena uses Howl on switch-in, also increases speed by 30%.",
+    desc: "Mightyena uses Howl on switch-in, also increases its Speed by 30%.",
     price: 0,
     crest: true,
     noUseInBattle: true,

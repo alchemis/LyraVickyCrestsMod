@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:KRICKETUNE] = :LVCKRICKCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCKRICKCREST] = ItemData.new(:LVCKRICKCREST, {
     name: "Kricketune Crest",
-    desc: "All of its moves are affected by Technician and count as \"Round\"",
+    desc: "All of Kricketune's moves are affected by Technician and treated as \"Round\"",
     price: 0,
     crest: true,
     noUseInBattle: true,

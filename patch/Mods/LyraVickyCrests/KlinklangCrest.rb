@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:KLINKLANG] = :LVCKLINCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCKLINCREST] = ItemData.new(:LVCKLINCREST, {
     name: "Klinklang Crest",
-    desc: "Special attacks use its defense, accuracy of all moves is increased by 50%.",
+    desc: "Klinklang's Sp.ATK is equal to its Defense, also its Accuracy is boosted by 50%.",
     price: 0,
     crest: true,
     noUseInBattle: true,

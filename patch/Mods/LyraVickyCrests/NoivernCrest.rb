@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:NOIVERN] = :LVCNOIVCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCNOIVCREST] = ItemData.new(:LVCNOIVCREST, {
     name: "Noivern Crest",
-    desc: "Boosts Sp. Atk and Accuracy when a sound move is used. Powers up its own sound moves and takes less damage from them.",
+    desc: "Noivern's Sp. Atk and Accuracy are raised when Sound moves are used. Powers up its own Sound moves and takes less damage from them.",
     price: 0,
     crest: true,
     noUseInBattle: true,

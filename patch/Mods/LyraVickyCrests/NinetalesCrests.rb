@@ -4,7 +4,7 @@
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCATALESCREST] = ItemData.new(:LVCATALESCREST, {
     name: "A. Ninetales Crest",
-    desc: "Counts as having weather rocks and Light Clay. Boosts Special Attack.",
+    desc: "Increases A. Ninetales' DEF and Sp.ATK by 20%. This is also treated as the Weather Rocks and Light Clay.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCNINETALESCREST] = ItemData.new(:LVCNINETALESCREST, {
     name: "K. Ninetales Crest",
-    desc: "Gains Ghost-type STAB and resistances. Curses if hit by a contact move. Boosts Special Attack.",
+    desc: "Increases Ninetales' Sp.ATK by 20% and places a Curse on contact, also it gains Ghost-Type STAB and resistances.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -42,6 +42,8 @@ class PokeBattle_Battler
     def crestStats
       atalescrest_crestStats
       case @crested
+        when :NINETALES && form == 1
+            @defense *= 1.2
         when :NINETALES
             @spatk *= 1.2
       end

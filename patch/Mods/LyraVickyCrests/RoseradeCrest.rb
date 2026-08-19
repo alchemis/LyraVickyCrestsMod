@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:ROSERADE] = :LVCROSECREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCROSECREST] = ItemData.new(:LVCROSECREST, {
     name: "Roserade Crest",
-    desc: "Swaps Physical and Special stats and boosts Speed by 15%.",
+    desc: "Roserade's Physical and Special stats are swapped and its Speed increased by 15%.",
     price: 0,
     crest: true,
     noUseInBattle: true,

@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:ALTARIA] = :LVCALTACREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCALTACREST] = ItemData.new(:LVCALTACREST, {
     name: "Altaria Crest",
-    desc: "Altaria echoes any Sound-based move used, and gains STAB on any sound moves.",
+    desc: "Altaria gains STAB with Sound moves, also it echoes any used.",
     price: 0,
     crest: true,
     noUseInBattle: true,

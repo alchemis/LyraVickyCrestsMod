@@ -5,7 +5,7 @@ PBStuff::POKEMONTOCREST[:ARCHEOPS] = :LVCARCHCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCARCHCREST] = ItemData.new(:LVCARCHCREST, {
     name: "Archeops Crest",
-    desc: "If at full hp, can't take over half its health in damage. Switches out when at half health or less and regenerates.",
+    desc: "If at full HP, Archeops endures at 50% HP, also it retreats when its HP drops to half or less and regenerates.",
     price: 0,
     crest: true,
     noUseInBattle: true,

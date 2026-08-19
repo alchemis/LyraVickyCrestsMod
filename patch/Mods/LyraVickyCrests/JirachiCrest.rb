@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:JIRACHI] = :LVCRACHICREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCRACHICREST] = ItemData.new(:LVCRACHICREST, {
     name: "Jirachi Crest",
-    desc: "Uses Doom Desire on entry and when it hits an opponent.",
+    desc: "Jirachi uses Doom Desire on entry and whenever it hits an opponent.",
     price: 0,
     crest: true,
     noUseInBattle: true,

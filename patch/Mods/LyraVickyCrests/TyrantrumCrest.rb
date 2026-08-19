@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:TYRANTRUM] = :LVCTYRACREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCTYRACREST] = ItemData.new(:LVCTYRACREST, {
     name: "Tyrantrum Crest",
-    desc: "Replaces Rock-Type with Fire. Rock-type moves become Fire, doubles Speed in Harsh Sunlight.", #and immune to status conditions
+    desc: "Tyrantrum's Rock-Type and Rock moves become Fire, also doubles its Speed in harsh sunlight.", #and immune to status conditions
     price: 0,
     crest: true,
     noUseInBattle: true,

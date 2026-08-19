@@ -6,7 +6,7 @@ PBStuff::POKEMONTOCREST[:BIBAREL] = :LVCBIBACREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCBIBACREST] = ItemData.new(:LVCBIBACREST, {
     name: "Bibarel Crest",
-    desc: "Powers up Field moves and its stats cannot be lowered.",
+    desc: "Bibarel's Field moves are powered up, also its stats cannot be lowered",
     price: 0,
     crest: true,
     noUseInBattle: true,

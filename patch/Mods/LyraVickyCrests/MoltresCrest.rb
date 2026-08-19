@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:MOLTRES] = :LVCMOLCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCMOLCREST] = ItemData.new(:LVCMOLCREST, {
     name: "Moltres Crest",
-    desc: "Moltres causes harsh sunlight for 8 turns on switch-in, it resists Rock-type moves in the sun.",
+    desc: "Moltres causes harsh sunlight for 8 turns on entry, also it resists Rock moves in the sun.",
     price: 0,
     crest: true,
     noUseInBattle: true,

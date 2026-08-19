@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:JUMPLUFF] = :LVCJMPLFFCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCJMPLFFCREST] = ItemData.new(:LVCJMPLFFCREST, {
     name: "Jumpluff Crest",
-    desc: "Ability becomes Wind Rider, also sets a 2-turn Tailwind on entry.",
+    desc: "Jumpluff's ability becomes Wind Rider, also it sets a 2-turn Tailwind on entry.",
     price: 0,
     crest: true,
     noUseInBattle: true,

@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:ZAPDOS] = :LVCZAPCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCZAPCREST] = ItemData.new(:LVCZAPCREST, {
     name: "Zapdos Crest",
-    desc: "Zapdos causes it to rain for 8 turns on switch-in, its Electric-type moves can hit Ground-types in the rain.",
+    desc: "Zapdos causes it to rain for 8 turns on entry, also its Electric moves can hit Ground-Types in the rain.",
     price: 0,
     crest: true,
     noUseInBattle: true,

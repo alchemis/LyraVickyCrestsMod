@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:AURORUS] = :LVCAUROCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCAUROCREST] = ItemData.new(:LVCAUROCREST, {
     name: "Aurorus Crest",
-    desc: "Replaces Rock-Type with Dragon. Rock-type moves become Dragon, also sets a 3-turn Aurora Veil on entry.",
+    desc: "Aurorus' Rock-Type and Rock moves become Dragon, also it sets a 3-turn Aurora Veil on entry.",
     price: 0,
     crest: true,
     noUseInBattle: true,
