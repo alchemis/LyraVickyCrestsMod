@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:HAXORUS] = :LVCHAXCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCHAXCREST] = ItemData.new(:LVCHAXCREST, {
     name: "Haxorus Crest",
-    desc: "Its ability becomes Sharpness, also its Defenses are boosted by 10% of its ATK.",
+    desc: "Haxorus gains STAB with Slicing moves, also its Defenses are boosted by 20%.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -29,21 +29,29 @@ ModCacheInjection.hook(:items) {
 #end
 # Used to provide a Sharpness bonus not tied to an ability, removed due to being broken.
 
+#Sharpness Stab
+class PokeBattle_Move
+  alias haxcrest_pbModifySTAB pbModifySTAB if !defined?(haxcrest_pbModifySTAB)
+  def pbModifySTAB(stabmult, type, attacker, opponent)
+    if attacker.crested == :HAXORUS && self.sharpMove? then
+        stabmult += 0.5 if stabmult <= 1
+    end
+    return haxcrest_pbModifySTAB(stabmult, type, attacker, opponent)
+  end
+end
+
 class PokeBattle_Battler
     alias haxcrest_crestStats crestStats if !defined?(haxcrest_crestStats)
     def crestStats
       haxcrest_crestStats
       case @crested
         when :HAXORUS
-            @ability = :SHARPNESS
-            # Used to give this on top of what its ability originally was, changed because that was too broken.
-            @defense += (@attack * 0.1)
+            # @ability = :SHARPNESS
+            @defense *= 1.2
             #@spatk += (@attack * 0.1)
-            @spdef += (@attack * 0.1)
+            @spdef *= 1.2
             #@speed += (@attack * 0.1)
-            # removed "all stats gain 10% of its ATK" cuz it's like a +40 to everything 
             #@speed *= 1.1
-            # removed "Speed is boosted by 10%" because it was waaaaaaay too broken
       end
     end
 end
