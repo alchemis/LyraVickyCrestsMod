@@ -22,7 +22,7 @@ ModCacheInjection.hook(:moves) {
     :category => :physical,
     :basedamage => 75,
     :accuracy => 100,
-    :effect => 50, #effect chance to 0 to avoid poisoning enemy
+    :effect => 50,
     :maxpp => 15,
     :target => :SingleNonUser,
     :contact => false,
@@ -45,7 +45,7 @@ class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
 
   alias maracrest_pbAdditionalEffect pbAdditionalEffect if !defined?(maracrest_pbAdditionalEffect)
   def pbAdditionalEffect(attacker, opponent)
-    return maracrest_pbAdditionalEffect if move != :DESERTDANCE
+    return maracrest_pbAdditionalEffect if @move != :DESERTDANCE
   end
 
   alias maracrest_pbAdditionalEffectSelf pbAdditionalEffectSelf if !defined?(maracrest_pbAdditionalEffectSelf)

@@ -34,12 +34,10 @@ class PokeBattle_Move
             damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
           else damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
           end
-          basedmg = @basedamage
-          basedmg = pbBaseDamage(basedmg, attacker, opponent) 
           if attacker.crested == :KRICKETUNE then
               case attacker.ability
                 when :TECHNICIAN
-                    if basedmg > 60 #only if technician didn't already apply
+                    if @basedamage > 60 #only if technician didn't already apply
                       damage *=1.5
                     end
               end
