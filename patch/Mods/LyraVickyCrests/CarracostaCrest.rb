@@ -19,10 +19,7 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Move
     alias carracrest_pbCalcDamage pbCalcDamage if !defined?(carracrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
-      if movetype then
-        damage = carracrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
-      else damage = carracrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
-      end
+      damage = carracrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       if opponent.crested == :CARRACOSTA and opponent.hp == opponent.totalhp and damage >= (opponent.totalhp/2)
         opponent.effects[:LVC_TANKEDHIT] = true
         damage = [damage, (opponent.totalhp/2.to_f).ceil].min()

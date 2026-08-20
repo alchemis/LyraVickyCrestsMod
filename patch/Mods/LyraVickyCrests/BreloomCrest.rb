@@ -23,10 +23,8 @@ class PokeBattle_Move
         damage = brecrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
       else damage = brecrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
       end
-      basedmg = @basedamage
-      #basedmg = pbBaseDamage(basedmg, attacker, opponent) 
       if attacker.crested == :BRELOOM
-        damage *= 1.5 if attacker.ability == :TECHNICIAN && basedamage <= 80 && basedamage > 60 
+        damage *= 1.5 if attacker.ability == :TECHNICIAN && @basedamage <= 80 && @basedamage > 60 
         damage *= 1.3 if attacker.ability == :TOUGHCLAWS && self.pbIsPhysical?(attacker) && !self.contactMove?
       end
       return damage
