@@ -84,11 +84,11 @@ InjectionHelper.defineMapPatch(111, 64) { |event| #Axis factory, left chest
   }
 }
 InjectionHelper.defineMapPatch(111, 74) { |event| #Axis factory, right chest
-  event.patch(:FreezeDrive) {
+  event.patch(:ChillDrive) {
     matched = lookForAll([:Script, 'Kernel.pbItemBall(:ADAMANTMINT)'])
     for insn in matched
       insertBefore(insn, 
-        [:Script, 'Kernel.pbItemBall(:FREEZEDRIVE)']
+        [:Script, 'Kernel.pbItemBall(:CHILLDRIVE)']
       )
     end
   }
