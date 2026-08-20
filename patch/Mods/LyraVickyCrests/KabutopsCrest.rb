@@ -118,7 +118,7 @@ InjectionHelper.defineMapPatch(111, 86) { |event| #Axis factory, master key ches
     matched = lookForAll([:Script, 'Kernel.pbItemBall(:MASTERKEY)'])
     for insn in matched
       insertBefore(insn, 
-        [:Script, 'Kernel.pbItemBall(:LCVKABUTOPSCREST)']
+        [:Script, 'Kernel.pbItemBall(:LVCKABUTOPSCREST)']
       )
     end
   }
