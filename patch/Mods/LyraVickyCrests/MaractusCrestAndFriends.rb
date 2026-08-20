@@ -77,7 +77,7 @@ PBStuff::POKEMONTOCREST[:MARACTUS] = :LVCMARACREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCMARACREST] = ItemData.new(:LVCMARACREST, {
     name: "Maractus Crest",
-    desc: "Maractus's defensive stats are increased and when using a Dance move, it sets up a layer of spikes.",
+    desc: "Maractus's defensive stats are increased by 30% and when using a Dance move it sets up a layer of spikes.",
     price: 0,
     crest: true,
     noUseInBattle: true,

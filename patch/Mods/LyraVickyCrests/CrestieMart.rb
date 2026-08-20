@@ -15,7 +15,7 @@ ModCacheInjection.hook(:marts) {
     :Inventory => [
       ItemStock.of(:LVCKRICKCREST).costs(10000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 2']),
       ItemStock.of(:LVCHELIOCREST).costs(10000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 2']),
-      
+      ItemStock.of(:LVCMARACREST).costs(10000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 2']),
 
       ItemStock.of(:LVCMAWCREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
       ItemStock.of(:LVCROSECREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
