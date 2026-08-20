@@ -22,7 +22,7 @@ class PokeBattle_Battle
       case battler.crested
         when :SPIDOPS
           pbShowAbilityBox(battler, item: true)
-          battler.pbUseMoveSimple(:SILKTRAP, -1, -1)
+          battler.pbUseMoveSimple(:STICKYWEB, -1, -1)
           pbHideAbilityBox(battler)
       end
     end
