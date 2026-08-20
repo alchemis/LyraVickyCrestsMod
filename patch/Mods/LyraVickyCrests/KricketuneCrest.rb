@@ -35,7 +35,7 @@ class PokeBattle_Move
           else damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
           end
           basedmg = @basedamage
-          basedmg = pbBaseDamage(basedmg, attacker, opponent) 
+          #basedmg = pbBaseDamage(basedmg, attacker, opponent) 
           if attacker.crested == :KRICKETUNE then
               case attacker.ability
                 when :TECHNICIAN

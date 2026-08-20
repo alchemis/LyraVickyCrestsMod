@@ -22,7 +22,7 @@ ModCacheInjection.hook(:moves) {
     :category => :physical,
     :basedamage => 75,
     :accuracy => 100,
-    :effect => 50, #effect chance to 0 to avoid poisoning enemy
+    :effect => 50,
     :maxpp => 15,
     :target => :SingleNonUser,
     :contact => false,
