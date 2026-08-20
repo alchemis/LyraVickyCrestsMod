@@ -34,20 +34,21 @@ end
 
 #ECHO
 class PokeBattle_Battler
-  alias noivcrest_pbTryUseMove pbTryUseMove if !defined?(noivcrest_pbDancerMoveCheck)
+  alias noivcrest_applyPostMoveEffects applyPostMoveEffects if !defined?(noivcrest_applyPostMoveEffects)
   
-  def pbTryUseMove(choice, basemove, flags = { passedtrying: false, instructed: false })
-    ret = noivcrest_pbTryUseMove(choice,basemove,flags)
-    return ret if !ret
-    id = choice[2].move
-    priority = @battle.setSpeedOrder
-    for i in priority
-      if i.crested == :NOIVERN && $cache.moves[id]&.checkFlag?(:soundmove)
-        if i.pbCanIncreaseAnyStat?([PBStats::ATTACK, PBStats::ACCURACY], i, nil, showMessage: false)
-          @battle.pbShowAbilityBox(i, item: true)
-          @battle.pbDisplay(_INTL("{1} is getting amped!", i.pbThis))
-          i.pbChangeStats([PBStats::SPATK, PBStats::ACCURACY], 1, i, nil, abilitycheck: :skip)
-          @battle.pbHideAbilityBox(i)
+  def applyPostMoveEffects(basemove, user, targets, hitflag)
+    ret = noivcrest_applyPostMoveEffects(basemove, user, targets, hitflag)
+    if [:Success, :StatusSuccess].intersect?(hitflag)
+      id = basemove.move
+      priority = @battle.setSpeedOrder
+      for i in priority
+        if i.crested == :NOIVERN && $cache.moves[id]&.checkFlag?(:soundmove)
+          if i.pbCanIncreaseAnyStat?([PBStats::ATTACK, PBStats::ACCURACY], i, nil, showMessage: false)
+            @battle.pbShowAbilityBox(i, item: true)
+            @battle.pbDisplay(_INTL("{1} is getting amped!", i.pbThis))
+            i.pbChangeStats([PBStats::SPATK, PBStats::ACCURACY], 1, i, nil, abilitycheck: :skip)
+            @battle.pbHideAbilityBox(i)
+          end
         end
       end
     end

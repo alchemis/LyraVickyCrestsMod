@@ -26,6 +26,17 @@ class PokeBattle_Move
     return type
   end
 end
+#shadowbuffing to match -ate abilities
+class PokeBattle_Move
+    alias heliocrest_pbCalcDamage pbCalcDamage if !defined?(heliocrest_pbCalcDamage)
+    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
+    damage = heliocrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
+      if attacker.crested == :HELIOLISK && @type == :NORMAL #@type is original move type
+        damage = (damage*1.2).floor
+      end
+    return damage
+    end
+end
 
 class PokeBattle_Battler
     alias heliocrest_crestStats crestStats if !defined?(heliocrest_crestStats)
