@@ -86,16 +86,19 @@ class PokeBattle_Battler
         targets.each_with_index do |target, i|
           # Status Moves don't have secondary effects, so :StatusSuccess flag is getting skipped here as well
           next unless hitflag[i] == :Success && (target.ability != :SHIELDDUST || target.moldbroken) && !target.hasWorkingItem(:COVERTCLOAK)
-          puts "brelcrest can effect!"
           if user.ability == :EFFECTSPORE && @battle.pbRandom(10) < 3
+            pbShowAbilityBox(user, item: true)
             rnd = @battle.pbRandom(3)
             case rnd
               when 0 then target.pbSleep if target.pbCanSleep?(target, user)
               when 1 then target.pbPoison(user) if target.pbCanPoison?(target, user)
               when 2 then target.pbParalyze(user) if target.pbCanParalyze?(target, user)
             end
+            pbHideAbilityBox(user)
           elsif user.ability ==:STATIC && @battle.pbRandom(10) < 5
+            pbShowAbilityBox(user, item: true)
             target.pbParalyze(user) if target.pbCanParalyze?(target, user)
+            pbHideAbilityBox(user)
           end
         end
       end
