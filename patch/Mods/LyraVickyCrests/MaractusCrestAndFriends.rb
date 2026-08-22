@@ -88,12 +88,13 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battler
     alias maracrest_crestStats crestStats
     def crestStats
-      maracrest_crestStats
+      
       case @crested
         when :MARACTUS
           @defense *= 1.3
           @spdef *= 1.3
       end
+      maracrest_crestStats
     end
 end
 class PokeBattle_Battler

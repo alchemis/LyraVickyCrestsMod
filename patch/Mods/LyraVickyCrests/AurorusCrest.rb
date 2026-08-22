@@ -45,10 +45,11 @@ end
 class PokeBattle_Battler
     alias aurocrest_crestStats crestStats
     def crestStats
-      aurocrest_crestStats
+      
       case @crested
         when :AURORUS
             @type1 = :DRAGON
       end
+      aurocrest_crestStats
     end
 end

@@ -28,7 +28,7 @@ class PokeBattle_Move
         damage = [damage, ((opponent.totalhp/4.to_f)*3).ceil].min()
 
       end
-      return damage
+      return damage.floor
       
     end
 end

@@ -15,12 +15,13 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battler
     alias wailcrest_crestStats crestStats
     def crestStats
-      wailcrest_crestStats
+      
       case @crested
         when :WAILORD
             @defense = @defense + @hp * 0.5
             @spdef = @spdef + @hp * 0.5
       end
+      wailcrest_crestStats
     end
 
     alias wailcrest_pbRecoverHP pbRecoverHP if !defined?(wailcrest_pbRecoverHP)

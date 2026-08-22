@@ -40,13 +40,14 @@ class PokeBattle_Battler
     #stats
     alias atalescrest_crestStats crestStats if !defined?(atalescrest_crestStats)
     def crestStats
-      atalescrest_crestStats
+      
       case @crested
         when :NINETALES && form == 1
             @defense *= 1.2
         when :NINETALES
             @spatk *= 1.2
       end
+      atalescrest_crestStats
     end
 
     #item stuff

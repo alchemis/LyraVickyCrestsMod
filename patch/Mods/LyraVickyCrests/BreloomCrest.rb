@@ -27,7 +27,7 @@ class PokeBattle_Move
         damage *= 1.5 if attacker.ability == :TECHNICIAN && @basedamage <= 80 && @basedamage > 60 
         damage *= 1.3 if attacker.ability == :TOUGHCLAWS && self.pbIsPhysical?(attacker) && !self.contactMove?
       end
-      return damage
+      return damage.floor
       
     end
     
@@ -64,7 +64,6 @@ class PokeBattle_Battler
 
     alias brecrest_crestStats crestStats if !defined?(brecrest_crestStats)
     def crestStats
-      brecrest_crestStats
       if @crested == :BRELOOM 
         case @ability
         when :POISONHEAL then
@@ -75,6 +74,7 @@ class PokeBattle_Battler
         when :EFFECTSPORE then @speed *= 1.1
         end #technician handlded in pokebattle_move
       end
+      brecrest_crestStats
     end
 
     alias brecrest_pbResolveMoveEffects pbResolveMoveEffects if !defined?(brecrest_pbResolveMoveEffects)

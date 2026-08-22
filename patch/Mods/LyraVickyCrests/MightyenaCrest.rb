@@ -31,10 +31,11 @@ end
 class PokeBattle_Battler
     alias mightycrest_crestStats crestStats if !defined?(mightycrest_crestStats)
     def crestStats
-      mightycrest_crestStats
+      
       case @crested
         when :MIGHTYENA
             @speed *= 1.3
       end
+      mightycrest_crestStats
     end
 end

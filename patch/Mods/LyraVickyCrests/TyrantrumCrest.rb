@@ -28,11 +28,12 @@ end
 class PokeBattle_Battler
     alias tyracrest_crestStats crestStats if !defined?(tyracrest_crestStats)
     def crestStats
-      tyracrest_crestStats
+      
       case @crested
         when :TYRANTRUM
             @type1 = :FIRE
       end
+      tyracrest_crestStats
     end
     alias tyracrest_pbSpeed pbSpeed if !defined?(tyracrest_pbSpeed)
     def pbSpeed()

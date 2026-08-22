@@ -28,7 +28,7 @@ class PokeBattle_Battler
     #type change
     alias aerocrest_crestStats crestStats if !defined?(aerocrest_crestStats)
     def crestStats
-      aerocrest_crestStats
+      
       if @crested == :AERODACTYL
           case @item
           when :FIGHTINGMEMORY  then @type1 = :FIGHTING
@@ -55,6 +55,7 @@ class PokeBattle_Battler
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:MULTIATTACK), @pokemon)
           @moves[0].pp = (@aerocrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @aerocrest_ogmove[:totalpp])).floor
       end
+      aerocrest_crestStats
     end
     
 end

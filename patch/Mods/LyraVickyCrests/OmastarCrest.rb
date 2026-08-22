@@ -32,7 +32,7 @@ class PokeBattle_Battler
     #type change
     alias helixcrest_crestStats crestStats if !defined?(helixcrest_crestStats)
     def crestStats
-      helixcrest_crestStats
+      
       if @crested == :OMASTAR
           case @item
           when :FISTPLATE     then @type1 = :FIGHTING
@@ -58,6 +58,7 @@ class PokeBattle_Battler
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:JUDGMENT), @pokemon)
           @moves[0].pp = (@helixcrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @helixcrest_ogmove[:totalpp])).floor
       end
+      helixcrest_crestStats
     end
     
 end

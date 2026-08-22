@@ -16,11 +16,12 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battler
     alias klinklangcrest_crestStats crestStats
     def crestStats
-      klinklangcrest_crestStats
+      
       case @crested
         when :KLINKLANG
             @spatk = @defense
       end
+      klinklangcrest_crestStats
     end
 end
 

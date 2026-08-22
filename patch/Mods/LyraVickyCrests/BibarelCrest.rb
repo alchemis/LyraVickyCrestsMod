@@ -27,7 +27,7 @@ class PokeBattle_Move
       if attacker.crested == :BIBAREL && HiddenMoveHandlers::hasHandler(@move) then 
         damage *= 1.5 
       end
-      return damage
+      return damage.floor
       
     end
 

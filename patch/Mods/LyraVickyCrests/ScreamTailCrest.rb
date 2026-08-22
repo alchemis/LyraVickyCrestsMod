@@ -16,12 +16,13 @@ class PokeBattle_Battler
     
     alias stcrest_crestStats crestStats if !defined?(stcrest_crestStats)
     def crestStats
-      stcrest_crestStats
+      
       case @crested
         when :SCREAMTAIL
             @spatk, @spdef = @spdef, @spatk
             @attack, @defense = @defense, @attack
       end
+      stcrest_crestStats
     end
 
 
@@ -55,7 +56,7 @@ class PokeBattle_Battler
         stat = self.getHighestRawStat
         statmod = @battle.FE == :DIMENSIONAL ? 2 : 1
         if pbCanIncreaseStatStage?(stat, self, nil)
-          @battle.pbShowAbilityBox(self, item: true)
+          @battle.pbShowAbilityBox(self, attrname: getAbilityName(:BEASTBOOST))
           increment = targets.length * statmod
           self.pbChangeStats(stat, increment, self, nil, abilitycheck: :skip)
           @battle.pbHideAbilityBox(self)

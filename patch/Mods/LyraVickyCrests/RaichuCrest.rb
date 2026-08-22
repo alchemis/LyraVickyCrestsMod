@@ -31,11 +31,12 @@ end
 class PokeBattle_Battler
     alias raichucrest_crestStats crestStats if !defined?(raichucrest_crestStats)
     def crestStats
-      raichucrest_crestStats
+      
       case @crested
         when :RAICHU
             @attack *= 1.3
             @spatk *= 1.3
       end
+      raichucrest_crestStats
     end
 end

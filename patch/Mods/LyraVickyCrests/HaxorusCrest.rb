@@ -43,7 +43,7 @@ end
 class PokeBattle_Battler
     alias haxcrest_crestStats crestStats if !defined?(haxcrest_crestStats)
     def crestStats
-      haxcrest_crestStats
+      
       case @crested
         when :HAXORUS
             # @ability = :SHARPNESS
@@ -53,5 +53,6 @@ class PokeBattle_Battler
             #@speed += (@attack * 0.1)
             #@speed *= 1.1
       end
+      haxcrest_crestStats
     end
 end

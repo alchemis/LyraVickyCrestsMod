@@ -15,12 +15,13 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battler
     alias mawcrest_crestStats crestStats if !defined?(mawcrest_crestStats)
     def crestStats
-      mawcrest_crestStats
+      
       case @crested
         when :MAWILE
             @defense += @attack/2
             @spdef += @attack/2
             @spatk += @attack
       end
+      mawcrest_crestStats
     end
 end

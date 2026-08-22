@@ -47,11 +47,12 @@ end
 class PokeBattle_Battler
     alias jmplffcrest_crestStats crestStats
     def crestStats
-      jmplffcrest_crestStats
+      
       case @crested
         when :JUMPLUFF
             @ability = :WINDRIDER
             # @attack, @defense, @spatk, @spdef += @speed * 0.1 # maybe Jumpluff should hurt people
       end
+      jmplffcrest_crestStats
     end
 end

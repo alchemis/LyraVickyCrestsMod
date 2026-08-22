@@ -28,7 +28,7 @@ class PokeBattle_Battler
     #type change
     alias kabucrest_crestStats crestStats if !defined?(kabucrest_crestStats)
     def crestStats
-      kabucrest_crestStats
+      
       if @crested == :KABUTOPS
           # case @item
           # when :BURNDRIVE    then @type1 = :FIRE
@@ -41,6 +41,7 @@ class PokeBattle_Battler
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:TECHNOBLAST), @pokemon)
           @moves[0].pp = (@kabucrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @kabucrest_ogmove[:totalpp])).floor
       end
+      kabucrest_crestStats
     end
     
 end

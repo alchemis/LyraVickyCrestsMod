@@ -41,7 +41,7 @@ end
 class PokeBattle_Battler
     alias heliocrest_crestStats crestStats if !defined?(heliocrest_crestStats)
     def crestStats
-      heliocrest_crestStats
+      
       case @crested
         when :HELIOLISK
             case @ability
@@ -50,5 +50,6 @@ class PokeBattle_Battler
               when :SOLARPOWER then @type2 = :FIRE            
             end
       end
+      heliocrest_crestStats
     end
 end

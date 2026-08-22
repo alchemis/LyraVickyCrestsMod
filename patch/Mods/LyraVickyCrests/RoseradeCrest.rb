@@ -15,13 +15,14 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battler
     alias rosecrest_crestStats crestStats if !defined?(rosecrest_crestStats)
     def crestStats
-      rosecrest_crestStats
+      
       case @crested
         when :ROSERADE
             @attack, @spatk = @spatk, @attack
-            @defense, @spdef = @spdef,defense
+            @defense, @spdef = @spdef,@defense
             @speed *= 1.15
       end
+      rosecrest_crestStats
     end
 
     alias rosecrest_pbGetHitNumber pbGetHitNumber if !defined?(rosecrest_pbGetHitNumber)

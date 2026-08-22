@@ -47,7 +47,7 @@ class PokeBattle_Move
             end #make sure not to double round damage twice
             #doubling base damage is not *exactly* equivalent to doubling total damage, but it is close enough
           end
-          return damage
+          return damage.floor
     end
 
 end
