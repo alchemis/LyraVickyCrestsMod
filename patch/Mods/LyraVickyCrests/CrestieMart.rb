@@ -17,9 +17,11 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCHELIOCREST).costs(10000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 2']),
       ItemStock.of(:LVCMARACREST).costs(10000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 2']),
 
-      ItemStock.of(:LVCMAWCREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
+      
       ItemStock.of(:LVCROSECREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
-
+      ItemStock.of(:LVCSPIDCREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
+      ItemStock.of(:LVCPYROARCREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
+      
       ItemStock.of(:LVCRAICHUCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
       ItemStock.of(:LVCKLINCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
       ItemStock.of(:LVCBIBACREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
@@ -40,9 +42,12 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCATALESCREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
       ItemStock.of(:LVCALTACREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
 
+      ItemStock.of(:LVCTREVCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
+      ItemStock.of(:LVCMAWCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
       ItemStock.of(:LVCMIGHTYCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
 
       ItemStock.of(:LVCSTCREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
+      ItemStock.of(:LVCHAXCREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
       #ItemStock.of(:LVCGARDECREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
       #^ moved to shayda
 

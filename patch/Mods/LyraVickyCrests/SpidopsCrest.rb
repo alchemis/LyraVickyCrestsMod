@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:SPIDOPS] = :LVCSPIDCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCSPIDCREST] = ItemData.new(:LVCSPIDCREST, {
     name: "Spidops Crest",
-    desc: "Spidops sets its Silk Trap on entry, also it deals extra damage when it moves first.",
+    desc: "Spidops sets Sticky Webs on entry, also it deals extra damage when it moves first.",
     price: 0,
     crest: true,
     noUseInBattle: true,
