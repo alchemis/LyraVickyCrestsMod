@@ -11,7 +11,16 @@ ModCacheInjection.hook(:items) {
     noUse: true,
   })
 }
-
+class PokeBattle_Battler
+    #only works for base form
+    alias molcrest_hasCrest? hasCrest? if !defined?(molcrest_hasCrest?)
+    def hasCrest?(species = self.species)
+        if species == :MOLTRES && @item == :LVCMOLCREST && @form != 0 then
+          return false
+        else return molcrest_hasCrest?(species)
+        end
+    end
+end
 class PokeBattle_Move
   alias molcrest_irregularTypeMods irregularTypeMods if !defined?(molcrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)

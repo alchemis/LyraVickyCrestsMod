@@ -11,7 +11,16 @@ ModCacheInjection.hook(:items) {
     noUse: true,
   })
 }
-
+class PokeBattle_Battler
+    #only works for base form
+    alias zapcrest_hasCrest? hasCrest? if !defined?(zapcrest_hasCrest?)
+    def hasCrest?(species = self.species)
+        if species == :ZAPDOS && @item == :LVCZAPCREST && @form != 0 then
+          return false
+        else return zapcrest_hasCrest?(species)
+        end
+    end
+end
 class PokeBattle_Move
   alias zapcrest_irregularTypeMods irregularTypeMods if !defined?(zapcrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)

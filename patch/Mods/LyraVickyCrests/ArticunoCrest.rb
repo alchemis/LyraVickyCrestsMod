@@ -12,6 +12,17 @@ ModCacheInjection.hook(:items) {
   })
 }
 
+class PokeBattle_Battler
+    #only works for base form
+    alias articrest_hasCrest? hasCrest? if !defined?(articrest_hasCrest?)
+    def hasCrest?(species = self.species)
+        if species == :ARTICUNO && @item == :LVCARTICREST && @form != 0 then
+          return false
+        else return articrest_hasCrest?(species)
+        end
+    end
+end
+
 class PokeBattle_Move
   alias articrest_irregularTypeMods irregularTypeMods if !defined?(articrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
