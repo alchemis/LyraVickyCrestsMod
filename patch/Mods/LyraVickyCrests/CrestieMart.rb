@@ -21,13 +21,13 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCROSECREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
 
       ItemStock.of(:LVCRAICHUCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
-      ItemStock.of(:LVCNOIVCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
+      ItemStock.of(:LVCKLINCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
       ItemStock.of(:LVCBIBACREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
       ItemStock.of(:LVCWAILCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
 
       ItemStock.of(:LVCSLAKCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
       ItemStock.of(:LVCTSARCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
-      ItemStock.of(:LVCKLINCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
+      ItemStock.of(:LVCNOIVCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
       
       ItemStock.of(:LVCTYRACREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
       ItemStock.of(:LVCAUROCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
@@ -43,7 +43,8 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCMIGHTYCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
 
       ItemStock.of(:LVCSTCREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
-      ItemStock.of(:LVCGARDECREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
+      #ItemStock.of(:LVCGARDECREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
+      #^ moved to shayda
 
       ItemStock.of(:LVCARTICREST).costs(250000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 18']),
       ItemStock.of(:LVCZAPCREST).costs(250000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 18']),
@@ -67,4 +68,10 @@ InjectionHelper.defineMapPatch(434) { # Luck's Tent
       }
     }
   }
+}
+
+
+#Shayda ng+ shop
+ModCacheInjection.hook(:marts) {
+  $cache.marts[:ShaydaShop].Inventory["Buy"].push(ItemStock.of(:LVCGARDECREST).costs(2, :UMBRALSHARD).limit().properties(conditions: ['!searchItem(self.item)']))
 }
