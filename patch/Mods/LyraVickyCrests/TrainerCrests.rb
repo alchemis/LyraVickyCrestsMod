@@ -16,7 +16,7 @@ ModCacheInjection.hook(:trainers) {
   lvc_getTrainer(["Neptune", :CHALLENGER, 0]).party[0][:moves] = [:SHEDTAIL, :THUNDER, :HYPERVOICE, :FOCUSBLAST] #replaced surf -> focusblast due to crest
   #maractus
   #none...
-  #none for mawile, all the important ones use mawilite, might replace some later
+  
   #roserade
   lvc_getTrainer(["Keta", :LEADER_KETA2, 0]).party[1][:item] = :LVCROSECREST
   lvc_getTrainer(["Keta", :LEADER_KETA2, 0]).party[1][:moves] = [:BULLETSEED, :PINMISSILE, :POISONJAB, :STUNSPORE]
@@ -221,6 +221,13 @@ ModCacheInjection.hook(:trainers) {
   lvc_getTrainer(["Ren", :OUTCAST, 5]).party[1][:item] = :LVCALTACREST
   lvc_getTrainer(["Ren", :OUTCAST, 5]).party[1][:moves] = [:HYPERVOICE, :ALLURINGVOICE, :ROOST, :DRAGONBREATH]
   #no one has mightyena but i can see some of them having one... specially cass
+  #none for mawile, all the important ones use mawilite, might replace some later
+  #trevenant
+  lvc_getTrainer(["Sariah", :GHOSTGIRL, 2]).party[3][:item] = :LVCTREVCREST
+  lvc_getTrainer(["Sariah", :GHOSTGIRL, 2]).party[3][:moves] = [:LEECHSEED, :FORESTSCURSE, :HORNLEECH, :PROTECT]
+  #haxorus
+  lvc_getTrainer(["Kanon", :TRAINER_KANON, 0]).party[5][:item] = :LVCHAXCREST
+  lvc_getTrainer(["Kanon", :TRAINER_KANON, 0]).party[5][:moves] = [:ROCKSLIDE, :DRAGONCLAW, :NIGHTSLASH, :BITTERBLADE]
   #no one has a screamtail or any of the others after this
 }
 
