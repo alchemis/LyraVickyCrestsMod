@@ -23,7 +23,7 @@ class PokeBattle_Move
         damage = archcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
       else damage = archcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
       end
-      if opponent.crested == :ARCHEOPS and opponent.hp == opponent.totalhp and damage >= (opponent.totalhp/2)
+      if opponent.crested == :ARCHEOPS and opponent.hp == opponent.totalhp and damage >= ((opponent.totalhp/4)*3)
         opponent.effects[:LVC_TANKEDHIT] = true
         damage = [damage, ((opponent.totalhp/4.to_f)*3).ceil].min()
 
