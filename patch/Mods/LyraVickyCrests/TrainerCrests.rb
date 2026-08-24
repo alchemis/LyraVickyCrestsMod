@@ -15,7 +15,7 @@ ModCacheInjection.hook(:trainers) {
   lvc_getTrainer(["Neptune", :CHALLENGER, 0]).party[0][:item] = :LVCHELIOCREST
   lvc_getTrainer(["Neptune", :CHALLENGER, 0]).party[0][:moves] = [:SHEDTAIL, :THUNDER, :HYPERVOICE, :FOCUSBLAST] #replaced surf -> focusblast due to crest
   #maractus
-  #none...
+  #ren further dow nthe file
   
   #roserade
   lvc_getTrainer(["Keta", :LEADER_KETA2, 0]).party[1][:item] = :LVCROSECREST

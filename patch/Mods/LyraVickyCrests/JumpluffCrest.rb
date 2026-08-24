@@ -23,10 +23,10 @@ class PokeBattle_Battle
         pbAnimation(:TAILWIND, battler, nil)
         if battler.pbOwnSide.effects[:Tailwind] == 0
           pbDisplay(_INTL("{1} stirred up a short Tailwind!", battler.pbThis))
-          jmplffcrest_noabilcheck_pbSetTailwind(2, battler.pbOwnSide)
+          jmplffcrest_noabilcheck_pbSetTailwind(3, battler.pbOwnSide)
         else
           pbDisplay(_INTL("{1} replenished the Tailwind!", battler.pbThis))
-          jmplffcrest_noabilcheck_pbSetTailwind(battler.pbOwnSide.effects[:Tailwind] + 1, battler.pbOwnSide)
+          jmplffcrest_noabilcheck_pbSetTailwind(battler.pbOwnSide.effects[:Tailwind] + 3, battler.pbOwnSide)
         end
         pbHideAbilityBox(battler)
     end    
