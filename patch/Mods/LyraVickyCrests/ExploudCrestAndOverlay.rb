@@ -40,27 +40,27 @@ ModCacheInjection.hook(:FEData) {
   :DRAGONTAIL => {:mult => 1.5,:multtext => 5,:dontchangebackup => false},
   :CIRCLETHROW => {:mult => 1.5,:multtext => 5,:dontchangebackup => false},
   }
-  $cache.FEData[:CONCERT3].overlayStatusBuffs = [:HOWL, :METALSOUND, :SCREECH, :GROWL, :ROAR, :ENCORE] #not really used for anything but useful to keep track ig
+  $cache.FEData[:CONCERT3].overlayStatusBuffs = [:METALSOUND, :SCREECH, :GROWL, :ENCORE] #not really used for anything but useful to keep track ig
   #Heavy Metal, Punk Rock, Rock Head, Solid Rock, Soundproof additionally boost the bearer's Defense by 1 stage on switch-in. 
   #TODO-SLEEP
 }
-#gen 8 howl
-class PokeBattle_Move_18E < PokeBattle_Move
-  alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
-  def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
-    return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if !(@battle.OV == :CONCERT3)
-    opponent.pbChangeStats(PBStats::ATTACK, 2, attacker, self)
-  end
-end
-#gen 7 howl
-class PokeBattle_Move_01C < PokeBattle_Move
-  alias expcrest_pbEffect pbEffect if !defined?(expcrest_pbEffect)
-  def pbEffect(attacker, alltargets, hitnum = 0)
-    return if @basedamage > 0
-    return expcrest_pbEffect(attacker, alltargets, hitnum ) if @move != :HOWL || @battle.OV != :CONCERT3
-    attacker.pbChangeStats(PBStats::ATTACK, 2, attacker, self, abilitycheck: :hide)
-  end
-end
+#gen 8 howl -- removed due to mightyena crest
+# class PokeBattle_Move_18E < PokeBattle_Move
+#   alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
+#   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
+#     return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if !(@battle.OV == :CONCERT3)
+#     opponent.pbChangeStats(PBStats::ATTACK, 2, attacker, self)
+#   end
+# end
+# #gen 7 howl
+# class PokeBattle_Move_01C < PokeBattle_Move
+#   alias expcrest_pbEffect pbEffect if !defined?(expcrest_pbEffect)
+#   def pbEffect(attacker, alltargets, hitnum = 0)
+#     return if @basedamage > 0
+#     return expcrest_pbEffect(attacker, alltargets, hitnum ) if @move != :HOWL || @battle.OV != :CONCERT3
+#     attacker.pbChangeStats(PBStats::ATTACK, 2, attacker, self, abilitycheck: :hide)
+#   end
+# end
 
 #METALSOUND
 class PokeBattle_Move_04F < PokeBattle_Move
@@ -92,14 +92,14 @@ class PokeBattle_Move_042 < PokeBattle_Move
   end
 end
 
-#roar
-class PokeBattle_Move_0EB < PokeBattle_Move
-  alias expcrest_pbEffect pbEffect if !defined?(expcrest_pbEffect)
-  def pbEffect(attacker, alltargets, hitnum = 0)
-    return expcrest_pbEffect(attacker, alltargets, hitnum ) if @move != :ROAR || @battle.OV != :CONCERT3
-    attacker.pbChangeStats(PBStats::ATTACK, 2, attacker, self, abilitycheck: :hide)
-  end
-end
+#roar -- removd for parity with howl
+# class PokeBattle_Move_0EB < PokeBattle_Move
+#   alias expcrest_pbEffect pbEffect if !defined?(expcrest_pbEffect)
+#   def pbEffect(attacker, alltargets, hitnum = 0)
+#     return expcrest_pbEffect(attacker, alltargets, hitnum ) if @move != :ROAR || @battle.OV != :CONCERT3
+#     attacker.pbChangeStats(PBStats::ATTACK, 2, attacker, self, abilitycheck: :hide)
+#   end
+# end
 
 #encore
 class PokeBattle_Move_0BC < PokeBattle_Move
@@ -133,6 +133,21 @@ class PokeBattle_Battler
       else
         return expcrest_pbCanSleep?
       end
+  end
+
+  alias expcrest_pbAbilitiesOnOverlay pbAbilitiesOnOverlay if !defined?(expcrest_pbAbilitiesOnOverlay)
+  def pbAbilitiesOnOverlay(delayStatChangeChecks = false, applySwitchInAbility: false)
+    return if @applyingEntryEffects && !applySwitchInAbility
+    return if self.ability.nil?
+    if @battle.OV == :CONCERT3 && [:SOUNDPROOF, :PUNKROCK, :HEAVYMETAL, :SOLIDROCK, :ROCKHEAD].include?(self.ability)
+      if pbCanIncreaseStatStage?(PBStats::DEFENSE, self, nil)
+        @battle.pbShowAbilityBox(self)
+        @battle.pbDisplay(_INTL("{1} is accustomed to the music!", pbThis))
+        pbChangeStats(PBStats::DEFENSE, 1, self, nil, abilitycheck: :skip)
+        @battle.pbHideAbilityBox(self)
+      end
+    end
+    return expcrest_pbAbilitiesOnOverlay(delayStatChangeChecks applySwitchInAbility: applySwitchInAbility)
   end
 end
 class PokeBattle_Battle
