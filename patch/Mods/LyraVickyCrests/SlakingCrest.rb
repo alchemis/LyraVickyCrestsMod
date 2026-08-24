@@ -25,7 +25,7 @@ class PokeBattle_Battler
     ret = slakcrest_pbTryUseMove(choice,basemove,flags)
     
     if self.ability == :TRUANT && @effects[:Truant] && self.crested == :SLAKING && !(self.status == :SLEEP)
-        @battle.pbShowAbilityBox(self, item: true)
+        @battle.pbShowAbilityBox(self, item: true, crest:true)
         self.pbSleep(rest: true, message: _INTL("{1} enjoyed a refreshing nap!", self.pbThis))
         self.pbRecoverHP(self.totalhp/4, true) if self.hp != self.totalhp
         @battle.pbHideAbilityBox(self)

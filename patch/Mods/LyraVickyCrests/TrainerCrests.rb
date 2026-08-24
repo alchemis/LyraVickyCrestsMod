@@ -5,7 +5,7 @@ ModCacheInjection.hook(:trainers) {
   def lvc_getTrainer(array) #saves me having to reorder these all the time
       return $cache.trainers[array[1]][array[0]][array[2]]
   end
-
+  # ADDED CRESTS
   #   
   #
   #
@@ -209,7 +209,7 @@ ModCacheInjection.hook(:trainers) {
   lvc_getTrainer(["ALLEN", :JOHTO_1, 0]).party[2][:item] = :LVCATALESCREST
   lvc_getTrainer(["ALLEN", :JOHTO_1, 1]).party[2][:item] = :LVCATALESCREST
   lvc_getTrainer(["Prince Allen", :LEADER_ALLEN, 0]).party[3][:item] = :LVCATALESCREST
-  lvc_getTrainer(["Prince Allen", :LEADER_ALLEN, 0]).party[0][:item] = :LVCATALESCREST
+  lvc_getTrainer(["Prince Allen", :LEADER_ALLEN, 1]).party[0][:item] = :LVCATALESCREST
   lvc_getTrainer(["Allen", :LEADER_ALLEN2, 0]).party[4][:item] = :LVCATALESCREST
   lvc_getTrainer(["Lin", :CHAMPIONLIN, 0]).party[0][:item] = :LVCATALESCREST
   lvc_getTrainer(["Lin", :CHAMPIONLIN, 1]).party[0][:item] = :LVCATALESCREST
@@ -229,6 +229,32 @@ ModCacheInjection.hook(:trainers) {
   lvc_getTrainer(["Kanon", :TRAINER_KANON, 0]).party[5][:item] = :LVCHAXCREST
   lvc_getTrainer(["Kanon", :TRAINER_KANON, 0]).party[5][:moves] = [:ROCKSLIDE, :DRAGONCLAW, :NIGHTSLASH, :BITTERBLADE]
   #no one has a screamtail or any of the others after this
+  ## REPLACED MONS ##
+  #Vitus renegade singles bossfight
+  lvc_getTrainer(["Vitus", :ASPECTVITUS, 1]).party[4] = {
+        :species => :SLAKING,
+        :level => 100,
+        :item => :LIFEORB,
+        :moves => [:RETURN, :SUCKERPUNCH, :EARTHQUAKE, :FIREBLAST],
+        :ability => :TRUANT,
+        :gender => :M,
+        :shiny => true,
+        :form => 0,
+        :nature => :ADAMANT,
+        :iv => 31,
+        :happiness => 255,
+        :ev => [0, 252, 4, 252, 0, 252],
+      } 
+  lvc_getTrainer(["Vitus", :ASPECTVITUS, 1]).effects[4] = {
+        :buffactivation => :Always,
+        :sprite => :None,
+        :message => "The Dimension empowered Slaking!",
+        :applyCrest => :SLAKING,
+        :pokemonStatChanges => {
+          1 => 1,
+          2 => 1,
+        }
+      }
 }
 
 
