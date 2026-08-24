@@ -231,7 +231,7 @@ ModCacheInjection.hook(:trainers) {
   #no one has a screamtail or any of the others after this
   ## REPLACED MONS ##
   #Vitus renegade singles bossfight
-  lvc_getTrainer(["Vitus", :ASPECTVITUS, 1]).party[4] = {
+  lvc_getTrainer(["Vitus", :ASPECTVITUS, 1]).party[4] = { #replaces zoroark
         :species => :SLAKING,
         :level => 100,
         :item => :LIFEORB,
@@ -254,6 +254,70 @@ ModCacheInjection.hook(:trainers) {
           1 => 1,
           2 => 1,
         }
+      }
+  #Angie gym leader fight
+  lvc_getTrainer(["Angie", :LEADER_ANGIE, 0]).items.push(:LVCOMASTARCREST)
+  lvc_getTrainer(["Angie", :LEADER_ANGIE, 0]).party[4] = #replaces crabominable
+        {
+        :species => :OMASTAR,
+        :level => 49,
+        :moves => [:JUDGMENT, :SURF, :ANCIENTPOWER, :COLDTRUTH],
+        :ability => :SHELLARMOR,
+        :item => :ICICLEPLATE,
+        :gender => :M,
+        :nature => :MODEST,
+        :iv => 31,
+      }
+  #Angie deux finalis
+  if lvc_getTrainer(["Angie", :LEADER_ANGIE2, 2]).items == nil
+    lvc_getTrainer(["Angie", :LEADER_ANGIE2, 2]).instance_eval{@items = [:LVCOMASTARCREST]}
+  else lvc_getTrainer(["Angie", :LEADER_ANGIE2, 2]).items.push(:LVCOMASTARCREST) #mod compat
+  end
+  lvc_getTrainer(["Angie", :LEADER_ANGIE2, 2]).party[2] = { #replaces kingdra
+        :species => :OMASTAR,
+        :level => 100,
+        :item => :ICICLEPLATE,
+        :moves => [:JUDGMENT, :BRINE, :SHELLSMASH, :HYDROPUMP],
+        :ability => :WEAKARMOR,
+        :nature => :TIMID,
+        :iv => 31,
+        :ev => [4, 0, 4, 252, 0, 252],
+      }
+#Library Ren
+lvc_getTrainer(["Ren", :TRAINER_REN, 15]).party[2] = 
+      {
+        :species => :MARACTUS,
+        :level => 13,
+        :moves => [:LEECHSEED, :GROWTH, :MEGADRAIN, :SUCKERPUNCH],
+        :ability => :STORMDRAIN,
+        :gender => :F,
+      }
+#Helojak Island Ren
+lvc_getTrainer(["Ren", :TRAINER_REN, 6]).party[0] = 
+      {
+        :species => :MARACTUS,
+        :form => 1,
+        :level => 42,
+        :item => :FOCUSSASH,
+        :moves => [:DESERTDANCE, :BULLETSEED, :SUCKERPUNCH, :LEECHSEED],
+        :ability => :STORMDRAIN,
+        :gender => :F,
+        :nature => :JOLLY,
+        :iv => 20,
+      }
+#Desert Ren
+lvc_getTrainer(["Ren", :OUTCAST, 0]).party[0] = 
+      {
+        :species => :MARACTUS,
+        :level => 78,
+        :item => :LVCMARACREST,
+        :moves => [:DESERTDANCE, :NEEDLEARM, :SUCKERPUNCH, :ARENITEWALL],
+        :ability => :SANDRUSH,
+        :gender => :F,
+        :form => 1,
+        :nature => :JOLLY,
+        :iv => 31,
+        :ev => [4, 252, 0, 0, 0, 252],
       }
 }
 
