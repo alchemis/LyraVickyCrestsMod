@@ -9,7 +9,7 @@ Where do I get the crests?
     >Kabutops crest: Axis Factory chests
     >Omastar crest: Church of Theolia during .karma, by the altar
     >Aerodactyl crest: Garufa Sanctuary during .karma, by the hole in the floor in the room in the back.
-    >Broken Halo: During chapter 16.1 Paragon story, also avaliable at Shayda's in ng+
+    >Broken Halo: During chapter 16.1 Paragon story, also avaliable at Shayda's in NG+
     >Everything else: Crestie's shop in Luck's Tent, gets new crests every 2 badges (starting at badge 2)
 
 What does Breloom crest do?
@@ -45,3 +45,6 @@ What does Exploud crest do?
         ● Metal Sound lowers the target's Special Defense by 3 stages.
         ● Parting Shot lowers the target's Attack and Special Attack by 2 stages.
         ● Screech lowers the target's Defense by 3 stages.
+
+What does Broken Halo do?
+    Turns Gardevoir into a Dark/Fairy type, it's Psychic moves become Dark and allows it to Mega Evolve if you have a Gardevoirite in your bag.
