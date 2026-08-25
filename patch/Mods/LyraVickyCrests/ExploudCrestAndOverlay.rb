@@ -147,7 +147,7 @@ class PokeBattle_Battler
         @battle.pbHideAbilityBox(self)
       end
     end
-    return expcrest_pbAbilitiesOnOverlay(delayStatChangeChecks applySwitchInAbility: applySwitchInAbility)
+    return expcrest_pbAbilitiesOnOverlay(delayStatChangeChecks, applySwitchInAbility: applySwitchInAbility)
   end
 end
 class PokeBattle_Battle
