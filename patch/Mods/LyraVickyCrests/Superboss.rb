@@ -12,6 +12,31 @@ ModCacheInjection.hook(:trainertypes) {
   skill: 100,
   moneymult: 40
 })
+class PokeBattle_AI
+  alias lvc_superbossgetSwitchInScoresParty getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
+    def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
+        partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
+        if defined?(@battle.state.effects[:lvc_superboss]) && @battle.state.effects[:lvc_superboss]
+          party = @battle.pbPartySingleOwner(@attacker.index)
+          for partyindex in 0...party.length
+                mon = party[partyindex]
+                if mon.ev[5] == 252 && @battle.state.effects[:TrickRoom] > 0
+                  partyscores[partyindex] -= 500
+                end
+          end
+          puts "Partycores adjusted, ignore log below"
+          puts "It's incorrect because of my stupid hook, here's the actual switchscores:"
+          puts partyscores
+        end
+        return partyscores
+    end
+end
+
+def lvc_bossinit
+  $battle.instance_eval{
+    @state.effects[:lvc_superboss] = true
+  }
+end
 
 def lvc_changetospeedmode
     $battle.instance_eval{
@@ -69,6 +94,7 @@ ModCacheInjection.hook(:trainers) {
 
   $cache.trainers[:LVCLYRA]["Lyra"][0] = TeamData.new(0, ["Lyra", :LVCLYRA, 0], {
     :teamid => ["Lyra", :LVCLYRA, 0],
+    :defeat => "Such power...",
     :items => [:MEGARING],
     :mons => [
       { #tr side
@@ -154,6 +180,7 @@ ModCacheInjection.hook(:trainers) {
           :TrickRoom => [5, :TRICKROOM, "The dimensions were twisted!"],
         },
         :fieldChange => [:STARLIGHT, "<char>Lyra: You shouldn't have come here.", 0],
+        :CustomMethod => "lvc_bossinit",
       },
       1 => {
         :buffactivation => :Limited,
@@ -213,7 +240,7 @@ ModCacheInjection.hook(:trainers) {
         item: :ROCKYHELMET,
         ability: :PRANKSTER,
         nature: :CALM,
-        shiny: false,
+        shiny: true,
         happiness: 255,
         ev: [252,0,4,0,252,0],
         iv: 31,
