@@ -13,12 +13,12 @@ ModCacheInjection.hook(:items) {
 }
 class PokeBattle_Battler
     #form check..
-    alias atalescrest_hasCrest? hasCrest? if !defined?(atalescrest_hasCrest?)
+    alias bronzcrest_hasCrest? hasCrest? if !defined?(bronzcrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :BRONZONG then
           return true if @item == :LVCBRONZCREST && form == 0
           return false
-        else return atalescrest_hasCrest?(species)
+        else return bronzcrest_hasCrest?(species)
         end
     end
 end
