@@ -204,7 +204,7 @@ ModCacheInjection.hook(:trainers) {
       4 => {
         :sprite => :None,
         :buffactivation => :Limited,
-        :abilitychangeMessage => "A sunbeam shines on Moltres!",
+        :abilitychangeMessage => "A sunbeam fell on Moltres! \\nMoltres' ability was changed!",
         :animation => :SPOTLIGHT,
         :abilitychange => :MEGASOL,
         :CustomMethod => "lvc_changetospeedmode",
