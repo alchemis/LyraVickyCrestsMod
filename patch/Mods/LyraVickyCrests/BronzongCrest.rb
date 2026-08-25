@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:BRONZONG] = :LVCBRONZCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCBRONZCREST] = ItemData.new(:LVCBRONZCREST, {
     name: "Bronzong Crest",
-    desc: "Bronzong raises a Trick Room for 3 turns on entry.",
+    desc: "Bronzong creates a Trick Room for 3 turns on entry.",
     price: 0,
     crest: true,
     noUseInBattle: true,

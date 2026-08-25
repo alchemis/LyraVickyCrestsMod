@@ -168,17 +168,17 @@ class PokeBattle_Battle
       if battler.crested == :EXPLOUD
         case @battle.FE
         when :CONCERT1
-          @battle.pbShowAbilityBox(self)
-          @battle.growField(self.pbThis, self,3)
-          @battle.pbHideAbilityBox(self)
+          @battle.pbShowAbilityBox(battler)
+          @battle.growField(battler.pbThis, battler,3)
+          @battle.pbHideAbilityBox(battler)
         when :CONCERT2
-          @battle.pbShowAbilityBox(self)
-          @battle.growField(self.pbThis, self,2)
-          @battle.pbHideAbilityBox(self)
+          @battle.pbShowAbilityBox(battler)
+          @battle.growField(battler.pbThis, battler,2)
+          @battle.pbHideAbilityBox(battler)
         when :CONCERT3
-          @battle.pbShowAbilityBox(self)
-          @battle.growField(self.pbThis, self,1)
-          @battle.pbHideAbilityBox(self)
+          @battle.pbShowAbilityBox(battler)
+          @battle.growField(battler.pbThis, battler,1)
+          @battle.pbHideAbilityBox(battler)
         when :CONCERT4
           #nothing to do here
         else        
