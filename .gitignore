@@ -6,6 +6,10 @@
 !/patch/Graphics/
 /patch/Graphics/**
 !/patch/Graphics/Battlers/
+!/patch/Graphics/Characters/
+/patch/Graphics/Characters/**
+!/patch/Graphics/Characters/trainerVictory.png
+!/patch/Graphics/Characters/trainerLyra.png
 /patch/Graphics/Battlers/**
 !/patch/Graphics/Battlers/gardevoir
 !/patch/Graphics/Battlers/gardevoir/**

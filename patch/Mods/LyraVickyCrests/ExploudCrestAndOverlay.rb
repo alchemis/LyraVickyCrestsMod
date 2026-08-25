@@ -195,10 +195,10 @@ class PokeBattle_Battle
       priority = @battle.setSpeedOrder
       noreduce = false
       for i in priority
-        noreduce = true if i.crested == EXPLOUD
-        @battle.pbDisplay(_INTL("The crowd is too excited for {1} to lose Hype!", i.pbThis))
+        noreduce = true if i.crested == :EXPLOUD
       end
       if @battle.ProgressiveFieldCheck(PBFields::CONCERT, 2, 4) && noreduce
+        @battle.pbDisplay(_INTL("The crowd is too excited for {1} to lose Hype!", i.pbThis))
         return false
       else 
         return expcrest_reduceField(times)
