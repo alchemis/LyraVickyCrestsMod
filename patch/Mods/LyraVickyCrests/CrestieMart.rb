@@ -36,7 +36,7 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCJMPLFFCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
       ItemStock.of(:LVCBRELCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
       ItemStock.of(:LVCEXPCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
-      
+
       ItemStock.of(:LVCARCHCREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
       ItemStock.of(:LVCCARRACREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
       ItemStock.of(:LVCNINETALESCREST).costs(120000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 12']),
@@ -46,6 +46,7 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCTREVCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
       ItemStock.of(:LVCMAWCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
       ItemStock.of(:LVCMIGHTYCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
+      ItemStock.of(:LVCBRONZCREST).costs(140000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 14']),
 
       ItemStock.of(:LVCSTCREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
       ItemStock.of(:LVCHAXCREST).costs(160000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 16']),
