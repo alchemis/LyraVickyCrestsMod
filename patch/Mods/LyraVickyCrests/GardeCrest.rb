@@ -28,7 +28,7 @@ ModCacheInjection.hook(:pkmn) {
       {
         :Type1 => :DARK,
         :BaseStats => [68, 85, 85, 120, 110, 100],
-		:Abilities => [:TRACE],
+		    :Abilities => [:TRACE],
         :HiddenAbility => nil,
         :MegaEvolutions => {
           :LVCGARDECREST => "Mega Gardevoir Z",
