@@ -11,7 +11,17 @@ ModCacheInjection.hook(:items) {
     noUse: true,
   })
 }
-
+class PokeBattle_Battler
+    #form check..
+    alias atalescrest_hasCrest? hasCrest? if !defined?(atalescrest_hasCrest?)
+    def hasCrest?(species = self.species)
+        if species == :BRONZONG then
+          return true if @item == :LVCBRONZCREST && form == 0
+          return false
+        else return atalescrest_hasCrest?(species)
+        end
+    end
+end
 class PokeBattle_Battle
   alias bronzcrest_pbCrestEntry pbCrestEntry if !defined?(bronzcrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
