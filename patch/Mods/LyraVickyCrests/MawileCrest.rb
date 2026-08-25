@@ -18,9 +18,15 @@ class PokeBattle_Battler
       
       case @crested
         when :MAWILE
+          if form == 0
             @defense += @attack/2
             @spdef += @attack/2
             @spatk += @attack
+          else
+            @defense += @attack
+            @spdef += @attack
+            @spatk += @attack*2
+          end
       end
       mawcrest_crestStats
     end

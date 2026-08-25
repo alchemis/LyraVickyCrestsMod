@@ -126,12 +126,12 @@ ModCacheInjection.hook(:items) {
 }
 class PokeBattle_Battler
   alias expcrest_pbCanSleep? pbCanSleep? if !defined?(expcrest_pbCanSleep?)
-  def pbCanSleep?
+  def pbCanSleep?(attacker, move, ignorestatus: false, showMessage: false)
       if @battle.OV == :CONCERT3
         @battle.pbDisplay(_INTL("The concert is too loud and hype to sleep!"))
         return false
       else
-        return expcrest_pbCanSleep?
+        return expcrest_pbCanSleep?(attacker, move, ignorestatus: ignorestatus, showMessage: showMessage)
       end
   end
 
