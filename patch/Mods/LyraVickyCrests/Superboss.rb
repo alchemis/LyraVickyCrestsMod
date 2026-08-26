@@ -15,7 +15,7 @@ ModCacheInjection.hook(:trainertypes) {
 
 def lvc_bossinit
   PokeBattle_AI.class_eval{  
-  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty #if !defined?(lvc_superbossgetSwitchInScoresParty)
+  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
   def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
       partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
       puts "ai hooked"
