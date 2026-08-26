@@ -313,3 +313,97 @@ ModCacheInjection.hook(:trainers) {
     }
    })
 }
+
+#defeated m2 = 1975
+InjectionHelper.defineMapPatch(674) { # Purgatorium
+  createNewEvent(21, 23, "lvc boss", "lvcboss") { #down the stairs
+    newPage {
+      @step_anime = true
+      @move_speed = 1
+      @move_frequency = 1
+      @direction_fix = true
+      requiresSwitch 1975 #Defeated witch of the end M2
+      setGraphic 'karmabutterfly', direction: :Down, hueShift: 240 
+      interact {
+        text "There is a paradoxical energy emanating from this butterfly..."
+        text "Face this entity? (Rec. Lv. 100+)\|"
+        show_choices {
+          choice("No") {}
+          choice("Yes") {
+            branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",0,"",:LVCLYRA,"Lyra",0,"",true)'){
+              text "???: Woah.."
+              text "Two Pokeballs materialized from thin air!"
+              script 'poke=PokeBattle_Pokemon.new(:VICTINI,100,"Victory")
+              poke.pbLearnMove(:VCREATE)
+              poke.pbLearnMove(:ICEBURN)
+              poke.pbLearnMove(:FREEZESHOCK)
+              poke.pbLearnMove(:VICTORYDANCE)
+              poke.item = :LVCVICCREST
+              poke.obtainText = _INTL("Somewhere far away.")
+              poke.makeShiny
+              pbAddPokemon(poke)'
+              script 'poke=PokeBattle_Pokemon.new(:JIRACHI,100,"Lyra")
+              poke.pbLearnMove(:DOOMDESIRE)
+              poke.pbLearnMove(:COSMICPOWER)
+              poke.pbLearnMove(:PSYCHIC)
+              poke.pbLearnMove(:WISH)
+              poke.obtainText = _INTL("Somewhere close by.")
+              poke.makeShiny
+              poke.item = :LVCRACHICREST
+              pbAddPokemon(poke)'
+              self_switch["A"] = true
+            }
+          }
+        }
+      }
+    }
+    newPage { requiresSelfSwitch 'A' }
+  }
+}
+
+
+InjectionHelper.defineMapPatch(639) { # Deux Finalis cathedral
+  createNewEvent(95, 65, "lvc boss", "lvcboss") { #by the star in the middle of the room
+    newPage {
+      @step_anime = true
+      @move_speed = 1
+      @move_frequency = 1
+      @direction_fix = true
+      requiresSwitch 1999 #Defeated kaina
+      setGraphic 'karmabutterfly', direction: :Down, hueShift: 180 
+      interact {
+        text "There is a paradoxical energy emanating from this butterfly..."
+        text "Face this entity? (Rec. Lv. 100+)\|"
+        show_choices {
+          choice("No") {}
+          choice("Yes") {
+            branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",0,"",:LVCLYRA,"Lyra",0,"",true)'){
+              text "???: Woah.."
+              text "Two Pokeballs materialized from thin air!"
+              script 'poke=PokeBattle_Pokemon.new(:VICTINI,100,"Victory")
+              poke.pbLearnMove(:VCREATE)
+              poke.pbLearnMove(:ICEBURN)
+              poke.pbLearnMove(:FREEZESHOCK)
+              poke.pbLearnMove(:VICTORYDANCE)
+              poke.item = :LVCVICCREST
+              poke.obtainText = _INTL("Somewhere close by.")
+              poke.makeShiny
+              pbAddPokemon(poke)'
+              script 'poke=PokeBattle_Pokemon.new(:JIRACHI,100,"Lyra")
+              poke.pbLearnMove(:DOOMDESIRE)
+              poke.pbLearnMove(:COSMICPOWER)
+              poke.pbLearnMove(:PSYCHIC)
+              poke.pbLearnMove(:WISH)
+              poke.obtainText = _INTL("Somewhere far away.")
+              poke.makeShiny
+              poke.item = :LVCRACHICREST
+              pbAddPokemon(poke)'
+              self_switch["A"] = true
+            }
+          }
+        }
+      }
+    }
+    newPage { requiresSelfSwitch 'A' }
+  }
+}
