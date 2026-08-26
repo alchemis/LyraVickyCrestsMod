@@ -56,7 +56,7 @@ ModCacheInjection.hook(:pkmn) {
 #Move type change
 
 
-alias_method :gardecrest_pbCrestMoveTypeChange, :pbCrestMoveTypeChange if !defined?(gardecrest_pbCrestMoveTypeChange)
+alias :gardecrest_pbCrestMoveTypeChange :pbCrestMoveTypeChange if !defined?(gardecrest_pbCrestMoveTypeChange)
 def pbCrestMoveTypeChange(species, form, item, type)
     if species == :GARDEVOIR && item == :LVCGARDECREST && type == :PSYCHIC then 
       return :DARK 

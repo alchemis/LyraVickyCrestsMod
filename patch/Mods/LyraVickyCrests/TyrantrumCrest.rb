@@ -12,7 +12,7 @@ ModCacheInjection.hook(:items) {
   })
 }
 
-alias_method :tyracrest_pbCrestMoveTypeChange, :pbCrestMoveTypeChange if !defined?(tyracrest_pbCrestMoveTypeChange)
+alias :tyracrest_pbCrestMoveTypeChange :pbCrestMoveTypeChange if !defined?(tyracrest_pbCrestMoveTypeChange)
 def pbCrestMoveTypeChange(species, form, item, type)
     if species == :TYRANTRUM && item == :LVCTYRACREST && type == :ROCK then 
       return :FIRE

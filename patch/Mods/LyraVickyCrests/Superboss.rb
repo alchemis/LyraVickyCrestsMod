@@ -16,6 +16,7 @@ class PokeBattle_AI
   alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
     def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
         partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
+        puts "ai hooked"
         if defined?(@battle.state.effects[:lvc_superboss]) && @battle.state.effects[:lvc_superboss]
           party = @battle.pbPartySingleOwner(@attacker.index)
           for partyindex in 0...party.length
@@ -34,6 +35,7 @@ end
 
 def lvc_bossinit
   $battle.instance_eval{
+    puts "state set"
     @state.effects[:lvc_superboss] = true
   }
 end
@@ -63,7 +65,7 @@ def lvc_changetospeedmode
           ownername = trainer.name
           @scene.pbShowOpponent(0)
           showtrainer = true
-          pbDisplayAutoPaused(_INTL("<char>{1}: Let's speed this up, shall we?", ownername))
+          pbDisplayAutoPaused(_INTL("<char>{1}: Let's speed this up, shall we?", ownername.upcase))
           @lvc_speedmodeused = true
         end
         if @state.effects[:TrickRoom] > 0
@@ -93,7 +95,7 @@ ModCacheInjection.hook(:trainers) {
 
   $cache.trainers[:LVCLYRA]["Lyra"][0] = TeamData.new(0, ["Lyra", :LVCLYRA, 0], {
     :teamid => ["Lyra", :LVCLYRA, 0],
-    :defeat => "Such power...",
+    :defeat => "LYRA: Such power...",
     :items => [:MEGARING],
     :mons => [
       { #tr side
@@ -178,7 +180,7 @@ ModCacheInjection.hook(:trainers) {
         :stateChanges => {
           :TrickRoom => [5, :TRICKROOM, "The dimensions were twisted!"],
         },
-        :fieldChange => [:STARLIGHT, "<char>Lyra: You shouldn't have come here.", 0],
+        :fieldChange => [:STARLIGHT, "<char>LYRA: You shouldn't have come here.", 0],
         :CustomMethod => "lvc_bossinit",
       },
       1 => {
@@ -264,7 +266,7 @@ ModCacheInjection.hook(:trainers) {
       {
         species: :GLIMMORA,
         level: 100,
-        form: 2,
+        form: 1,
         moves: [:HURRICANE,:INJECTION,:ZAPCANNON,:SIGNALBEAM],
         item: :GLIMMORANITEA,
         ability: :DOWNLOAD,

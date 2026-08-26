@@ -12,7 +12,7 @@ ModCacheInjection.hook(:items) {
   })
 }
 
-alias_method :aurocrest_pbCrestMoveTypeChange, :pbCrestMoveTypeChange if !defined?(aurocrest_pbCrestMoveTypeChange)
+alias :aurocrest_pbCrestMoveTypeChange :pbCrestMoveTypeChange if !defined?(aurocrest_pbCrestMoveTypeChange)
 def pbCrestMoveTypeChange(species, form, item, type)
     if species == :AURORUS && item == :LVCAUROCREST && type == :ROCK then 
       return :DRAGON
