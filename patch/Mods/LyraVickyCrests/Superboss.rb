@@ -314,7 +314,7 @@ ModCacheInjection.hook(:trainers) {
    })
 }
 
-#defeated m2 = 1975
+
 InjectionHelper.defineMapPatch(674) { # Purgatorium
   createNewEvent(21, 23, "lvc boss", "lvcboss") { #down the stairs
     newPage {
@@ -327,6 +327,7 @@ InjectionHelper.defineMapPatch(674) { # Purgatorium
       interact {
         text "There is a paradoxical energy emanating from this butterfly..."
         text "Face this entity? (Rec. Lv. 100+)\|"
+        text "Warning, this battle is not yet avaliable in Story Mode."
         show_choices {
           choice("No") {}
           choice("Yes") {
@@ -374,6 +375,7 @@ InjectionHelper.defineMapPatch(639) { # Deux Finalis cathedral
       interact {
         text "There is a paradoxical energy emanating from this butterfly..."
         text "Face this entity? (Rec. Lv. 100+)\|"
+        text "Warning, this battle is not yet avaliable in Story Mode."
         show_choices {
           choice("No") {}
           choice("Yes") {
