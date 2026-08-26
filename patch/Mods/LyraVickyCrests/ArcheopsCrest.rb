@@ -17,7 +17,7 @@ ModCacheInjection.hook(:items) {
 
 #cant take more than half its hp if at full
 class PokeBattle_Move
-    alias archcrest_pbCalcDamage pbCalcDamage if !defined?(archcrest_pbCalcDamage)
+    alias_method :archcrest_pbCalcDamage, :pbCalcDamage if !defined?(archcrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       if movetype then
         damage = archcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
@@ -36,7 +36,7 @@ end
 
 class PokeBattle_Battler
   #regen
-  alias archcrest_pbInitialize pbInitialize if !defined?(archcrest_pbInitialize)
+  alias_method :archcrest_pbInitialize, :pbInitialize if !defined?(archcrest_pbInitialize)
   def pbInitialize(pkmn, index, batonpass)
     ret = archcrest_pbInitialize(pkmn, index, batonpass)
     if self.crested == :ARCHEOPS && @pokemon && @hp > 0 && self.status != :PETRIFIED
@@ -45,7 +45,7 @@ class PokeBattle_Battler
     return ret
   end
   #e. exit
-  alias archcrest_pbEmergencyExitCheck pbEmergencyExitCheck if !defined?(archcrest_pbEmergencyExitCheck)
+  alias_method :archcrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !defined?(archcrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :ARCHEOPS then
     return unless oldhp > (@totalhp / 2.0).floor && self.hp <= (@totalhp / 2.0).floor && self.hp != 0
@@ -74,7 +74,7 @@ class PokeBattle_Battler
     end 
   end
   #just for abilitybox
-  alias archcrest_pbEffectsOnDealingDamage pbEffectsOnDealingDamage if !defined?(archcrest_pbEffectsOnDealingDamage)
+  alias_method :archcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(archcrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.effects[:LVC_TANKEDHIT] && target.crested == :ARCHEOPS
       @battle.pbAbilityBoxAndDisplay(target, _INTL("{1} tanked the hit!", target.pbThis), item: true)

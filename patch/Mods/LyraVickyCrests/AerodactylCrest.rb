@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #look for crest in bag/trainer items instead
-    alias aerocrest_hasCrest? hasCrest? if !defined?(aerocrest_hasCrest?)
+    alias_method :aerocrest_hasCrest?, :hasCrest? if !defined?(aerocrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :AERODACTYL then
           return true if $PokemonBag.pbQuantity(:LVCAERODACTYLCREST) > 0 && @battle.pbOwnedByPlayer?(@index) && PBStuff::SILVALLYCRESTABILITIES.has_key?(@item)
@@ -26,7 +26,7 @@ class PokeBattle_Battler
         end
     end
     #type change
-    alias aerocrest_crestStats crestStats if !defined?(aerocrest_crestStats)
+    alias_method :aerocrest_crestStats, :crestStats if !defined?(aerocrest_crestStats)
     def crestStats
       
       if @crested == :AERODACTYL

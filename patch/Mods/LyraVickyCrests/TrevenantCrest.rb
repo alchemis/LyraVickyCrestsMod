@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battle
-    alias trevcrest_pbCrestEntry pbCrestEntry if !defined?(trevcrest_pbCrestEntry)
+    alias_method :trevcrest_pbCrestEntry, :pbCrestEntry if !defined?(trevcrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       trevcrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
@@ -31,7 +31,7 @@ class PokeBattle_Battle
 end
 
 class PokeBattle_Move_143 < PokeBattle_Move
-  alias trevcrest_pbEffectValid pbEffectValid if !defined?(trevcrest_pbEffectValid)
+  alias_method :trevcrest_pbEffectValid, :pbEffectValid if !defined?(trevcrest_pbEffectValid)
   def pbEffectValid(attacker, opponent, showMessage = false)
     if attacker.crested == :TREVENANT
       if (!opponent.canChangeType? || opponent.hasType?(:GRASS)) && opponent.effects[:Curse]
@@ -43,7 +43,7 @@ class PokeBattle_Move_143 < PokeBattle_Move
     end
   end
 
-  alias trevcrest_pbEffectTarget pbEffectTarget if !defined?(trevcrest_pbEffectTarget)
+  alias_method :trevcrest_pbEffectTarget, :pbEffectTarget if !defined?(trevcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     if attacker.crested == :TREVENANT
       trevcrest_pbEffectTarget(attacker,opponent,hitnum,alltargets) unless !opponent.canChangeType? || opponent.hasType?(:GRASS)

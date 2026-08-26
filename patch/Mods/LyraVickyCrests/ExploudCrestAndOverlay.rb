@@ -46,7 +46,7 @@ ModCacheInjection.hook(:FEData) {
 }
 #gen 8 howl -- removed due to mightyena crest
 # class PokeBattle_Move_18E < PokeBattle_Move
-#   alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
+#   alias_method :expcrest_pbEffectTarget, :pbEffectTarget if !defined?(expcrest_pbEffectTarget)
 #   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
 #     return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if !(@battle.OV == :CONCERT3)
 #     opponent.pbChangeStats(PBStats::ATTACK, 2, attacker, self)
@@ -54,7 +54,7 @@ ModCacheInjection.hook(:FEData) {
 # end
 # #gen 7 howl
 # class PokeBattle_Move_01C < PokeBattle_Move
-#   alias expcrest_pbEffect pbEffect if !defined?(expcrest_pbEffect)
+#   alias_method :expcrest_pbEffect, :pbEffect if !defined?(expcrest_pbEffect)
 #   def pbEffect(attacker, alltargets, hitnum = 0)
 #     return if @basedamage > 0
 #     return expcrest_pbEffect(attacker, alltargets, hitnum ) if @move != :HOWL || @battle.OV != :CONCERT3
@@ -64,7 +64,7 @@ ModCacheInjection.hook(:FEData) {
 
 #METALSOUND
 class PokeBattle_Move_04F < PokeBattle_Move
-  alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
+  alias_method :expcrest_pbEffectTarget, :pbEffectTarget if !defined?(expcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     return true if @basedamage > 0
     return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if @battle.OV != :CONCERT3 || @move != :METALSOUND
@@ -74,7 +74,7 @@ end
 
 #screech
 class PokeBattle_Move_04C < PokeBattle_Move
-  alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
+  alias_method :expcrest_pbEffectTarget, :pbEffectTarget if !defined?(expcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     return true if @basedamage > 0
     return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if @battle.OV != :CONCERT3 || @move != :SCREECH
@@ -84,7 +84,7 @@ end
 
 #growl
 class PokeBattle_Move_042 < PokeBattle_Move
-  alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
+  alias_method :expcrest_pbEffectTarget, :pbEffectTarget if !defined?(expcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     return true if @basedamage > 0
     return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if @battle.OV != :CONCERT3 || @move != :GROWL
@@ -94,7 +94,7 @@ end
 
 #roar -- removd for parity with howl
 # class PokeBattle_Move_0EB < PokeBattle_Move
-#   alias expcrest_pbEffect pbEffect if !defined?(expcrest_pbEffect)
+#   alias_method :expcrest_pbEffect, :pbEffect if !defined?(expcrest_pbEffect)
 #   def pbEffect(attacker, alltargets, hitnum = 0)
 #     return expcrest_pbEffect(attacker, alltargets, hitnum ) if @move != :ROAR || @battle.OV != :CONCERT3
 #     attacker.pbChangeStats(PBStats::ATTACK, 2, attacker, self, abilitycheck: :hide)
@@ -103,7 +103,7 @@ end
 
 #encore
 class PokeBattle_Move_0BC < PokeBattle_Move
-  alias expcrest_pbEffectTarget pbEffectTarget if !defined?(expcrest_pbEffectTarget)
+  alias_method :expcrest_pbEffectTarget, :pbEffectTarget if !defined?(expcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     return expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets) if @battle.OV != :CONCERT3
     ret = expcrest_pbEffectTarget(attacker, opponent, hitnum , alltargets)
@@ -125,7 +125,7 @@ ModCacheInjection.hook(:items) {
   })
 }
 class PokeBattle_Battler
-  alias expcrest_pbCanSleep? pbCanSleep? if !defined?(expcrest_pbCanSleep?)
+  alias_method :expcrest_pbCanSleep?, :pbCanSleep? if !defined?(expcrest_pbCanSleep?)
   def pbCanSleep?(attacker, move, ignorestatus: false, showMessage: false)
       if @battle.OV == :CONCERT3
         @battle.pbDisplay(_INTL("The concert is too loud and hype to sleep!"))
@@ -135,7 +135,7 @@ class PokeBattle_Battler
       end
   end
 
-  alias expcrest_pbAbilitiesOnOverlay pbAbilitiesOnOverlay if !defined?(expcrest_pbAbilitiesOnOverlay)
+  alias_method :expcrest_pbAbilitiesOnOverlay, :pbAbilitiesOnOverlay if !defined?(expcrest_pbAbilitiesOnOverlay)
   def pbAbilitiesOnOverlay(delayStatChangeChecks = false, applySwitchInAbility: false)
     return if @applyingEntryEffects && !applySwitchInAbility
     return if self.ability.nil?
@@ -151,7 +151,7 @@ class PokeBattle_Battler
   end
 end
 class PokeBattle_Battle
-    alias expcrest_pbOnActiveOne pbOnActiveOne if !defined?(expcrest_pbOnActiveOne)
+    alias_method :expcrest_pbOnActiveOne, :pbOnActiveOne if !defined?(expcrest_pbOnActiveOne)
     def pbOnActiveOne(pkmn)
       if @battle.OV == :CONCERT3
         if pkmn.isSleeping?
@@ -161,7 +161,7 @@ class PokeBattle_Battle
       end
       return expcrest_pbOnActiveOne(pkmn)
     end
-    alias expcrest_pbCrestEntry pbCrestEntry if !defined?(expcrest_pbCrestEntry)
+    alias_method :expcrest_pbCrestEntry, :pbCrestEntry if !defined?(expcrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       expcrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
@@ -190,7 +190,7 @@ class PokeBattle_Battle
         end
       end
     end
-    alias expcrest_reduceField reduceField if !defined?(expcrest_reduceField)
+    alias_method :expcrest_reduceField, :reduceField if !defined?(expcrest_reduceField)
     def reduceField(times = 1)
       priority = @battle.setSpeedOrder
       noreduce = false
@@ -204,7 +204,7 @@ class PokeBattle_Battle
         return expcrest_reduceField(times)
       end
     end
-    alias expcrest_pbEndOfRoundPhase pbEndOfRoundPhase if !defined?(expcrest_pbEndOfRoundPhase)
+    alias_method :expcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(expcrest_pbEndOfRoundPhase)
     def pbEndOfRoundPhase(skipcelebi = false)
         priority = setSpeedOrder
         for battler in priority

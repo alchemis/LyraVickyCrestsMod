@@ -17,7 +17,7 @@ ModCacheInjection.hook(:items) {
 
 #cant take more than half its hp if at full
 class PokeBattle_Move
-    alias carracrest_pbCalcDamage pbCalcDamage if !defined?(carracrest_pbCalcDamage)
+    alias_method :carracrest_pbCalcDamage, :pbCalcDamage if !defined?(carracrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       damage = carracrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       if opponent.crested == :CARRACOSTA and opponent.hp == opponent.totalhp and damage >= (opponent.totalhp/2)
@@ -34,7 +34,7 @@ end
 class PokeBattle_Battler
 
   #sharply raise defenses
-  alias carracrest_pbEmergencyExitCheck pbEmergencyExitCheck if !defined?(carracrest_pbEmergencyExitCheck)
+  alias_method :carracrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !defined?(carracrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :CARRACOSTA then
     return unless oldhp > (@totalhp / 2.0).floor && self.hp <= (@totalhp / 2.0).floor && self.hp != 0
@@ -50,7 +50,7 @@ class PokeBattle_Battler
   end
 
   #just for abilitybox
-  alias carracrest_pbEffectsOnDealingDamage pbEffectsOnDealingDamage if !defined?(carracrest_pbEffectsOnDealingDamage)
+  alias_method :carracrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(carracrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.effects[:LVC_TANKEDHIT] && target.crested == :CARRACOSTA
       @battle.pbAbilityBoxAndDisplay(target, _INTL("{1} tanked the hit!", target.pbThis), item: true)

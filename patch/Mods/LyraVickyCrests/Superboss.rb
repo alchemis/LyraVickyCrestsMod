@@ -13,7 +13,7 @@ ModCacheInjection.hook(:trainertypes) {
   moneymult: 40
 })
 class PokeBattle_AI
-  alias lvc_superbossgetSwitchInScoresParty getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
+  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
     def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
         partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
         if defined?(@battle.state.effects[:lvc_superboss]) && @battle.state.effects[:lvc_superboss]

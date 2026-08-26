@@ -43,12 +43,12 @@ class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
     end
   end
 
-  alias maracrest_pbAdditionalEffect pbAdditionalEffect if !defined?(maracrest_pbAdditionalEffect)
+  alias_method :maracrest_pbAdditionalEffect, :pbAdditionalEffect if !defined?(maracrest_pbAdditionalEffect)
   def pbAdditionalEffect(attacker, opponent)
     return maracrest_pbAdditionalEffect if @move != :DESERTDANCE
   end
 
-  alias maracrest_pbAdditionalEffectSelf pbAdditionalEffectSelf if !defined?(maracrest_pbAdditionalEffectSelf)
+  alias_method :maracrest_pbAdditionalEffectSelf, :pbAdditionalEffectSelf if !defined?(maracrest_pbAdditionalEffectSelf)
   def pbAdditionalEffectSelf(attacker)
     return maracrest_pbAdditionalEffectSelf if @move != :DESERTDANCE
     amount = 1
@@ -86,7 +86,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battler
-    alias maracrest_crestStats crestStats
+    alias_method :maracrest_crestStats, :crestStats if !defined?(maracrest_crestStats)
     def crestStats
       
       case @crested
@@ -98,7 +98,7 @@ class PokeBattle_Battler
     end
 end
 class PokeBattle_Battler
-    alias maracrest_pbResolveMoveEffects pbResolveMoveEffects if !defined?(maracrest_pbResolveMoveEffects)
+    alias_method :maracrest_pbResolveMoveEffects, :pbResolveMoveEffects if !defined?(maracrest_pbResolveMoveEffects)
     def pbResolveMoveEffects(user, basemove, targets, calcdamage, hitflag, hitcount, flags = { totaldamage: 0, UserFaintCause: [] })
       ret = maracrest_pbResolveMoveEffects(user, basemove, targets, calcdamage, hitflag, hitcount, flags)
       if user.crested == :MARACTUS && !(hitcount > 1) && $cache.moves[basemove.move]&.checkFlag?(:dancemove)

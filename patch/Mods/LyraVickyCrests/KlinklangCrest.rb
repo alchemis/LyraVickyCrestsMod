@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Battler
-    alias klinklangcrest_crestStats crestStats
+    alias_method :klinklangcrest_crestStats, :crestStats if !defined?(klinklangcrest_crestStats)
     def crestStats
       
       case @crested
@@ -26,7 +26,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Move
-  alias klinklangcrest_pbBaseAccuracy pbBaseAccuracy
+  alias_method :klinklangcrest_pbBaseAccuracy, :pbBaseAccuracy if !defined?(klinklangcrest_pbBaseAccuracy)
   def pbBaseAccuracy(baseacc, attacker, opponent)
     baseacc = klinklangcrest_pbBaseAccuracy(baseacc, attacker, opponent)
     return baseacc * 1.5 if [:KLINKLANG].include?(attacker.crested)
