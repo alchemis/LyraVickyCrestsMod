@@ -49,7 +49,6 @@ def lvc_changetospeedmode
       for mon in pbCombinedParty(pkmn.index) do
         remaining += 1 if mon && !mon.isEgg? && mon.hp > 0
       end
-      puts remaining
       if (!defined?(@lvc_musicchanged) || !@lvc_musicchanged) && remaining <= 6
         pbBGMPlay("Battle - Lonely Moon",position: 5, fadeIn: true)
         @lvc_musicchanged = true
