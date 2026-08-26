@@ -59,10 +59,9 @@ def lvc_changetospeedmode
       return if defined?(@lvc_speedmodeused) && @lvc_speedmodeused
       if pkmn
         if @state.effects[:TrickRoom] > 0 || !pkmn.pbOwnSide.effects[:Tailwind] || pkmn.pbOwnSide.effects[:Tailwind] == 0
-          trainer = pbGetOwner(pkmn.index)
+          trainer = @opponent[0] #pbGetOwner(pkmn.index) 
           ownername = trainer.name
-          opponent = @opponent.index(trainer)
-          @scene.pbShowOpponent(opponent)
+          @scene.pbShowOpponent(0)
           showtrainer = true
           pbDisplayAutoPaused(_INTL("<char>{1}: Let's speed this up, shall we?", ownername))
           @lvc_speedmodeused = true
@@ -195,7 +194,7 @@ ModCacheInjection.hook(:trainers) {
       4 => {
         :sprite => :None,
         :buffactivation => :Limited,
-        :abilitychangeMessage => _INTL("A sunbeam fell on Moltres! \\nMoltres' ability was changed!"),
+        :abilitychangeMessage => _INTL("A sunbeam shone on Moltres and changed its ability!"),
         :animation => :SPOTLIGHT,
         :abilitychange => :MEGASOL,
         :CustomMethod => "lvc_changetospeedmode",
@@ -265,7 +264,8 @@ ModCacheInjection.hook(:trainers) {
       {
         species: :GLIMMORA,
         level: 100,
-        moves: [:HURRICANE,:INJECTION,:ZAPCANNON,:RECYCLE],
+        form: 2,
+        moves: [:HURRICANE,:INJECTION,:ZAPCANNON,:SIGNALBEAM],
         item: :GLIMMORANITEA,
         ability: :DOWNLOAD,
         nature: :TIMID,
