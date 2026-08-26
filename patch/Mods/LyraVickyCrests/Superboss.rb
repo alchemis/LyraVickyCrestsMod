@@ -107,32 +107,32 @@ ModCacheInjection.hook(:trainers) {
         shiny: true,
         happiness: 255,
         ev: [252,0,0,252,0,0],
-        iv: 31,
+        iv: [31,31,31,31,31,0],
       },
       {
         species: :MAWILE,
         level: 100,
         moves: [:FLASHCANNON,:DRAININGKISS,:FIREBLAST,:ICEBEAM],
-        item: :MAWILITE,
-        ability: :INTIMIDATE,
+        item: :LVCMAWCREST,
+        ability: :SHEERFORCE,
         nature: :QUIET,
         shiny: false,
         happiness: 255,
         ev: [252,252,0,252,0,0],
-        iv: 31,
+        iv: [31,31,31,31,31,0],
       },
       {
         species: :MAGNEZONE,
         level: 100,
         moves: [:FLASHCANNON,:THUNDERBOLT,:BODYPRESS,:HIDDENPOWER],
         hptype: :FIRE,
-        item: :LIFEORB,
+        item: :MAGICALSEED,
         ability: :MAGNETPULL,
         nature: :QUIET,
         shiny: true,
         happiness: 255,
         ev: [4,0,252,252,0,0],
-        iv: 31,
+        iv: [31,31,31,31,31,0],
       },
       #tailwind side
       {
@@ -183,18 +183,9 @@ ModCacheInjection.hook(:trainers) {
         :CustomMethod => "lvc_bossinit",
       },
       1 => {
-        :buffactivation => :Limited,
-        :message => "<char>Lyra: Allow me to show you Mawile's true potential.",
-        :applyCrest => :MAWILE,
+        :buffactivation => :Always,
+        :applySwitchInAbility => :INTIMIDATE,
         
-      },
-      2 => {
-        :buffactivation => :Limited,
-        :abilitychangeMessage => "Magnezone is shining brightly!",
-        :abilitychange => :ILLUMINATE,
-        :pokemonEffect => {
-          :MagnetRise => [8, :MAGNETRISE, "{2} started floating in the air!"],
-        },
       },
       3 => {
         :sprite => :None,
@@ -204,7 +195,7 @@ ModCacheInjection.hook(:trainers) {
       4 => {
         :sprite => :None,
         :buffactivation => :Limited,
-        :abilitychangeMessage => "A sunbeam fell on Moltres! \\nMoltres' ability was changed!",
+        :abilitychangeMessage => _INTL("A sunbeam fell on Moltres! \\nMoltres' ability was changed!"),
         :animation => :SPOTLIGHT,
         :abilitychange => :MEGASOL,
         :CustomMethod => "lvc_changetospeedmode",
@@ -231,7 +222,7 @@ ModCacheInjection.hook(:trainers) {
         shiny: true,
         happiness: 255,
         ev: [252,0,252,0,0,0],
-        iv: 31,
+        iv: [31,31,31,31,31,0],
       },
       {
         species: :SABLEYE,
@@ -243,7 +234,7 @@ ModCacheInjection.hook(:trainers) {
         shiny: true,
         happiness: 255,
         ev: [252,0,4,0,252,0],
-        iv: 31,
+        iv: [31,31,31,31,31,0],
       },
       {
         species: :NECROZMA,
@@ -255,7 +246,7 @@ ModCacheInjection.hook(:trainers) {
         shiny: true,
         happiness: 255,
         ev: [252,0,4,252,0,0],
-        iv: 31,
+        iv: [31,31,31,31,31,0],
       },
       #tailwind side
       {
@@ -264,7 +255,7 @@ ModCacheInjection.hook(:trainers) {
         form: 1,
         moves: [:RADIANTCLAW,:CLOSECOMBAT,:FAKEOUT,:PROTECT],
         item: :FOCUSSASH,
-        ability: :SWORNDUTY,
+        ability: :WINDRIDER,
         nature: :JOLLY,
         shiny: true,
         happiness: 255,
@@ -275,8 +266,8 @@ ModCacheInjection.hook(:trainers) {
         species: :GLIMMORA,
         level: 100,
         moves: [:HURRICANE,:INJECTION,:ZAPCANNON,:RECYCLE],
-        item: :MAGICALSEED,
-        ability: :MEMORYLEAK,
+        item: :GLIMMORANITEA,
+        ability: :DOWNLOAD,
         nature: :TIMID,
         shiny: true,
         happiness: 255,
@@ -305,15 +296,13 @@ ModCacheInjection.hook(:trainers) {
       },
       3 => {
         :sprite => :None,
-        :buffactivation => :Limited,
+        :applySwitchInAbility => :SWORNDUTY,
+        :buffactivation => :Always,
         :CustomMethod => "lvc_changetospeedmode",
       },
       4 => {
         :sprite => :None,
         :buffactivation => :Limited,
-        :message => "Glimmora is reacting to Victory's Mega Ring!",
-        :applySwitchInAbility => :MEMORYLEAK,
-        :formchange => [3, "MegaEvolution"],
         :CustomMethod => "lvc_changetospeedmode",
       },
       5 => {
