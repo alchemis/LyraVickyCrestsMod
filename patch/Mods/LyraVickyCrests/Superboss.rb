@@ -207,6 +207,7 @@ ModCacheInjection.hook(:trainers) {
   $cache.trainers[:LVCVICTORY]["Victory"][0] = TeamData.new(0, ["Victory", :LVCVICTORY, 0], {
     :teamid => ["Victory", :LVCVICTORY, 0],
     :items => [:MEGARING],
+    :defeat => "VICTORY: ...",
     :mons => [
       #TR SIDE
       {
@@ -312,6 +313,26 @@ ModCacheInjection.hook(:trainers) {
    })
 }
 
+def lvc_givebossreward
+  poke=PokeBattle_Pokemon.new(:VICTINI,100)
+  poke.pbLearnMove(:VCREATE)
+  poke.pbLearnMove(:ICEBURN)
+  poke.pbLearnMove(:FREEZESHOCK)
+  poke.pbLearnMove(:VICTORYDANCE)
+  poke.item = :LVCVICCREST
+  poke.obtainText = _INTL("Somewhere far away.")
+  poke.makeShiny
+  pbAddPokemon(poke)
+  poke=PokeBattle_Pokemon.new(:JIRACHI,100)
+  poke.pbLearnMove(:DOOMDESIRE)
+  poke.pbLearnMove(:COSMICPOWER)
+  poke.pbLearnMove(:PSYCHIC)
+  poke.pbLearnMove(:WISH)
+  poke.obtainText = _INTL("Somewhere close by.")
+  poke.makeShiny
+  poke.item = :LVCRACHICREST
+  pbAddPokemon(poke)
+end
 
 InjectionHelper.defineMapPatch(674) { # Purgatorium
   createNewEvent(21, 23, "lvc boss", "lvcboss") { #down the stairs
@@ -332,24 +353,7 @@ InjectionHelper.defineMapPatch(674) { # Purgatorium
             branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",0,"",:LVCLYRA,"Lyra",0,"",true)'){
               text "???: Woah.."
               text "Two Pokeballs materialized from thin air!"
-              script 'poke=PokeBattle_Pokemon.new(:VICTINI,100,"Victory")
-              poke.pbLearnMove(:VCREATE)
-              poke.pbLearnMove(:ICEBURN)
-              poke.pbLearnMove(:FREEZESHOCK)
-              poke.pbLearnMove(:VICTORYDANCE)
-              poke.item = :LVCVICCREST
-              poke.obtainText = _INTL("Somewhere far away.")
-              poke.makeShiny
-              pbAddPokemon(poke)'
-              script 'poke=PokeBattle_Pokemon.new(:JIRACHI,100,"Lyra")
-              poke.pbLearnMove(:DOOMDESIRE)
-              poke.pbLearnMove(:COSMICPOWER)
-              poke.pbLearnMove(:PSYCHIC)
-              poke.pbLearnMove(:WISH)
-              poke.obtainText = _INTL("Somewhere close by.")
-              poke.makeShiny
-              poke.item = :LVCRACHICREST
-              pbAddPokemon(poke)'
+              script 'lvc_givebossreward'
               self_switch["A"] = true
             }
           }
@@ -380,24 +384,7 @@ InjectionHelper.defineMapPatch(639) { # Deux Finalis cathedral
             branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",0,"",:LVCLYRA,"Lyra",0,"",true)'){
               text "???: Woah.."
               text "Two Pokeballs materialized from thin air!"
-              script 'poke=PokeBattle_Pokemon.new(:VICTINI,100,"Victory")
-              poke.pbLearnMove(:VCREATE)
-              poke.pbLearnMove(:ICEBURN)
-              poke.pbLearnMove(:FREEZESHOCK)
-              poke.pbLearnMove(:VICTORYDANCE)
-              poke.item = :LVCVICCREST
-              poke.obtainText = _INTL("Somewhere close by.")
-              poke.makeShiny
-              pbAddPokemon(poke)'
-              script 'poke=PokeBattle_Pokemon.new(:JIRACHI,100,"Lyra")
-              poke.pbLearnMove(:DOOMDESIRE)
-              poke.pbLearnMove(:COSMICPOWER)
-              poke.pbLearnMove(:PSYCHIC)
-              poke.pbLearnMove(:WISH)
-              poke.obtainText = _INTL("Somewhere far away.")
-              poke.makeShiny
-              poke.item = :LVCRACHICREST
-              pbAddPokemon(poke)'
+              script 'lvc_givebossreward'
               self_switch["A"] = true
             }
           }
