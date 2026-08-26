@@ -12,31 +12,27 @@ ModCacheInjection.hook(:trainertypes) {
   skill: 100,
   moneymult: 40
 })
-class PokeBattle_AI
-  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
-    def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
-        partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
-        puts "ai hooked"
-        if defined?(@battle.state.effects[:lvc_superboss]) && @battle.state.effects[:lvc_superboss]
-          party = @battle.pbPartySingleOwner(@attacker.index)
-          for partyindex in 0...party.length
-                mon = party[partyindex]
-                if mon.ev[5] == 252 && @battle.state.effects[:TrickRoom] > 0
-                  partyscores[partyindex] -= 500
-                end
-          end
-          puts "Partycores adjusted, ignore log below"
-          puts "It's incorrect because of my stupid hook, here's the actual switchscores:"
-          puts partyscores
-        end
-        return partyscores
-    end
-end
 
 def lvc_bossinit
-  $battle.instance_eval{
-    puts "state set"
-    @state.effects[:lvc_superboss] = true
+  PokeBattle_AI.class_eval{  
+  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty #if !defined?(lvc_superbossgetSwitchInScoresParty)
+  def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
+      partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
+      puts "ai hooked"
+      if @battle.opponent.is_a?(Array) && !@battle.opponent.nil? && @battle.opponent[0].trainertype == :LVCVICTORY
+        party = @battle.pbPartySingleOwner(@attacker.index)
+        for partyindex in 0...party.length
+              mon = party[partyindex]
+              if mon.ev[5] == 252 && @battle.state.effects[:TrickRoom] > 0
+                partyscores[partyindex] -= 500
+              end
+        end
+        puts "Partycores adjusted, ignore log below"
+        puts "It's incorrect because of my stupid hook, here's the actual switchscores:"
+        puts partyscores
+      end
+      return partyscores
+  end
   }
 end
 
