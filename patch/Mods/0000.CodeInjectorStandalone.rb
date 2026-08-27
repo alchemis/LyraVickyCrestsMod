@@ -192,7 +192,7 @@ module CodeInjector
     Dir.mkdir(INJECTOR_LOG_PATH) unless Dir.exist?(INJECTOR_LOG_PATH)
     str_final = ""
     ##LYRA
-    args.each {|msg| puts "CodeInjector: " + msg }
+    args.each {|msg| puts "CodeInjector: #{msg}"}
     ##/LYRA
     args.each {|msg| str_final += msg.to_s + (msg == args[-1] ? "" : " ") }
     File.open(INJECTOR_LOG_PATH + "dev.out", "a+") { |f| f.write("#{str_final}\n") }

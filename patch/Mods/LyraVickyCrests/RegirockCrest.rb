@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:REGIROCK] = :LVCROCKCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCROCKCREST] = ItemData.new(:LVCROCKCREST, {
     name: "Regirock Crest",
-    desc: "Regice gains the Ghost typing and its Normal-type moves become Ghost-type. Physical moves use Defense.",
+    desc: "Resists Ghost and cannot be statused. Retailiates when hit by a physical move.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -13,38 +13,55 @@ ModCacheInjection.hook(:items) {
 }
 
 
-class PokeBattle_Move #ew, but should work without code injection
-  alias_method :rockcrest_pbCalcDamage, :pbCalcDamage if !defined?(rockcrest_pbCalcDamage)
-  def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
-    if attacker.crested == :REGIROCK
-        oldatk = attacker.attack.dup
-        oldatk_stages = attacker.stages[PBStats::ATTACK].dup
-        attacker.attack = attacker.defense
-        attacker.stages[PBStats::ATTACK] = attacker.stages[PBStats::DEFENSE]
+class PokeBattle_Battler
+  alias_method :rockcrest_pbCanStatus?, :pbCanStatus? if !defined?(rockcrest_pbCanStatus?)
+  def pbCanStatus?(attacker, move, ignorestatus: false, showMessage: false)
+    can_status = rockcrest_pbCanStatus?(attacker, move, ignorestatus: ignorestatus, showMessage: showMessage)
+    if self.crested == :REGIROCK && can_status && move.move != :REST
+      if showMessage
+        @battle.pbShowAbilityBox(self, item: true)
+        @battle.pbDisplay(_INTL("It doesn't affect\n{1}...", self.pbThis))
+        @battle.pbHideAbilityBox(self)
+      end
+      can_status = false
     end
-    damage = rockcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)  
-    if attacker.crested == :REGIROCK
-      attacker.attack = oldatk
-      attacker.stages[PBStats::ATTACK] = oldatk_stages
+    return can_status
+  end
+
+  alias_method :rockcrest_pbEffectTarget, :pbEffectTarget if !defined?(rockcrest_pbEffectTarget)
+  def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
+    if @move == :BRAILLEBURST
+      damage = opponent.lastHPLost
+      if damage > 0 && !opponent.damagestate.disguise
+        hpgain = (damage * 0.5).round
+        attacker.absorbHP(hpgain, opponent, :HPDrainingMove, self)
+      end
     end
-    return damage
+  end
+
+  alias_method :rockcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(rockcrest_pbEffectsOnDealingDamage)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+    if target.crested == :REGIROCK then
+      if move.pbIsPhysical?(user)
+        user.lastMoveUsed = move
+        @battle.pbShowAbilityBox(target, item:true)
+        target.pbUseMoveSimple(:BRAILLEBURST, target.index, user.index, danced: true)
+        @battle.pbHideAbilityBox(target)
+      end
+    end
+    return rockcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
   end
 end
 
-class PokeBattle_Battler
-    alias_method :rockcrest_crestStats, :crestStats if !defined?(rockcrest_crestStats)
-    def crestStats
-      if @crested == :REGIROCK
-        @type2 = :GHOST
-      end
-      rockcrest_crestStats
+class PokeBattle_Move
+  alias_method :rockcrest_irregularTypeMods, :irregularTypeMods if !defined?(rockcrest_irregularTypeMods)
+  def irregularTypeMods(attacker, opponent, typemod, type)
+    typemod = rockcrest_irregularTypeMods(attacker, opponent, typemod, type)
+    case opponent.crested
+      when :REGIROCK
+        typemod *= Typemod.half if [:GHOST].include?(type)
     end
+    return typemod
+  end
 end
 
-alias :rockcrest_pbCrestMoveTypeChange :pbCrestMoveTypeChange if !defined?(rockcrest_pbCrestMoveTypeChange)
-def pbCrestMoveTypeChange(species, form, item, type)
-    if species == :REGIROCK && item == :LVCROCKCREST && type == :NORMAL then 
-      return :GHOST
-    end
-    return rockcrest_pbCrestMoveTypeChange(species, form, item, type)
-end
