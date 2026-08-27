@@ -40,15 +40,15 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
         case attacker.species
         when :REGICE then @battle.pbAnimation(:ICEBEAM,attacker,opponent,hitnum)
         when :REGIROCK then @battle.pbAnimation(:ROCKBLAST,attacker,opponent,hitnum)
-        when :REGISTEEL then @battle.pbAnimation(:MIRRORBEAM,attacker,opponent,hitnum)
-        else @battle.pbAnimation(:MIRRORBEAM,attacker,opponent,hitnum)
+        when :REGISTEEL then @battle.pbAnimation(:MIRRORSHOT,attacker,opponent,hitnum)
+        else @battle.pbAnimation(:MIRRORSHOT,attacker,opponent,hitnum)
         end
       else
         @battle.pbAnimation(id,attacker,opponent,hitnum)
       end
     end
   end
-  
+
   alias_method :rockcrest_pbEffectTarget, :pbEffectTarget if !defined?(rockcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     if @move == :BRAILLEBURST

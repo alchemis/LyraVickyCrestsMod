@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:REGISTEEL] = :LVCSTEELCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCSTEELCREST] = ItemData.new(:LVCSTEELCREST, {
     name: "Registeel Crest",
-    desc: "Registeel is immune to status moves. Attacking moves use the respective defensive stat.",
+    desc: "Registeel is immune to status moves. Retaliates when hit by a move.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -15,6 +15,21 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Battler
+
+  alias_method :steelcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(steelcrest_pbEffectsOnDealingDamage)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+    if target.crested == :REGISTEEL then
+      if move.pbIsSpecial?(user) || move.pbIsPhysical?(user)
+        _m = user.lastMoveUsed.dup #temporarily store this just in case
+        user.lastMoveUsed = move
+        @battle.pbShowAbilityBox(target, item:true)
+        target.pbUseMoveSimple(:BRAILLEBURST, target.index, user.index, danced: true)
+        @battle.pbHideAbilityBox(target)
+        user.lastMoveUsed = _m
+      end
+    end
+    return steelcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+  end
 
   alias_method :steelcrest_pbSuccessCheck, :pbSuccessCheck if !defined?(steelcrest_pbSuccessCheck)
   def pbSuccessCheck(basemove, targets, flags, accuracy = true)
