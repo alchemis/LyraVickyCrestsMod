@@ -26,7 +26,7 @@ class PokeBattle_AI
   alias_method :viccrest_twoturncode, :twoturncode if !defined?(viccrest_twoturncode)
   def twoturncode
     miniscore = viccrest_twoturncode
-    miniscore *= 1.2 if @attacker.crested == :VICTINI
+    miniscore *= 1.5 if @attacker.crested == :VICTINI
     return miniscore
   end
 end

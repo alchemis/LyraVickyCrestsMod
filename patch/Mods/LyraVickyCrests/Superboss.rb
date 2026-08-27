@@ -548,7 +548,7 @@ def lvc_make_flicker(arr, amt, incl_real = false, chance: 50)
         for _ in 0..amt
             curr = item.dup()
             curr = curr.chars()
-            for i in 0..(curr.length)
+            for i in 0..(curr.length-1)
               curr[i] = flicker_chars.sample() if curr[i] != " " && chance > rand(99)
             end
             flicker_arr.push(curr.join)
@@ -557,6 +557,34 @@ def lvc_make_flicker(arr, amt, incl_real = false, chance: 50)
     return flicker_arr
 end
 
+#Boss reward stuff
+class PokemonSummaryScene
+    alias_method :lvc_drawPageOne, :drawPageOne if !defined?(lvc_drawPageOne)
+    def drawPageOne(pokemon)
+        if pokemon.flickerOT then
+          ot = pokemon.ot.dup
+          pokemon.ot = pokemon.getflickerOT(ot)
+        end
+        ret = lvc_drawPageOne(pokemon)
+        pokemon.ot = ot if defined?(ot)
+        return ret
+    end
+end
+class PokeBattle_Pokemon
+  attr_accessor :flickerOT
+  def getflickerOT(oot=@ot)
+    return @ot if !@flickerOT
+    @flickerOT[:timer] += 1
+    return @flickerOT[:display] if @flickerOT[:timer] < @flickerOT[:interval]
+    @flickerOT[:timer] = 0
+    if rand(100) < @flickerID[:weight]
+      @flickerOT[:display] = @flickerOT[:OTList].sample
+    else
+      @flickerOT[:display] = @ot
+    end
+    return @flickerOT[:display]
+  end
+end
 
 def lvc_givebossreward
   poke=PokeBattle_Pokemon.new(:VICTINI,100,$Trainer,false)
@@ -578,7 +606,7 @@ def lvc_givebossreward
   poke.flickerID =
   {
     :interval => 3,
-    :IDlist => [18365, 38470],
+    :IDlist => [40122, 20043],
     :weight => 100,
     :timer => 0,
     :display => poke.publicID,
@@ -591,8 +619,17 @@ def lvc_givebossreward
     :timer => 0,
     :display => poke.obtainText,
   }
-  poke.obtainText = _INTL("Somewhere close by.")
-  poke.fakeOT = true
+  #poke.fakeOT = true
+  poke.flickerOT = 
+  {
+    :interval => 4,
+    :OTList => lvc_make_flicker(["WISHMKR", "CHANNEL", "Lyra"], 10, chance: 10),
+    :weight => 80,
+    :timer => 0,
+    :display => poke.ot,
+  }
+  poke.obtainMode = 4
+  poke.obtainLevel = 5
   poke.makeShiny
   poke.item = :LVCRACHICREST
   pbAddPokemon(poke)
