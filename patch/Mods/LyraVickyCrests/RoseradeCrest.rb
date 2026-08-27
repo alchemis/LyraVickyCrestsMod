@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battler
-    alias rosecrest_crestStats crestStats if !defined?(rosecrest_crestStats)
+    alias_method :rosecrest_crestStats, :crestStats if !defined?(rosecrest_crestStats)
     def crestStats
       
       case @crested
@@ -25,7 +25,7 @@ class PokeBattle_Battler
       rosecrest_crestStats
     end
 
-    alias rosecrest_pbGetHitNumber pbGetHitNumber if !defined?(rosecrest_pbGetHitNumber)
+    alias_method :rosecrest_pbGetHitNumber, :pbGetHitNumber if !defined?(rosecrest_pbGetHitNumber)
     def pbGetHitNumber(basemove, norandomness: false)
         if self.crested == :ROSERADE then
           if [0x0C0, 0x307].include?(basemove.function) # Bullet Seed (and all other 2-5 multihits with no special effect), Scale Shot

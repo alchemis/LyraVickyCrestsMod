@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Battler
-  alias slakcrest_pbTryUseMove pbTryUseMove if !defined?(slakcrest_pbTryUseMove)
+  alias_method :slakcrest_pbTryUseMove, :pbTryUseMove if !defined?(slakcrest_pbTryUseMove)
   def pbTryUseMove(choice, basemove, flags = { passedtrying: false, instructed: false })
 
     if self.ability == :TRUANT && !@effects[:Truant] && self.crested == :SLAKING && self.status == :SLEEP

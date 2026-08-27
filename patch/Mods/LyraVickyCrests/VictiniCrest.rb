@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
   })
 }
 class PokeBattle_Move
-  alias viccrest_pbModifySTAB pbModifySTAB if !defined?(viccrestpbModifySTAB)
+  alias_method :viccrest_pbModifySTAB, :pbModifySTAB if !defined?(viccrestpbModifySTAB)
   def pbModifySTAB(stabmult, type, attacker, opponent)
     if attacker.crested == :VICTINI then
         stabmult += 0.5 if [:ICE, :ELECTRIC].include?(type)
@@ -21,12 +21,19 @@ class PokeBattle_Move
     return viccrest_pbModifySTAB(stabmult, type, attacker, opponent)
   end
 end
-
-
+#made the ai use victini crest
+class PokeBattle_AI
+  alias_method :viccrest_twoturncode, :twoturncode if !defined?(viccrest_twoturncode)
+  def twoturncode
+    miniscore = viccrest_twoturncode
+    miniscore *= 1.2 if @attacker.crested == :VICTINI
+    return miniscore
+  end
+end
 #Charge
 #message
 class PokeBattle_Battler
-    alias viccrest_pbUseMove pbUseMove if !defined?(viccrest_pbUseMove)
+    alias_method :viccrest_pbUseMove, :pbUseMove if !defined?(viccrest_pbUseMove)
     def pbUseMove(choice, flags = { danced: false, totaldamage: 0, specialusage: false, specialZ: false }) 
           user = self
           if user.crested == :VICTINI then
@@ -38,7 +45,7 @@ end
 
 #solarbeam
 class PokeBattle_Move_0C4 < PokeBattle_Move
-    alias viccrest_pbTwoTurnAttack pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
+    alias_method :viccrest_pbTwoTurnAttack, :pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
     def pbTwoTurnAttack(attacker)
       if attacker.effects[:TwoTurnAttack] == 0 && attacker.crested == :VICTINI then
         @immediate = true
@@ -51,7 +58,7 @@ end
 
 #bounce
 class PokeBattle_Move_0CC < PokeBattle_Move
-    alias viccrest_pbTwoTurnAttack pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
+    alias_method :viccrest_pbTwoTurnAttack, :pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
     def pbTwoTurnAttack(attacker)
       if attacker.effects[:TwoTurnAttack] == 0 && attacker.crested == :VICTINI then
         @immediate = true
@@ -64,7 +71,7 @@ end
 
 #freezeshock
 class PokeBattle_Move_0C5 < PokeBattle_Move
-    alias viccrest_pbTwoTurnAttack pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
+    alias_method :viccrest_pbTwoTurnAttack, :pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
     def pbTwoTurnAttack(attacker)
       if attacker.effects[:TwoTurnAttack] == 0 && attacker.crested == :VICTINI then
         @immediate = true
@@ -77,7 +84,7 @@ end
 
 #iceburn
 class PokeBattle_Move_0C6 < PokeBattle_Move
-    alias viccrest_pbTwoTurnAttack pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
+    alias_method :viccrest_pbTwoTurnAttack, :pbTwoTurnAttack if !defined?(viccrest_pbTwoTurnAttack)
     def pbTwoTurnAttack(attacker)
       if attacker.effects[:TwoTurnAttack] == 0 && attacker.crested == :VICTINI then
         @immediate = true

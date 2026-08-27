@@ -12,7 +12,7 @@ ModCacheInjection.hook(:items) {
   })
 }
 
-alias aurocrest_pbCrestMoveTypeChange pbCrestMoveTypeChange if !defined?(aurocrest_pbCrestMoveTypeChange)
+alias :aurocrest_pbCrestMoveTypeChange :pbCrestMoveTypeChange if !defined?(aurocrest_pbCrestMoveTypeChange)
 def pbCrestMoveTypeChange(species, form, item, type)
     if species == :AURORUS && item == :LVCAUROCREST && type == :ROCK then 
       return :DRAGON
@@ -22,7 +22,7 @@ def pbCrestMoveTypeChange(species, form, item, type)
 end
 
 class PokeBattle_Battle
-  alias aurocrest_pbCrestEntry pbCrestEntry if !defined?(aurocrest_pbCrestEntry)
+  alias_method :aurocrest_pbCrestEntry, :pbCrestEntry if !defined?(aurocrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
     aurocrest_pbCrestEntry(index, pokemon)
     battler = @battlers[index]
@@ -43,7 +43,7 @@ class PokeBattle_Battle
 end
 
 class PokeBattle_Battler
-    alias aurocrest_crestStats crestStats
+    alias_method :aurocrest_crestStats, :crestStats if !defined?(aurocrest_crestStats)
     def crestStats
       
       case @crested

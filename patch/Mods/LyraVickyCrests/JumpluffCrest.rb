@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battle
-  alias jmplffcrest_pbCrestEntry pbCrestEntry if !defined?(jmplffcrest_pbCrestEntry)
+  alias_method :jmplffcrest_pbCrestEntry, :pbCrestEntry if !defined?(jmplffcrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
     
     battler = @battlers[index]
@@ -45,7 +45,7 @@ class PokeBattle_Battle
 end
 
 class PokeBattle_Battler
-    alias jmplffcrest_crestStats crestStats
+    alias_method :jmplffcrest_crestStats, :crestStats if !defined?(jmplffcrest_crestStats)
     def crestStats
       
       case @crested

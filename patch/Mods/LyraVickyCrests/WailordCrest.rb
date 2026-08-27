@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battler
-    alias wailcrest_crestStats crestStats
+    alias_method :wailcrest_crestStats, :crestStats if !defined?(wailcrest_crestStats)
     def crestStats
       
       case @crested
@@ -24,7 +24,7 @@ class PokeBattle_Battler
       wailcrest_crestStats
     end
 
-    alias wailcrest_pbRecoverHP pbRecoverHP if !defined?(wailcrest_pbRecoverHP)
+    alias_method :wailcrest_pbRecoverHP, :pbRecoverHP if !defined?(wailcrest_pbRecoverHP)
     def pbRecoverHP(amt, anim = false, hpbaranim = true, message: nil, hpamt: amt)
       anim = anim
       hpbaranim = hpbaranim
@@ -36,7 +36,7 @@ class PokeBattle_Battler
       return ret
     end
 
-    alias wailcrest_pbReduceHP pbReduceHP if !defined?(wailcrest_pbReduceHP)
+    alias_method :wailcrest_pbReduceHP, :pbReduceHP if !defined?(wailcrest_pbReduceHP)
     def pbReduceHP(amt, anim = false, emercheck = true, message: nil)
         message = nil if !defined?(message)
         ret = wailcrest_pbReduceHP(amt, anim, emercheck, message: message)
@@ -46,7 +46,7 @@ class PokeBattle_Battler
         return ret
     end
 
-    alias wailcrest_pbEffectsOnDealingDamage pbEffectsOnDealingDamage if !defined?(wailcrest_pbEffectsOnDealingDamage)
+    alias_method :wailcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(wailcrest_pbEffectsOnDealingDamage)
     def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
       if target.crested and target.species == :WAILORD then
         target.pbUpdate() 

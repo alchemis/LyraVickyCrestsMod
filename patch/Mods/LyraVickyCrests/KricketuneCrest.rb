@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Move_083
-  alias krickcrest_pbBaseDamage pbBaseDamage if !defined?(krickcrest_pbBaseDamage)
+  alias_method :krickcrest_pbBaseDamage, :pbBaseDamage if !defined?(krickcrest_pbBaseDamage)
   def pbBaseDamage(basedmg, attacker, opponent)
     basedmg = krickcrest_pbBaseDamage(basedmg, attacker, opponent)
     for i in 0...@battle.battlers.length
@@ -28,7 +28,7 @@ class PokeBattle_Move_083
 end
 
 class PokeBattle_Move
-    alias krickcrest_pbCalcDamage pbCalcDamage if !defined?(krickcrest_pbCalcDamage)
+    alias_method :krickcrest_pbCalcDamage, :pbCalcDamage if !defined?(krickcrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
           if movetype then
             damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
@@ -53,7 +53,7 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battler
-  alias krickcrest_pbTryUseMove pbTryUseMove if !defined?(krickcrest_pbTryUseMove)
+  alias_method :krickcrest_pbTryUseMove, :pbTryUseMove if !defined?(krickcrest_pbTryUseMove)
   def pbTryUseMove(*args)
       ret = krickcrest_pbTryUseMove(*args)
       if self.crested == :KRICKETUNE && ret then

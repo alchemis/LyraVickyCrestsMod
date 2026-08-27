@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #look for crest in bag/trainer items instead
-    alias helixcrest_hasCrest? hasCrest? if !defined?(helixcrest_hasCrest?)
+    alias_method :helixcrest_hasCrest?, :hasCrest? if !defined?(helixcrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :OMASTAR then
           plates = [:INSECTPLATE,:DREADPLATE,:DRACOPLATE,:ZAPPLATE,:FISTPLATE,
@@ -30,7 +30,7 @@ class PokeBattle_Battler
         end
     end
     #type change
-    alias helixcrest_crestStats crestStats if !defined?(helixcrest_crestStats)
+    alias_method :helixcrest_crestStats, :crestStats if !defined?(helixcrest_crestStats)
     def crestStats
       
       if @crested == :OMASTAR
