@@ -60,7 +60,7 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
     end
   end
   def pbBaseDamage(basedmg, attacker, opponent)
-    return basedmg = (opponent.lastMoveUsed.basedamage/2.0).floor if @move == :BRAILLEBURST
+    return basedmg = max((opponent.lastMoveUsed.basedamage/2.0).floor, 5) if @move == :BRAILLEBURST
     return basedmg
   end
 
