@@ -540,24 +540,59 @@ ModCacheInjection.hook(:trainers) {
     }
    })
 }
+def lvc_make_flicker(arr, amt, incl_real = false, chance: 50)
+    flicker_arr = []
+    flicker_chars = ["$","#","!","%","/","=","+","&"]
+    for item in arr
+        flicker_arr.push(item) if incl_real
+        for _ in 0..amt
+            curr = item.dup()
+            curr = curr.chars()
+            for i in 0..(curr.length)
+              curr[i] = flicker_chars.sample() if curr[i] != " " && chance > rand(99)
+            end
+            flicker_arr.push(curr.join)
+        end
+    end
+    return flicker_arr
+end
 
 
 def lvc_givebossreward
-  poke=PokeBattle_Pokemon.new(:VICTINI,100)
+  poke=PokeBattle_Pokemon.new(:VICTINI,100,$Trainer,false)
   poke.pbLearnMove(:VCREATE)
   poke.pbLearnMove(:ICEBURN)
   poke.pbLearnMove(:FREEZESHOCK)
   poke.pbLearnMove(:VICTORYDANCE)
   poke.item = :LVCVICCREST
+  poke.ot = "Victory"
   poke.obtainText = _INTL("Somewhere far away.")
   poke.makeShiny
   pbAddPokemon(poke)
-  poke=PokeBattle_Pokemon.new(:JIRACHI,100)
+  poke=PokeBattle_Pokemon.new(:JIRACHI,100,$Trainer,false)
   poke.pbLearnMove(:DOOMDESIRE)
   poke.pbLearnMove(:COSMICPOWER)
   poke.pbLearnMove(:PSYCHIC)
   poke.pbLearnMove(:WISH)
+  poke.ot = "Lyra"
+  poke.flickerID =
+  {
+    :interval => 3,
+    :IDlist => [18365, 38470],
+    :weight => 100,
+    :timer => 0,
+    :display => poke.publicID,
+  }
+  poke.flickerLocation = 
+  {
+    :interval => 4,
+    :IDlist => lvc_make_flicker(["Purgatorium", "Deux Finalis", "Core Crown", "Xen Observatory", "Edge of My World", "Faraway place"], 10, chance: 50),
+    :weight => 100,
+    :timer => 0,
+    :display => poke.obtainText,
+  }
   poke.obtainText = _INTL("Somewhere close by.")
+  poke.fakeOT = true
   poke.makeShiny
   poke.item = :LVCRACHICREST
   pbAddPokemon(poke)
