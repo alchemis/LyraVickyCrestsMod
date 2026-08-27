@@ -28,25 +28,18 @@ class PokeBattle_Battler
     return can_status
   end
 
-  alias_method :rockcrest_pbEffectTarget, :pbEffectTarget if !defined?(rockcrest_pbEffectTarget)
-  def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
-    if @move == :BRAILLEBURST
-      damage = opponent.lastHPLost
-      if damage > 0 && !opponent.damagestate.disguise
-        hpgain = (damage * 0.5).round
-        attacker.absorbHP(hpgain, opponent, :HPDrainingMove, self)
-      end
-    end
-  end
+
 
   alias_method :rockcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(rockcrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.crested == :REGIROCK then
       if move.pbIsPhysical?(user)
+        _m = user.lastMoveUsed.dup #temporarily store this just in case
         user.lastMoveUsed = move
         @battle.pbShowAbilityBox(target, item:true)
         target.pbUseMoveSimple(:BRAILLEBURST, target.index, user.index, danced: true)
         @battle.pbHideAbilityBox(target)
+        user.lastMoveUsed = _m
       end
     end
     return rockcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
