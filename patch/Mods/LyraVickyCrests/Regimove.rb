@@ -6,14 +6,20 @@ ModCacheInjection.hook(:moves) {
     :function => 0x000, #no special effect
     :type => :QMARKS, #set later
     :category => :physical, #set later
-    :basedamage => 1, #set later
+    :basedamage => 5, #set later
     :accuracy => 100,
     :maxpp => 15,
     :target => :SingleNonUser,
     :contact => false,
   })
 }
-
+def lvc_useregimove(target,user,battle,move)
+    target.effects[:lvc_brailleburstBP] = (move.basedamage/2).round
+    battle.pbShowAbilityBox(target, item:true)
+    target.pbUseMoveSimple(:BRAILLEBURST, target.index, user.index, danced: true)
+    battle.pbHideAbilityBox(target)
+    target.effects[:lvc_brailleburstBP] = nil
+end
 class PokeBattle_Move_000 < PokeBattle_Move #No special effect
   alias_method :bb_pbOnStartUse, :pbOnStartUse if !defined?(bb_pbOnStartUse)
   def pbOnStartUse(attacker, targets)
@@ -60,7 +66,7 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
     end
   end
   def pbBaseDamage(basedmg, attacker, opponent)
-    return basedmg = max((opponent.lastMoveUsed.basedamage/2.0).floor, 5) if @move == :BRAILLEBURST
+    return basedmg =  [5, attacker.effects[:lvc_brailleburstBP] || 0].max if @move == :BRAILLEBURST
     return basedmg
   end
 

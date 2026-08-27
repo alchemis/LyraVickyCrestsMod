@@ -19,13 +19,8 @@ class PokeBattle_Battler
   alias_method :steelcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(steelcrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.crested == :REGISTEEL then
-      if move.pbIsSpecial?(user) || move.pbIsPhysical?(user)
-        _m = user.lastMoveUsed.dup #temporarily store this just in case
-        user.lastMoveUsed = move
-        @battle.pbShowAbilityBox(target, item:true)
-        target.pbUseMoveSimple(:BRAILLEBURST, target.index, user.index, danced: true)
-        @battle.pbHideAbilityBox(target)
-        user.lastMoveUsed = _m
+      if (move.pbIsSpecial?(user) || move.pbIsPhysical?(user)) && move.move != :BRAILLEBURST && !attackerNotPresent
+        lvc_useregimove(target,user,@battle,move) #defined in regimove.rb
       end
     end
     return steelcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
