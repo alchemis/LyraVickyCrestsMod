@@ -540,7 +540,7 @@ ModCacheInjection.hook(:trainers) {
     }
    })
 }
-def lvc_make_flicker(arr, amt, incl_real = false, chance: 50)
+def lvc_make_flicker(arr, amt, incl_real = false, chance: 50, use_all_chars: false)
     flicker_arr = []
     flicker_chars = ["$","#","!","%","/","=","+","&"]
     for item in arr
@@ -549,7 +549,8 @@ def lvc_make_flicker(arr, amt, incl_real = false, chance: 50)
             curr = item.dup()
             curr = curr.chars()
             for i in 0..(curr.length-1)
-              curr[i] = flicker_chars.sample() if curr[i] != " " && chance > rand(99)
+              curr[i] = flicker_chars.sample() if curr[i] != " " && chance > rand(99) && !use_all_chars
+              curr[i] = rand(33..126).chr if curr[i] != " " && chance > rand(99) && use_all_chars
             end
             flicker_arr.push(curr.join)
         end
@@ -566,7 +567,7 @@ class PokemonSummaryScene
           pokemon.ot = pokemon.getflickerOT(ot)
         end
         ret = lvc_drawPageOne(pokemon)
-        pokemon.ot = ot if defined?(ot)
+        pokemon.ot = ot if defined?(ot) && pokemon.flickerOT
         return ret
     end
 end
@@ -594,9 +595,35 @@ def lvc_givebossreward
   poke.pbLearnMove(:VICTORYDANCE)
   poke.item = :LVCVICCREST
   poke.ot = "Victory"
-  poke.obtainText = _INTL("Somewhere far away.")
+   poke.flickerID =
+  {
+    :interval => 3,
+    :IDlist => [12345],
+    :weight => 100,
+    :timer => 0,
+    :display => poke.publicID,
+  }
+  poke.flickerLocation = 
+  {
+    :interval => 2,
+    :IDlist => lvc_make_flicker(["Purgatorium", "Deux Finalis", "Core Crown", "Edge of My World", "Gearen Shop", "Liberty Garden"], 50, chance: 40, use_all_chars: true),
+    :weight => 100,
+    :timer => 0,
+    :display => poke.obtainText,
+  }
+  poke.flickerOT = 
+  {
+    :interval => 2,
+    :OTList => lvc_make_flicker(["M14", "MysGift", "Victory"], 50, chance: 30, use_all_chars: true),
+    :weight => 80,
+    :timer => 0,
+    :display => poke.ot,
+  }
+  poke.obtainMode = 4
+  poke.obtainLevel = 50
   poke.makeShiny
   pbAddPokemon(poke)
+  
   poke=PokeBattle_Pokemon.new(:JIRACHI,100,$Trainer,false)
   poke.pbLearnMove(:DOOMDESIRE)
   poke.pbLearnMove(:COSMICPOWER)
@@ -613,17 +640,16 @@ def lvc_givebossreward
   }
   poke.flickerLocation = 
   {
-    :interval => 4,
-    :IDlist => lvc_make_flicker(["Purgatorium", "Deux Finalis", "Core Crown", "Xen Observatory", "Edge of My World", "Faraway place"], 10, chance: 50),
+    :interval => 2,
+    :IDlist => lvc_make_flicker(["Purgatorium", "Deux Finalis", "Core Crown", "Xen Observatory", "Edge of My World", "Faraway place"], 50, chance: 40, use_all_chars: true),
     :weight => 100,
     :timer => 0,
     :display => poke.obtainText,
   }
-  #poke.fakeOT = true
   poke.flickerOT = 
   {
-    :interval => 4,
-    :OTList => lvc_make_flicker(["WISHMKR", "CHANNEL", "Lyra"], 10, chance: 10),
+    :interval => 2,
+    :OTList => lvc_make_flicker(["WISHMKR", "CHANNEL", "Lyra"], 50, chance: 30, use_all_chars: true),
     :weight => 80,
     :timer => 0,
     :display => poke.ot,
