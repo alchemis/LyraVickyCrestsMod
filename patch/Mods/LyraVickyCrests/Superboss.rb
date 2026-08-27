@@ -18,7 +18,6 @@ def lvc_bossinit
   alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
   def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
       partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
-      puts "ai hooked"
       if @battle.opponent.is_a?(Array) && !@battle.opponent.nil? && @battle.opponent[0].trainertype == :LVCVICTORY
         party = @battle.pbPartySingleOwner(@attacker.index)
         for partyindex in 0...party.length
@@ -38,6 +37,7 @@ end
 
 def lvc_changetospeedmode
     $battle.instance_eval{
+      
       pkmn = nil
       for i in @battlers
         if i.applyingEntryEffects && pbIsOpposing?(i.index)
@@ -310,7 +310,237 @@ ModCacheInjection.hook(:trainers) {
       },
     }
    })
+
+
+#harder versions, for renegade
+#changelog:
+#evs -> 252 where relevant
+#magnezone -> sturdy
+#TR duration -> 8
+  $cache.trainers[:LVCLYRA]["Lyra"][1] = TeamData.new(0, ["Lyra", :LVCLYRA, 0], {
+    :teamid => ["Lyra", :LVCLYRA, 0],
+    :defeat => "LYRA: Such power...",
+    :items => [:MEGARING],
+    :mons => [
+      { #tr side
+        species: :AURORUS,
+        level: 100,
+        moves: [:BLOODMOON,:POWERGEM,:THUNDERBOLT,:BLIZZARD],
+        item: :LVCAUROCREST,
+        ability: :REFRIGERATE,
+        nature: :QUIET,
+        shiny: true,
+        happiness: 255,
+        ev: [252,0,252,252,252,0],
+        iv: [31,31,31,31,31,0],
+      },
+      {
+        species: :MAWILE,
+        level: 100,
+        moves: [:FLASHCANNON,:DRAININGKISS,:FIREBLAST,:ICEBEAM],
+        item: :LVCMAWCREST,
+        ability: :SHEERFORCE,
+        nature: :QUIET,
+        shiny: false,
+        happiness: 255,
+        ev: [252,252,252,252,252,0],
+        iv: [31,31,31,31,31,0],
+      },
+      {
+        species: :MAGNEZONE,
+        level: 100,
+        moves: [:FLASHCANNON,:THUNDERBOLT,:BODYPRESS,:HIDDENPOWER],
+        hptype: :FIRE,
+        item: :MAGICALSEED,
+        ability: :STURDY,
+        nature: :QUIET,
+        shiny: true,
+        happiness: 255,
+        ev: [252,0,252,252,252,0],
+        iv: [31,31,31,31,31,0],
+      },
+      #tailwind side
+      {
+        species: :MEOWSCARADA,
+        level: 100,
+        moves: [:FLOWERTRICK,:SUCKERPUNCH,:TRIPLEAXEL,:FIRELASH],
+        item: :LIFEORB,
+        ability: :PROTEAN,
+        nature: :ADAMANT,
+        shiny: true,
+        happiness: 255,
+        ev: [252,252,252,252,252,252],
+        iv: 31,
+      },
+      {
+        species: :MOLTRES,
+        level: 100,
+        moves: [:HEATWAVE,:WEATHERBALL,:SOLARBEAM,:SCORCHINGSANDS],
+        item: :MAGICALSEED,
+        ability: :FLAMEBODY,
+        nature: :TIMID,
+        shiny: true,
+        happiness: 255,
+        ev: [252,0,252,252,252,252],
+        iv: 31,
+      },
+      {
+        species: :JIRACHI,
+        level: 100,
+        moves: [:DOOMDESIRE,:COSMICPOWER,:PSYCHIC,:WISH],
+        item: :LVCRACHICREST,
+        ability: :SERENEGRACE,
+        nature: :MODEST,
+        shiny: true,
+        happiness: 255,
+        ev: [252,0,252,252,252,252],
+        iv: 31,
+      },
+      ],
+    :trainereffect => {
+      :effectmode => :Party,
+       0 => {
+        :buffactivation => :Limited,
+        :stateChanges => {
+          :TrickRoom => [8, :TRICKROOM, "The dimensions were twisted!"],
+        },
+        :fieldChange => [:STARLIGHT, "<char>LYRA: You shouldn't have come here.", 0],
+        :CustomMethod => "lvc_bossinit",
+      },
+      1 => {
+        :buffactivation => :Always,
+        :applySwitchInAbility => :INTIMIDATE,
+        
+      },
+      3 => {
+        :sprite => :None,
+        :buffactivation => :Limited,
+        :CustomMethod => "lvc_changetospeedmode",
+      },
+      4 => {
+        :sprite => :None,
+        :buffactivation => :Limited,
+        :abilitychangeMessage => _INTL("A sunbeam shone on Moltres and changed its ability!"),
+        :animation => :SPOTLIGHT,
+        :abilitychange => :MEGASOL,
+        :CustomMethod => "lvc_changetospeedmode",
+      },
+      5 => {
+        :sprite => :None,
+        :buffactivation => :Limited,
+        :CustomMethod => "lvc_changetospeedmode",
+      },
+    }
+   })
+  $cache.trainers[:LVCVICTORY]["Victory"][0] = TeamData.new(0, ["Victory", :LVCVICTORY, 0], {
+    :teamid => ["Victory", :LVCVICTORY, 1],
+    :items => [:MEGARING],
+    :defeat => "VICTORY: ...",
+    :mons => [
+      #TR SIDE
+      {
+        species: :SHIINOTIC,
+        level: 100,
+        moves: [:DAZZLINGGLEAM,:SPORE,:POLLENPUFF,:STRENGTHSAP],
+        item: :SHIINCREST,
+        ability: :ILLUMINATE,
+        nature: :BOLD,
+        shiny: true,
+        happiness: 255,
+        ev: [252,0,252,252,252,0],
+        iv: [31,31,31,31,31,0],
+      },
+      {
+        species: :SABLEYE,
+        level: 100,
+        moves: [:KNOCKOFF,:ENCORE,:WILLOWISP,:MOONLIGHT],
+        item: :ROCKYHELMET,
+        ability: :PRANKSTER,
+        nature: :CALM,
+        shiny: true,
+        happiness: 255,
+        ev: [252,252,252,252,252,0],
+        iv: [31,31,31,31,31,0],
+      },
+      {
+        species: :NECROZMA,
+        level: 100,
+        moves: [:PHOTONGEYSER,:METEORBEAM,:HEATWAVE,:MOONLIGHT],
+        item: :ROOMSERVICE,
+        ability: :PRISMARMOR,
+        nature: :QUIET,
+        shiny: true,
+        happiness: 255,
+        ev: [252,0,252,252,252,0],
+        iv: [31,31,31,31,31,0],
+      },
+      #tailwind side
+      {
+        species: :SNEASLER,
+        level: 100,
+        form: 1,
+        moves: [:RADIANTCLAW,:CLOSECOMBAT,:FAKEOUT,:PROTECT],
+        item: :FOCUSSASH,
+        ability: :WINDRIDER,
+        nature: :JOLLY,
+        shiny: true,
+        happiness: 255,
+        ev: [252,252,252,252,252,252],
+        iv: 31,
+      },
+      {
+        species: :GLIMMORA,
+        level: 100,
+        form: 1,
+        moves: [:HURRICANE,:INJECTION,:ZAPCANNON,:SIGNALBEAM],
+        item: :GLIMMORANITEA,
+        ability: :DOWNLOAD,
+        nature: :TIMID,
+        shiny: true,
+        happiness: 255,
+        ev: [252,252,252,252,252,252],
+        iv: 31,
+      },
+      {
+        species: :VICTINI,
+        level: 100,
+        moves: [:FREEZESHOCK,:VICTORYDANCE,:VCREATE,:BOLTSTRIKE],
+        item: :LVCVICCREST,
+        ability: :VICTORYSTAR,
+        nature: :JOLLY,
+        shiny: true,
+        happiness: 255,
+        ev: [252,252,252,252,252,252],
+        iv: 31,
+      },
+    ],
+    :trainereffect => {
+      :effectmode => :Party,
+      2 => {
+        :buffactivation => :Limited,
+        :message => "Necrozma is bursting with power!",
+        :formchange => [3, "UltraBurst"],
+      },
+      3 => {
+        :sprite => :None,
+        :applySwitchInAbility => :SWORNDUTY,
+        :buffactivation => :Always,
+        :CustomMethod => "lvc_changetospeedmode",
+      },
+      4 => {
+        :sprite => :None,
+        :buffactivation => :Limited,
+        :CustomMethod => "lvc_changetospeedmode",
+      },
+      5 => {
+        :sprite => :None,
+        :buffactivation => :Limited,
+        :CustomMethod => "lvc_changetospeedmode",
+      },
+    }
+   })
 }
+
 
 def lvc_givebossreward
   poke=PokeBattle_Pokemon.new(:VICTINI,100)
@@ -349,7 +579,7 @@ InjectionHelper.defineMapPatch(674) { # Purgatorium
         show_choices {
           choice("No") {}
           choice("Yes") {
-            branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",0,"",:LVCLYRA,"Lyra",0,"",true)'){
+            branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",1,"",:LVCLYRA,"Lyra",1,"",true)'){ #call harder versions in renegade
               text "???: Woah.."
               text "Two Pokeballs materialized from thin air!"
               script 'lvc_givebossreward'
