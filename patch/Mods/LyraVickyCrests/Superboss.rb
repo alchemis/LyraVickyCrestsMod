@@ -317,8 +317,8 @@ ModCacheInjection.hook(:trainers) {
 #evs -> 252 where relevant
 #magnezone -> sturdy
 #TR duration -> 8
-  $cache.trainers[:LVCLYRA]["Lyra"][1] = TeamData.new(0, ["Lyra", :LVCLYRA, 0], {
-    :teamid => ["Lyra", :LVCLYRA, 0],
+  $cache.trainers[:LVCLYRA]["Lyra"][1] = TeamData.new(0, ["Lyra", :LVCLYRA, 1], {
+    :teamid => ["Lyra", :LVCLYRA, 1],
     :defeat => "LYRA: Such power...",
     :items => [:MEGARING],
     :mons => [
@@ -361,14 +361,14 @@ ModCacheInjection.hook(:trainers) {
       },
       #tailwind side
       {
-        species: :MEOWSCARADA,
+        species: :IRONVALIANT,
         level: 100,
-        moves: [:FLOWERTRICK,:SUCKERPUNCH,:TRIPLEAXEL,:FIRELASH],
-        item: :LIFEORB,
-        ability: :PROTEAN,
+        moves: [:WIDEGUARD,:VORPALBLADE,:CLOSECOMBAT,:KNOCKOFF],
+        item: :BOOSTERENERGY,
+        ability: :QUARKDRIVE,
         nature: :ADAMANT,
         shiny: true,
-        happiness: 255,
+        happiness: 0,
         ev: [252,252,252,252,252,252],
         iv: 31,
       },
@@ -432,7 +432,7 @@ ModCacheInjection.hook(:trainers) {
       },
     }
    })
-  $cache.trainers[:LVCVICTORY]["Victory"][0] = TeamData.new(0, ["Victory", :LVCVICTORY, 0], {
+  $cache.trainers[:LVCVICTORY]["Victory"][1] = TeamData.new(0, ["Victory", :LVCVICTORY, 1], {
     :teamid => ["Victory", :LVCVICTORY, 1],
     :items => [:MEGARING],
     :defeat => "VICTORY: ...",
