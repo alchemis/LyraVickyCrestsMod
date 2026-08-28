@@ -58,12 +58,9 @@ class PokeBattle_Move
   alias_method :greedcrest_irregularTypeMods, :irregularTypeMods if !defined?(greedcrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = greedcrest_irregularTypeMods(attacker, opponent, typemod, type)
-    case opponent.crested
-      when :GREEDENT && defined?(opponent.effects[:lvc_greedcrest_berry]) && opponent.effects[:lvc_greedcrest_berry] && pbNaturalGiftType(opponent.effects[:lvc_greedcrest_berry]) != :NORMAL
-        puts "evaluating type: #{pbNaturalGiftType(opponent.effects[:lvc_greedcrest_berry])}"
+    if opponent.crested == :GREEDENT && defined?(opponent.effects[:lvc_greedcrest_berry] ) && opponent.effects[:lvc_greedcrest_berry] && pbNaturalGiftType(opponent.effects[:lvc_greedcrest_berry]) != :NORMAL
         typemod *= Typemod.half if PBTypes.oneTypeEff(type, pbNaturalGiftType(opponent.effects[:lvc_greedcrest_berry]), inverse: @battle.inverse?).resisted?
         typemod = Typemod.zero if PBTypes.oneTypeEff(type, pbNaturalGiftType(opponent.effects[:lvc_greedcrest_berry]), inverse: @battle.inverse?).immune?
-        puts "typemod: #{typemod}"
     end
     return typemod
   end
