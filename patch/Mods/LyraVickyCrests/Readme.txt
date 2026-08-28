@@ -48,5 +48,9 @@ What does Exploud crest do?
         ● Parting Shot lowers the target's Attack and Special Attack by 2 stages.
         ● Screech lowers the target's Defense by 3 stages.
 
+What type resistances does Greedent crest grant?
+    It grants the resistances of the berry's Type according to this table: https://bulbapedia.bulbagarden.net/wiki/Natural_Gift_(move)
+    i.e. if you eat a Sitrus Berry you gain Psychic type resistances.
+
 What does Broken Halo do?
     Turns Gardevoir into a Dark/Fairy type, it's Psychic moves become Dark and allows it to Mega Evolve if you have a Gardevoirite in your bag.
