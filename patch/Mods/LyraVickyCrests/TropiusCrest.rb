@@ -72,3 +72,14 @@ class PokeBattle_Move
     end
 
 end
+#make the ai aware of it, not of the spread effect
+class PokeBattle_AI
+    alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !defined?(tropcrest_pbTypeModNoMessages)
+    def pbTypeModNoMessages(type = @move.type, attacker = @attacker, opponent = @opponent, move = @move, skill = @mondata.skill)
+      typemod = tropcrest_pbTypeModNoMessages(type, attacker, opponent, move, skill)
+      if skill >= HIGHSKILL && type == :ICE
+          typemod = Typemod.half * Typemod.half  * Typemod.half if opponent.crested == :TROPIUS && @battle.pbWeather(opponent) == :SUNNYDAY
+      end
+      return typemod
+    end
+end
