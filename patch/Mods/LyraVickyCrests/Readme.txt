@@ -1,4 +1,6 @@
 Created by Lyra and Victory4T
+cache injection library by wiresegal
+code injection library by birb (@birblett)
 Maractus spritework by nave
 FAQ:
 How do I report a bug?
