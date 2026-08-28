@@ -21,9 +21,6 @@ def pbCrestMoveTypeChange(species, form, item, type)
     return tyracrest_pbCrestMoveTypeChange(species, form, item, type)
 end
 
-class PokeBattle_Battle
-
-end
 
 class PokeBattle_Battler
     alias_method :tyracrest_crestStats, :crestStats if !defined?(tyracrest_crestStats)

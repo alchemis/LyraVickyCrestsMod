@@ -21,13 +21,12 @@ def lvc_useregimove(target,user,battle,move)
     target.effects[:lvc_brailleburstBP] = nil
 end
 class PokeBattle_Move_000 < PokeBattle_Move #No special effect
-  alias_method :bb_pbOnStartUse, :pbOnStartUse if !defined?(bb_pbOnStartUse)
   def pbOnStartUse(attacker, targets)
     if @move == :BRAILLEBURST
       moldBrokenArray = [0, 1, 2, 3].map { |index| @battle.battlers[index].moldbroken }
       @category = self.smartDamageCategory(attacker, targets[0], moldBrokenArray: moldBrokenArray)
       return true
-    else return bb_pbOnStartUse(attacker,targets)
+    else super(attacker,targets)
     end
   end
 
@@ -55,7 +54,6 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
     end
   end
 
-  alias_method :rockcrest_pbEffectTarget, :pbEffectTarget if !defined?(rockcrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     if @move == :BRAILLEBURST
       damage = opponent.lastHPLost
@@ -70,9 +68,8 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
     return basedmg
   end
 
-  alias_method :bb_pbType, :pbType if !defined?(bb_pbType)
-  def pbType(attacker, type = @type)
+  def pbType(attacker)
     return attacker.type1 if @move == :BRAILLEBURST && (attacker.species == :REGIROCK || attacker.species == :REGICE || attacker.species == :REGISTEEL)
-    return bb_pbType(attacker, type = @type)
+    return super(attacker)
   end
 end
