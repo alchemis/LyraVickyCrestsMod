@@ -63,8 +63,8 @@ end #battler.effects[:lvc_targetting_tropcrest] = nil
 
 class PokeBattle_Move
     alias_method :tropcrest_pbType, :pbType if !defined?(tropcrest_pbType)
-    def pbType(battler)
-      type = tropcrest_pbType(battler)
+    def pbType(attacker, type = @type)
+      type = tropcrest_pbType(attacker, type)
       if defined?(battler.effects[:lvc_targetting_tropcrest]) && battler.effects[:lvc_targetting_tropcrest] && type == :ICE
         type = :WATER
       end

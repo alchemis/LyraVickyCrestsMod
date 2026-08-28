@@ -68,7 +68,7 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
     return basedmg
   end
 
-  def pbType(attacker)
+  def pbType(attacker, type = @type)
     return attacker.type1 if @move == :BRAILLEBURST && (attacker.species == :REGIROCK || attacker.species == :REGICE || attacker.species == :REGISTEEL)
     return super(attacker)
   end
