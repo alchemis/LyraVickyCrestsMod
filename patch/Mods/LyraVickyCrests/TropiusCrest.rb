@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:TROPIUS] = :LVCTROPCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCTROPCREST] = ItemData.new(:LVCTROPCREST, {
     name: "Tropius Crest",
-    desc: "Tropius gains the Dragon-Type on entry, also its offenses are boosted. In Sun, Ice-type moves become Water.",
+    desc: "Tropius gains the Dragon-Type on entry and incoming Ice moves become Water in the Sun. Boosts offenses and Speed.",
     price: 0,
     crest: true,
     noUseInBattle: true,
