@@ -1,6 +1,7 @@
 Created by Lyra and Victory4T
 cache injection library by wiresegal
 code injection library by birb (@birblett)
+Gardevoir sprites by discord users @omartherobot. , @__carbuncle and reddit user XeonTheHedgehog
 Maractus spritework by nave
 FAQ:
 How do I report a bug?

@@ -319,6 +319,93 @@ lvc_getTrainer(["Ren", :OUTCAST, 0]).party[0] =
         :iv => 31,
         :ev => [4, 252, 0, 0, 0, 252],
       }
+
+#gdc ren
+lvc_getTrainer(["Ren", :OUTCAST, 13]).party[2] = 
+      {
+        :species => :MARACTUS,
+        :level => 90,
+        :item => :LVCMARACREST,
+        :moves => [:DESERTDANCE, :PETALBLIZZARD, :SUCKERPUNCH, :POISONJAB],
+        :ability => :SANDRUSH,
+        :gender => :F,
+        :form => 1,
+        :nature => :JOLLY,
+        :iv => 31,
+        :ev => [4, 252, 0, 0, 0, 252],
+      }
+#gdc ren 2
+lvc_getTrainer(["Ren", :OUTCAST, 9]).party[3] = 
+      {
+        :species => :MARACTUS,
+        :level => 89,
+        :item => :LVCMARACREST,
+        :moves => [:DESERTDANCE, :PETALBLIZZARD, :SUCKERPUNCH, :POISONJAB],
+        :ability => :SANDRUSH,
+        :gender => :F,
+        :form => 1,
+        :nature => :JOLLY,
+        :iv => 31,
+        :ev => [4, 252, 0, 0, 0, 252],
+      }
+
+#multibattle ren
+lvc_getTrainer(["Ren", :OUTCAST, 4]).party[1] = 
+      {
+        :species => :MARACTUS,
+        :level => 85,
+        :item => :LVCMARACREST,
+        :moves => [:DESERTDANCE, :PETALBLIZZARD, :SUCKERPUNCH, :POISONJAB],
+        :ability => :SANDRUSH,
+        :gender => :F,
+        :form => 1,
+        :nature => :JOLLY,
+        :iv => 31,
+        :ev => [4, 252, 0, 0, 0, 252],
+        # flavor data
+        :obtaintype => 3,
+        :catchlevel => 37,
+        :catchmap => 373, # Zorrialyn Desert
+        :catchtime => [0, 10, 5],
+      }
+#multibattle ren 2
+lvc_getTrainer(["Ren", :OUTCAST, 2]).party[3] = 
+      {
+        :species => :MARACTUS,
+        :level => 83,
+        :item => :LVCMARACREST,
+        :moves => [:DESERTDANCE, :PETALBLIZZARD, :SUCKERPUNCH, :POISONJAB],
+        :ability => :SANDRUSH,
+        :gender => :F,
+        :form => 1,
+        :nature => :JOLLY,
+        :iv => 31,
+        :ev => [4, 252, 0, 0, 0, 252],
+        # flavor data
+        :obtaintype => 3,
+        :catchlevel => 37,
+        :catchmap => 373, # Zorrialyn Desert
+        :catchtime => [0, 10, 5],
+      }
+
+#rene ren??
+lvc_getTrainer(["Ren", :OUTCAST, 8]).party[2] = 
+      {
+        :species => :MARACTUS,
+        :level => 89,
+        :item => :LVCMARACREST,
+        :moves => [:DESERTDANCE, :PETALBLIZZARD, :SUCKERPUNCH, :POISONJAB],
+        :ability => :SANDRUSH,
+        :gender => :F,
+        :form => 1,
+        :nature => :JOLLY,
+        :iv => 31,
+        :ev => [4, 252, 0, 0, 0, 252],
+      }
+
+
+
+
 }
 
 
