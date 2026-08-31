@@ -504,7 +504,8 @@ ModCacheInjection.hook(:trainers) {
       {
         species: :VICTINI,
         level: 100,
-        moves: [:FREEZESHOCK,:VICTORYDANCE,:VCREATE,:BOLTSTRIKE],
+        form: 1,
+        moves: [:FREEZESHOCK,:VICTORYDANCE,:VDEVASTATE,:BOLTSTRIKE],
         item: :LVCVICCREST,
         ability: :VICTORYSTAR,
         nature: :JOLLY,
