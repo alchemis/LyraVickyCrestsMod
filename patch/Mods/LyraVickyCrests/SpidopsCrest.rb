@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:SPIDOPS] = :LVCSPIDCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCSPIDCREST] = ItemData.new(:LVCSPIDCREST, {
     name: "Spidops Crest",
-    desc: "Spidops sets Sticky Webs on entry, also it deals extra damage when it moves first.",
+    desc: "Spidops sets Sticky Webs on entry and its moves do double damage when moving first.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -33,7 +33,7 @@ class PokeBattle_Move
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
     damage = spidopscrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       case attacker.crested
-        when :SPIDOPS then damage *= 1.5 if (!opponent.hasMovedThisRound? || @battle.switchedOut[opponent.index])
+        when :SPIDOPS then damage *= 2 if (!opponent.hasMovedThisRound? || @battle.switchedOut[opponent.index])
       end
     return damage.floor
     end
