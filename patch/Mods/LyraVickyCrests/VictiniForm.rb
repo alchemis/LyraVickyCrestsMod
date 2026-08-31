@@ -24,26 +24,32 @@ ModCacheInjection.hook(:moves) {
     :function => 0x309, #SHELL SIDE ARM
     :type => :FAIRY,
     :category => :physical,
-    :basedamage => 140,
-    :accuracy => 85,
+    :basedamage => 180,
+    :accuracy => 100,
     :maxpp => 16,
     :target => :SingleNonUser,
     :contact => false,
-    :dancemove => true
+    # :dancemove => true #NO
   })
 
 }
 
 class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
-
+  alias_method :vicform_pbShowAnimation, :pbShowAnimation if !defined?(vicform_pbShowAnimation)
   def pbShowAnimation(id,attacker,opponent,hitnum=0,alltargets=nil,showanimation=true)
-    alias_method :vicform_pbShowAnimation, :pbShowAnimation if !defined?(vicform_pbShowAnimation)
     if showanimation
       if id == :VDEVASTATE
         @battle.pbAnimation(:JUDGMENTFAIRY,attacker,opponent,hitnum)
       else
         vicform_pbShowAnimation(id,attacker,opponent,hitnum,alltargets,showanimation)
       end
+    end
+  end
+  alias_method :vicform_pbEffect, :pbEffect if !defined?(vicform_pbEffect)
+  def pbEffect(attacker, alltargets, hitnum = 0)
+    if @move == :VDEVASTATE
+      attacker.pbChangeStats([PBStats::DEFENSE, PBStats::SPDEF, PBStats::SPEED], -1, attacker, self, abilitycheck: :hide)
+    else return vicform_pbEffect(attacker,alltargets,hitnum)
     end
   end
 end

@@ -588,9 +588,10 @@ class PokeBattle_Pokemon
   end
 end
 
-def lvc_givebossreward
+def lvc_givebossreward(rene = false)
   poke=PokeBattle_Pokemon.new(:VICTINI,100,$Trainer,false)
-  poke.pbLearnMove(:VCREATE)
+  poke.changeform(1) if rene
+  poke.pbLearnMove(rene ? :VDEVASTATE : :VCREATE)
   poke.pbLearnMove(:ICEBURN)
   poke.pbLearnMove(:FREEZESHOCK)
   poke.pbLearnMove(:VICTORYDANCE)
@@ -681,7 +682,7 @@ InjectionHelper.defineMapPatch(674) { # Purgatorium
             branch('pbDoubleTrainerBattle(:LVCVICTORY,"Victory",1,"",:LVCLYRA,"Lyra",1,"",true)'){ #call harder versions in renegade
               text "???: Woah.."
               text "Two Pokeballs materialized from thin air!"
-              script 'lvc_givebossreward'
+              script 'lvc_givebossreward(true)'
               self_switch["A"] = true
             }
           }

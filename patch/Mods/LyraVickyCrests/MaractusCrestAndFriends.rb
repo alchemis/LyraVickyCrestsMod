@@ -45,12 +45,12 @@ class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
 
   alias_method :maracrest_pbAdditionalEffect, :pbAdditionalEffect if !defined?(maracrest_pbAdditionalEffect)
   def pbAdditionalEffect(attacker, opponent)
-    return maracrest_pbAdditionalEffect if @move != :DESERTDANCE
+    return maracrest_pbAdditionalEffect(attacker, opponent) if @move != :DESERTDANCE
   end
 
   alias_method :maracrest_pbAdditionalEffectSelf, :pbAdditionalEffectSelf if !defined?(maracrest_pbAdditionalEffectSelf)
   def pbAdditionalEffectSelf(attacker)
-    return maracrest_pbAdditionalEffectSelf if @move != :DESERTDANCE
+    return maracrest_pbAdditionalEffectSelf(attacker) if @move != :DESERTDANCE
     amount = 1
     if attacker.attack > attacker.spatk then
       stat = PBStats::ATTACK
