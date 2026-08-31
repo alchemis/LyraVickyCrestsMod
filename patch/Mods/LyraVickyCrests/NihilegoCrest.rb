@@ -30,14 +30,16 @@ class PokeBattle_Battle
     end
 end
 
+
 #lots of codeinjection
+
 #leechseed
-CodeInjector.insert_in_method_before(:PokeBattle_Battle,:pbEndOfRoundPhase, "hploss = i.pbReduceHP(hploss, true, message: _INTL(\"{1}'s health is sapped by {2}!\", i.pbThis, getMoveName(:LEECHSEED)))",
+CodeInjector.insert_in_method_before(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = i.pbReduceHP(hploss, true, message: _INTL(\"{1}'s health is sapped by {2}!\", i.pbThis, getMoveName(:LEECHSEED)))",
  "hploss = (hploss * i.effects[:Toxic]).floor if i.status == :POISON && i.statusCount > 0 && lvc_istherenihicrest?(i)
  lvc_nihiheal(hploss/2,i)"
 )
 #partially trapping moves
-CodeInjector.replace_in_method(:PokeBattle_Battle,:pbEndOfRoundPhase, "i.pbReduceHP((i.totalhp / binddiv).floor, true, message: _INTL(\"{1} is hurt by {2}!\", i.pbThis, movename))",
+CodeInjector.replace_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "i.pbReduceHP((i.totalhp / binddiv).floor, true, message: _INTL(\"{1} is hurt by {2}!\", i.pbThis, movename))",
  "hploss = (i.totalhp / binddiv).floor
  hploss = (hploss * i.effects[:Toxic]).floor if i.status == :POISON && i.statusCount > 0 && lvc_istherenihicrest?(i)
  lvc_nihiheal((i.totalhp / binddiv)/2,i)
@@ -45,14 +47,14 @@ CodeInjector.replace_in_method(:PokeBattle_Battle,:pbEndOfRoundPhase, "i.pbReduc
 )
 
 #poison
-CodeInjector.insert_in_method_before(:PokeBattle_Battle,:pbEndOfRoundPhase, "(i.totalhp / 16.0).floor * i.effects[:Toxic] if i.statusCount > 0",
+CodeInjector.insert_in_method_before(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = (i.totalhp / 16.0).floor * i.effects[:Toxic] if i.statusCount > 0",
  "lvc_nihiheal(hploss/2,i)"
 )
 #burn
-CodeInjector.insert_in_method_before(:PokeBattle_Battle,:pbEndOfRoundPhase, "hploss = (i.totalhp / 32.0).floor if i.ability == :HEATPROOF || @field.effect == :ICY",
+CodeInjector.insert_in_method_before(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = (i.totalhp / 32.0).floor if i.ability == :HEATPROOF || @field.effect == :ICY",
  "lvc_nihiheal(hploss/2,i)"
 )
 #petrification
-CodeInjector.insert_in_method_before(:PokeBattle_Battle,:pbEndOfRoundPhase, "hploss = i.pbReduceHP(hploss, true) if fairyAura.none? # late message",
+CodeInjector.insert_in_method_before(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = i.pbReduceHP(hploss, true) if fairyAura.none?",
  "lvc_nihiheal(hploss/2,i)"
 )

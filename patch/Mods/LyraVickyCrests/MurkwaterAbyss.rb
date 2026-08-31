@@ -234,21 +234,7 @@ $cache.FEData[:MURKWATERABYSS] = lvc_makefield({
 )}
 TOTALFIELDS += 1 #add this when field notes
 FieldIDToSym[99] = :MURKWATERABYSS
-#ended up doing this in an inject below
-# class PokeBattle_Move
-#   alias_method :murkabyss_pbTypeModifier, :pbTypeModifier if !defined?(murkabyss_pbTypeModifier)
-#     def pbTypeModifier(atype, attacker, opponent)
-#         typemod = murkabyss_pbTypeModifier(atype, attacker, opponent)
-#         opptypes = opponent.types
-#         opptypes.each do |opptype|
-#           if @battle.FE == :MURKWATERABYSS
-#               typemod = Typemod.normal if [:STEEL, :ROCK].include?(opptype) && atype == :POISON
-#               typemod = Typemod.normal if opptype == :WATER && atype == :WATER
-#           end
-#         end
-#         return typemod
-#     end
-# end
+
 
 class PokeBattle_Battle
   alias_method :murkabyss_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(murkabyss_pbEndOfRoundPhase)
