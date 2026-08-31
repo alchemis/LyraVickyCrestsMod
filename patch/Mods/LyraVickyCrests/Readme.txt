@@ -1,5 +1,5 @@
 Created by Lyra and Victory4T
-cache injection library by wiresegal
+cache injection library by @wiresegal https://github.com/yrsegal/rejuvenation-modpack/, correct version bundled with this release because of version issues
 code injection library by birb (@birblett)
 Gardevoir sprites by discord users @omartherobot. , @__carbuncle and reddit user XeonTheHedgehog
 Maractus spritework by nave
