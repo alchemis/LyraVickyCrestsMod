@@ -286,7 +286,7 @@ class PokeBattle_Battler
         return if @applyingEntryEffects
       end
       ret = murkabyss_pbAbilitiesOnField(delayStatChangeChecks, applySwitchInAbility: applySwitchInAbility)
-      if !hasType?(:POISON) && @ability != :PASTELVEIL && @ability != :POISONHEAL && @ability != :IMMUNITY && @battle.FE = :MURKWATERABYSS
+      if !hasType?(:POISON) && @ability != :PASTELVEIL && @ability != :POISONHEAL && @ability != :IMMUNITY && @battle.FE == :MURKWATERABYSS
         if pbCanReduceStatStage?(PBStats::SPDEF, self, self, showMessage: false)
           @battle.pbDisplay(_INTL("The abyss corrodes {1}'s defenses!", pbThis))
           pbChangeStats(PBStats::SPDEF, -1, self, self, abilitycheck: :skip)
