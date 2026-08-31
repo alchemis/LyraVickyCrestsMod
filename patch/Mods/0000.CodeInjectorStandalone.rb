@@ -334,40 +334,45 @@ module CodeInjector
       $code_injector_aggressive_cache.each { |clazz, source| clazz.class_eval(source) }
       CodeInjector.log("aggressive insertion cache compile time:", Time.now - t)
     else
-      $code_injector_aggressive_cache = $code_injector_cache_enabled ? {} : nil
-      CodeInjector::EVENT_ON_PLAY.sort! { |a, b| b[1] <=> a[1]}
-      CodeInjector::EVENT_ON_SAVE.sort! { |a, b| b[1] <=> a[1]}
-      insertions = Time.now
-      CodeInjector::PENDING_PRE_INSERTIONS.sort! { |a, b| b[6] <=> a[6]}
-      CodeInjector::PENDING_PRE_INSERTIONS.each { |pending| CodeInjector.insert_in_method_internal(pending[0], pending[1], pending[2], pending[3], pending[4], pending[5]) }
-      CodeInjector::PENDING_INSERTIONS.sort! { |a, b| b[6] <=> a[6]}
-      CodeInjector::PENDING_INSERTIONS.each { |pending| CodeInjector.insert_in_method_internal(pending[0], pending[1], pending[2], pending[3], pending[4], pending[5]) }
-      deletions = Time.now
-      CodeInjector::PENDING_DELETIONS.sort! { |a, b| b[4] <=> a[4]}
-      CodeInjector::PENDING_DELETIONS.each { |pending| CodeInjector.delete_in_method_internal(pending[0], pending[1], pending[2], pending[3]) }
-      method_mods = Time.now
-      CodeInjector::METHOD_MODS.each do |clazz, methods|
-        $code_injector_source = ""
-        methods.each do |m, ref|
-          ref[:CODE].each do |num, line|
-            $code_injector_source += line + "\n" unless ref[:DELETE] and ref[:DELETE][num]
-            unless ref[:INJECT].nil?
-              ref[:INJECT][-1].each { |injected| $code_injector_source += injected + "\n" } if num == 0 unless ref[:INJECT][-1].nil?
-              ref[:INJECT][num].each { |injected| $code_injector_source += injected + "\n" } unless ref[:INJECT][num].nil?
-              ref[:INJECT][-2].each { |injected| $code_injector_source += injected + "\n" } if num == ref[:CODE].length - 2 unless ref[:INJECT][-2].nil?
+      begin
+        stderr_old, $stderr = $stderr, File.new(ENV['OS'] ? 'NUL' : '/dev/null', 'w')
+          $code_injector_aggressive_cache = $code_injector_cache_enabled ? {} : nil
+          CodeInjector::EVENT_ON_PLAY.sort! { |a, b| b[1] <=> a[1]}
+          CodeInjector::EVENT_ON_SAVE.sort! { |a, b| b[1] <=> a[1]}
+          insertions = Time.now
+          CodeInjector::PENDING_PRE_INSERTIONS.sort! { |a, b| b[6] <=> a[6]}
+          CodeInjector::PENDING_PRE_INSERTIONS.each { |pending| CodeInjector.insert_in_method_internal(pending[0], pending[1], pending[2], pending[3], pending[4], pending[5]) }
+          CodeInjector::PENDING_INSERTIONS.sort! { |a, b| b[6] <=> a[6]}
+          CodeInjector::PENDING_INSERTIONS.each { |pending| CodeInjector.insert_in_method_internal(pending[0], pending[1], pending[2], pending[3], pending[4], pending[5]) }
+          deletions = Time.now
+          CodeInjector::PENDING_DELETIONS.sort! { |a, b| b[4] <=> a[4]}
+          CodeInjector::PENDING_DELETIONS.each { |pending| CodeInjector.delete_in_method_internal(pending[0], pending[1], pending[2], pending[3]) }
+          method_mods = Time.now
+          CodeInjector::METHOD_MODS.each do |clazz, methods|
+            $code_injector_source = ""
+            methods.each do |m, ref|
+              ref[:CODE].each do |num, line|
+                $code_injector_source += line + "\n" unless ref[:DELETE] and ref[:DELETE][num]
+                unless ref[:INJECT].nil?
+                  ref[:INJECT][-1].each { |injected| $code_injector_source += injected + "\n" } if num == 0 unless ref[:INJECT][-1].nil?
+                  ref[:INJECT][num].each { |injected| $code_injector_source += injected + "\n" } unless ref[:INJECT][num].nil?
+                  ref[:INJECT][-2].each { |injected| $code_injector_source += injected + "\n" } if num == ref[:CODE].length - 2 unless ref[:INJECT][-2].nil?
+                end
+              end
+              ref[:INJECT].clear if ref[:INJECT]
+              ref[:DELETE].clear if ref[:DELETE]
             end
+            clazz.class_eval($code_injector_source)
+            methods.delete_if { |method| method.is_a? Proc}
+            $code_injector_aggressive_cache[clazz] = $code_injector_source if $code_injector_cache_enabled
           end
-          ref[:INJECT].clear if ref[:INJECT]
-          ref[:DELETE].clear if ref[:DELETE]
-        end
-        clazz.class_eval($code_injector_source)
-        methods.delete_if { |method| method.is_a? Proc}
-        $code_injector_aggressive_cache[clazz] = $code_injector_source if $code_injector_cache_enabled
+          end_compile = Time.now
+          CodeInjector.log("staging insertions=#{deletions - insertions}", "staging deletions=#{method_mods - deletions}", "compilation=#{end_compile - method_mods}")
+      ensure
+        $stderr.close if $stderr.respond_to?(:close) unless $stderr == stderr_old
+        $stderr = stderr_old
       end
-      end_compile = Time.now
-      CodeInjector.log("staging insertions=#{deletions - insertions}", "staging deletions=#{method_mods - deletions}", "compilation=#{end_compile - method_mods}")
     end
-
   end
 
 end

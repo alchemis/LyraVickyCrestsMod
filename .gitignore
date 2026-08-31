@@ -2,6 +2,10 @@
 !/.gitignore
 !/patch/
 /patch/**
+!/patch/Init/
+/patch/Init/**
+!/patch/Init/0000.cache_injection.rb
+!/patch/Init/0000.map_injection.rb
 !/patch/Mods/
 !/patch/Graphics/
 /patch/Graphics/**
