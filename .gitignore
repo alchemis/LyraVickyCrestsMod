@@ -15,11 +15,14 @@
 !/patch/Graphics/Battlers/gardevoir/**
 !/patch/Graphics/Battlers/maractus
 !/patch/Graphics/Battlers/maractus/**
+!/patch/Graphics/Battlers/victini
+!/patch/Graphics/Battlers/victini/**
 !/patch/Graphics/Icons/
 /patch/Graphics/Icons/**
 !/patch/Graphics/Icons/Pokemon
 /patch/Graphics/Icons/Pokemon/**
 !/patch/Graphics/Icons/Pokemon/icon282.png
+!/patch/Graphics/Icons/Pokemon/icon494.png
 !/patch/Graphics/Icons/Item
 /patch/Graphics/Icons/Item/**
 !/patch/Graphics/Icons/Item/lvc*
