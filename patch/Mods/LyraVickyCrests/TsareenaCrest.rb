@@ -17,7 +17,6 @@ class PokeBattle_Move
   alias_method :tsarcrest_pbModifySTAB, :pbModifySTAB if !defined?(tsarcrest_pbModifySTAB)
   def pbModifySTAB(stabmult, type, attacker, opponent)
     if attacker.crested == :TSAREENA && ($cache.moves[@move]&.checkFlag?(:kickmove) || EXTRAKICKMOVES.include?(@move)) then
-        puts "kickmove!"
         stabmult += 0.5 if stabmult <= 1
     end
     return tsarcrest_pbModifySTAB(stabmult, type, attacker, opponent)

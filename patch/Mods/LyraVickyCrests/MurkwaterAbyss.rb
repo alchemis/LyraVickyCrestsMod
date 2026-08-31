@@ -160,7 +160,7 @@ $cache.FEData[:MURKWATERABYSS] = lvc_makefield({
     :name => "Murkwater Abyss",
     :fieldAppSwitch => 2022, # idk for now
     :fieldMessage => "The abyss is tainted...",
-    :graphic => ["Underwater"],
+    :graphic => ["MurkwaterAbyss"],
     :secretPower => :SLUDGEBOMB,
     :naturePower => :SLUDGEWAVE,
     :mimicry => :POISON,
@@ -214,7 +214,7 @@ $cache.FEData[:MURKWATERABYSS] = lvc_makefield({
       "The battle resurfaced!" => [:DIVE, :SKYDROP, :FLY, :BOUNCE, :SHOREUP, :TRIPLEDIVE],
       #"The attack cleared the waters!" => [:PURIFY],
     },
-    :statusBuffs => [:AQUARING, :TAKEHEART, :OCTOLOCK],
+    :statusBuffs => [:AQUARING, :TAKEHEART, :OCTOLOCK, :TOXIC, :SMOG, :POISONGAS, :POISONPOWDER],
     :statusNerfs => [*PBStuff::WEATHERMOVE, *PBStuff::TERRAINMOVE],
     :changeEffects => {
       # "@battle.waterPollution" => [:SLUDGEWAVE, :ACIDDOWNPOUR], dunno what this is
@@ -247,7 +247,6 @@ class PokeBattle_Battle
         typemod = battler.murkwaterabyssPassiveDamage
         if !typemod.immune?
           mult = typemod.multiplier
-          puts mult
           battler.pbReduceHP((battler.totalhp / 8.0 * mult).floor, true, message: _INTL("The toxic water hurt {1}!", battler.pbThis))
           battler.pbFaint if battler.isFainted?
         end
@@ -289,8 +288,8 @@ class PokeBattle_Battler
       ret = murkabyss_pbAbilitiesOnField(delayStatChangeChecks, applySwitchInAbility: applySwitchInAbility)
       if !hasType?(:POISON) && @ability != :PASTELVEIL && @ability != :POISONHEAL && @ability != :IMMUNITY
         if pbCanReduceStatStage?(PBStats::SPDEF, self, self, showMessage: false)
-          pbChangeStats(PBStats::SPDEF, -1, self, self, abilitycheck: :skip)
           @battle.pbDisplay(_INTL("The abyss corrodes {1}'s defenses!", pbThis))
+          pbChangeStats(PBStats::SPDEF, -1, self, self, abilitycheck: :skip)
         end
       end
       return ret
@@ -298,8 +297,8 @@ class PokeBattle_Battler
 end
 
 #steel can be poisoned
-CodeInjector.insert_in_method_before(:PokeBattle_Battler, :pbCanPoison?, "return true unless failure", 
-"if failure == :Type && @battle.field == :MURKWATERABYSS && !hasType?(:POISON) then failure = false end")
+CodeInjector.replace_in_method(:PokeBattle_Battler, :pbCanPoison?, "when (hasType?(:POISON) || hasType?(:STEEL)) && attacker&.ability != :CORROSION && !([:CORROSIVE, :CORROSIVEMIST].include?(@battle.FE) && attacker&.ability == :TOXICCHAIN) then failure = :Type", 
+"when ((hasType?(:POISON) || hasType?(:STEEL)) && attacker&.ability != :CORROSION && !([:CORROSIVE, :CORROSIVEMIST].include?(@battle.FE) && attacker&.ability == :TOXICCHAIN)) && !(@battle.FE == :MURKWATERABYSS && hasType?(:STEEL)) then failure = :Type")
 
 #non-water speed
 CodeInjector.replace_in_method(:PokeBattle_Battler,:pbSpeed, "when :UNDERWATER",
