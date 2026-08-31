@@ -37,11 +37,12 @@ ModCacheInjection.hook(:moves) {
 class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
 
   def pbShowAnimation(id,attacker,opponent,hitnum=0,alltargets=nil,showanimation=true)
+    alias_method :vicform_pbShowAnimation, :pbShowAnimation if !defined?(vicform_pbShowAnimation)
     if showanimation
       if id == :VDEVASTATE
         @battle.pbAnimation(:JUDGMENTFAIRY,attacker,opponent,hitnum)
       else
-        @battle.pbAnimation(id,attacker,opponent,hitnum)
+        vicform_pbShowAnimation(id,attacker,opponent,hitnum,alltargets,showanimation)
       end
     end
   end

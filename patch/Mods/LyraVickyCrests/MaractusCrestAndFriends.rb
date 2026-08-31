@@ -32,13 +32,13 @@ ModCacheInjection.hook(:moves) {
 }
 
 class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
-
+  alias_method :maracrest_pbShowAnimation, :pbShowAnimation if !defined?(maracrest_pbShowAnimation)
   def pbShowAnimation(id,attacker,opponent,hitnum=0,alltargets=nil,showanimation=true)
     if showanimation
       if id == :DESERTDANCE
         @battle.pbAnimation(:SANDTOMB,attacker,opponent,hitnum)
       else
-        @battle.pbAnimation(id,attacker,opponent,hitnum)
+        maracrest_pbShowAnimation(id,attacker,opponent,hitnum,alltargets,showanimation)
       end
     end
   end
