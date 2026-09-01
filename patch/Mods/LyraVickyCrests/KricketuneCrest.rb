@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:KRICKETUNE] = :LVCKRICKCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVCKRICKCREST] = ItemData.new(:LVCKRICKCREST, {
     name: "Kricketune Crest",
-    desc: "All of Kricketune's moves are affected by Technician and treated as \"Round\"",
+    desc: "Kricketune always moves immediately after its partner and its moves gain a stronger Metronome effect.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -13,52 +13,60 @@ ModCacheInjection.hook(:items) {
 }
 
 
-class PokeBattle_Move_083
-  alias_method :krickcrest_pbBaseDamage, :pbBaseDamage if !defined?(krickcrest_pbBaseDamage)
-  def pbBaseDamage(basedmg, attacker, opponent)
-    basedmg = krickcrest_pbBaseDamage(basedmg, attacker, opponent)
-    for i in 0...@battle.battlers.length
-        battler = @battle.battlers[i]
-        if battler.crested == :KRICKETUNE then
-            @battle.pbMoveAfter(battler)
-        end
+class PokeBattle_Battler
+  alias_method :krickcrest_applyPostMoveEffects, :applyPostMoveEffects if !defined?(krickcrest_applyPostMoveEffects)
+  
+  def applyPostMoveEffects(basemove, user, targets, hitflag)
+    ret = krickcrest_applyPostMoveEffects(basemove, user, targets, hitflag)
+    self.effects[:lvc_krickcrest_prio] = false if self.crested == :KRICKETUNE && self.effects[:lvc_krickcrest_prio]
+    if [:Success, :StatusSuccess].intersect?(hitflag)
+      priority = @battle.setSpeedOrder
+      for i in priority
+          if i.crested == :KRICKETUNE && !self.pbIsOpposing?(i.index)
+            if basemove.priority >= 4 || @applyingEntryEffects then
+              i.effects[:lvc_krickcrest_prio] = true  
+            else
+              @battle.pbMoveAfter(i)
+            end
+          end
+      end
     end
-    return basedmg
+    return ret
+  end
+
+end
+
+class PokeBattle_Battle
+  alias_method :krickcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(krickcrest_pbEndOfRoundPhase)
+  def pbEndOfRoundPhase(skipcelebi = false)
+      priority = setSpeedOrder
+      for battler in priority
+        battler.effects[:lvc_krickcrest_prio] = false if battler.effects[:lvc_krickcrest_prio]
+      end
+      krickcrest_pbEndOfRoundPhase(skipcelebi)
   end
 end
 
 class PokeBattle_Move
-    alias_method :krickcrest_pbCalcDamage, :pbCalcDamage if !defined?(krickcrest_pbCalcDamage)
-    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
-          if movetype then
-            damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
-          else damage = krickcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages)
-          end
-          if attacker.crested == :KRICKETUNE then
-              case attacker.ability
-                when :TECHNICIAN
-                    if @basedamage > 60 #only if technician didn't already apply
-                      damage *=1.5
-                    end
-              end
-
-            if @battle.state.effects[:Round] && @function != 0x083 then 
-              damage *= 2 
-            end #make sure not to double round damage twice
-            #doubling base damage is not *exactly* equivalent to doubling total damage, but it is close enough
-          end
-          return damage.floor
-    end
-
-end
-
-class PokeBattle_Battler
-  alias_method :krickcrest_pbTryUseMove, :pbTryUseMove if !defined?(krickcrest_pbTryUseMove)
-  def pbTryUseMove(*args)
-      ret = krickcrest_pbTryUseMove(*args)
-      if self.crested == :KRICKETUNE && ret then
-          @battle.state.effects[:Round] = true
+      alias_method :krickcrest_priorityCheck, :priorityCheck if !defined?(krickcrest_priorityCheck)
+      def priorityCheck(attacker)
+          return krickcrest_priorityCheck(attacker) if !attacker.crested == :KRICKETUNE || !attacker.effects[:lvc_krickcrest_prio]
+          return 3
       end
-      return ret
-  end
 end
+
+class PBMults
+  Krickcrest      = [
+    1.0,
+    1.4,
+    1.8,
+    2.2,
+    2.6,
+    3,
+  ]
+end
+
+#double metronome effect
+CodeInjector.insert_in_method(:PokeBattle_Move,:pbCalcDamage, "finalmult.append(PBMults::Metronome[[attacker.effects[:Metronome], 5].min]) if attitemworks && attacker.item == :METRONOME && @move == attacker.lastMoveUsed",
+ "finalmult.append(PBMults::Metronome[[attacker.effects[:Metronome], 5].min]) if attacker.crested == :KRICKETUNE && @move == attacker.lastMoveUsed"
+)
