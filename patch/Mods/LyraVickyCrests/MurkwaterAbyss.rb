@@ -286,7 +286,8 @@ class PokeBattle_Battler
         return if @applyingEntryEffects
       end
       ret = murkabyss_pbAbilitiesOnField(delayStatChangeChecks, applySwitchInAbility: applySwitchInAbility)
-      if !hasType?(:POISON) && @ability != :PASTELVEIL && @ability != :POISONHEAL && @ability != :IMMUNITY && @battle.FE == :MURKWATERABYSS
+      if !hasType?(:POISON) && @ability != :PASTELVEIL && @ability != :POISONHEAL && @ability != :IMMUNITY && @battle.FE == :MURKWATERABYSS && !@battler.effects[:lvc_murkwater_debuff_applied]
+        @battler.effects[:lvc_murkwater_debuff_applied] = true
         if pbCanReduceStatStage?(PBStats::SPDEF, self, self, showMessage: false)
           @battle.pbDisplay(_INTL("The abyss corrodes {1}'s defenses!", pbThis))
           pbChangeStats(PBStats::SPDEF, -1, self, self, abilitycheck: :skip)
@@ -307,10 +308,10 @@ CodeInjector.replace_in_method(:PokeBattle_Battler,:pbSpeed, "when :UNDERWATER",
 
 #weather stuff
 CodeInjector.replace_in_method(:PokeBattle_Battle,:noWeather, "elsif @field.effect == :UNDERWATER",
- "elsif @field.effect == :UNDERWATER || @field.effect = :MURKWATERABYSS"
+ "elsif @field.effect == :UNDERWATER || @field.effect == :MURKWATERABYSS"
 )
 CodeInjector.replace_in_method(:PokeBattle_Battle,:canSetWeather?, "elsif @field.effect == :UNDERWATER",
- "elsif @field.effect == :UNDERWATER || @field.effect = :MURKWATERABYSS"
+ "elsif @field.effect == :UNDERWATER || @field.effect == :MURKWATERABYSS"
 )
 
 #typemod stuff
@@ -324,4 +325,41 @@ CodeInjector.insert_in_method_before(:PokeBattle_Move,:pbTypeModifier, "if @batt
 #elec acc
 CodeInjector.replace_in_method(:PokeBattle_Move,:pbCalcAccuracy, "return -1 if @battle.FE == :UNDERWATER && pbType(attacker) == :ELECTRIC",
  "return -1 if (@battle.FE == :UNDERWATER || @battle.FE == :MURKWATERABYSS) && pbType(attacker) == :ELECTRIC"
+)
+
+
+### bullshit for the AI
+
+#sunny day
+CodeInjector.replace_in_method(:PokeBattle_AI,:getMoveScore, "if weather != :SUNNYDAY && @attacker.pbHasMove?(:SUNNYDAY) && !(aiCheckGlobalAbility([:AIRLOCK, :CLOUDNINE, :DELTASTREAM, :DESOLATELAND, :PRIMORDIALSEA]) || @attacker.item == :POWERHERB || [:UNDERWATER, :NEWWORLD, :RAINBOW].include?(@battle.FE) || @battle.OV == :RAINBOW)",
+ "if weather != :SUNNYDAY && @attacker.pbHasMove?(:SUNNYDAY) && !(aiCheckGlobalAbility([:AIRLOCK, :CLOUDNINE, :DELTASTREAM, :DESOLATELAND, :PRIMORDIALSEA]) || @attacker.item == :POWERHERB || [:UNDERWATER, :MURKWATERABYSS, :NEWWORLD, :RAINBOW].include?(@battle.FE) || @battle.OV == :RAINBOW)"
+)
+
+#atk boosting
+CodeInjector.replace_in_method(:PokeBattle_AI,:selfstatboost, "(@opponent.ability == :STEAMENGINE && [:UNDERWATER, :WATERSURFACE, :VOLCANIC, :VOLCANICTOP, :INFERNAL].include?(@battle.FE))",
+ "(@opponent.ability == :STEAMENGINE && [:UNDERWATER,:MURKWATERABYSS, :WATERSURFACE, :VOLCANIC, :VOLCANICTOP, :INFERNAL].include?(@battle.FE))"
+)
+
+CodeInjector.replace_in_method(:PokeBattle_AI,:selfstatboost, "(((@opponent.ability == :MOTORDRIVE && @battle.FE == :ELECTERRAIN) || (@opponent.ability == :STEAMENGINE && [:UNDERWATER, :WATERSURFACE, :VOLCANIC, :VOLCANICTOP, :INFERNAL].include?(@battle.FE))) && (stats[PBStats::SPEED] < 2))",
+ "(((@opponent.ability == :MOTORDRIVE && @battle.FE == :ELECTERRAIN) || (@opponent.ability == :STEAMENGINE && [:UNDERWATER, :MURKWATERABYSS, :WATERSURFACE, :VOLCANIC, :VOLCANICTOP, :INFERNAL].include?(@battle.FE))) && (stats[PBStats::SPEED] < 2))"
+)
+
+#weathermoves
+CodeInjector.replace_in_method(:PokeBattle_AI,:weathercode, "return @move.pbIsDamaging? ? 1 : 0 if [:NEWWORLD, :UNDERWATER].include?(@battle.FE)",
+ "return @move.pbIsDamaging? ? 1 : 0 if [:NEWWORLD, :UNDERWATER, :MURKWATERABYSS].include?(@battle.FE)"
+)
+#elec accuracy
+CodeInjector.replace_in_method(:PokeBattle_AI,:pbRoughAccuracy, "return 100 if @mondata.skill >= MEDIUMSKILL && @battle.FE == :UNDERWATER && move.pbType(attacker) == :ELECTRIC",
+ "return 100 if @mondata.skill >= MEDIUMSKILL && (@battle.FE == :UNDERWATER || @battle.FE == :MURKWATERABYSS) && move.pbType(attacker) == :ELECTRIC"
+)
+#underwater dot
+CodeInjector.insert_in_method_before(:PokeBattle_AI,:hpGainPerTurn, "if @battle.FE == :UNDERWATER && attacker.underwaterFieldPassiveDamage?",
+ "if @battle.FE == :MURKWATERABYSS && attacker.murkwaterabyssPassiveDamage != Typemod.zero
+    healing -= attacker.murkwaterabyssPassiveDamage.multiplier / 8
+  end"
+)
+
+
+CodeInjector.replace_in_method(:PokeBattle_AI,:getSwitchInScoresParty, "when :MURKWATERSURFACE",
+ "when :MURKWATERSURFACE, :MURKWATERABYSS"
 )

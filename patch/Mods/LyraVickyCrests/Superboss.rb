@@ -160,6 +160,7 @@ ModCacheInjection.hook(:trainers) {
         level: 100,
         moves: [:DOOMDESIRE,:COSMICPOWER,:PSYCHIC,:WISH],
         item: :LVCRACHICREST,
+        :name => "Vega",
         ability: :SERENEGRACE,
         nature: :MODEST,
         shiny: true,
@@ -389,6 +390,7 @@ ModCacheInjection.hook(:trainers) {
         level: 100,
         moves: [:DOOMDESIRE,:COSMICPOWER,:PSYCHIC,:WISH],
         item: :LVCRACHICREST,
+        :name => "Vega",
         ability: :SERENEGRACE,
         nature: :MODEST,
         shiny: true,
@@ -588,9 +590,14 @@ class PokeBattle_Pokemon
   end
 end
 
+def lvc_testsuperboss(rene = false)
+    pbDoubleTrainerBattle(:LVCVICTORY,"Victory",1,"",:LVCLYRA,"Lyra",1,"",true) if rene
+    pbDoubleTrainerBattle(:LVCVICTORY,"Victory",0,"",:LVCLYRA,"Lyra",0,"",true) if !rene
+end
+
 def lvc_givebossreward(rene = false)
   poke=PokeBattle_Pokemon.new(:VICTINI,100,$Trainer,false)
-  poke.changeform(1) if rene
+  poke.changeForm(1) if rene
   poke.pbLearnMove(rene ? :VDEVASTATE : :VCREATE)
   poke.pbLearnMove(:ICEBURN)
   poke.pbLearnMove(:FREEZESHOCK)

@@ -26,7 +26,7 @@ ModCacheInjection.hook(:moves) {
     :category => :physical,
     :basedamage => 180,
     :accuracy => 100,
-    :maxpp => 16,
+    :maxpp => 5,
     :target => :SingleNonUser,
     :contact => false,
     # :dancemove => true #NO

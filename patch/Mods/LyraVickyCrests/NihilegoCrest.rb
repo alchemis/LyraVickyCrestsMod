@@ -4,7 +4,7 @@ PBStuff::POKEMONTOCREST[:NIHILEGO] = :LVHNIHILCREST
 ModCacheInjection.hook(:items) {
   $cache.items[:LVHNIHILCREST] = ItemData.new(:LVHNIHILCREST, {
     name: "Nihilego Crest",
-    desc: "Nihilego heals from foes' status damage. Opponent's status damage is increased when toxic poisoned.",
+    desc: "Nihilego heals from foes' status damage. Raises Defense in Rain and hostile enviroments.",
     price: 0,
     crest: true,
     noUseInBattle: true,
@@ -13,6 +13,39 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battle
+    alias_method :nihicrest_protosynthesisCheck, :protosynthesisCheck if !defined?(nihicrest_protosynthesisCheck)
+    def protosynthesisCheck
+      if pbWeather(nil) == :RAINDANCE || [:UNDERWATER, :MURKWATERABYSS, :WATERSURFACE,:SWAMP,:MURKWATERSURFACE,:CORROSIVE,:CORROSIVEMIST,:CORRUPTED, :WASTELAND,].include?(@battle.FE)
+        priority = setSpeedOrder
+        for i in priority
+          if i.crested == :NIHILEGO && i.pbCanIncreaseStatStage?(PBStats::DEFENSE, i, i, showMessage: false) && !i.effects[:lvc_nihicrest_used]
+              i.effects[:lvc_nihicrest_used] = true
+              amount = 1
+              amount = 2 if [:UNDERWATER,:MURKWATERABYSS, :WATERSURFACE,:SWAMP,:MURKWATERSURFACE,:CORROSIVE,:CORROSIVEMIST,:CORRUPTED, :WASTELAND,].include?(@battle.FE)
+              pbShowAbilityBox(i,item:true)
+              i.pbChangeStats(PBStats::DEFENSE, amount, i, i, abilitycheck: :skip)
+              pbHideAbilityBox(i)
+          end
+        end
+      end
+      nihicrest_protosynthesisCheck
+    end
+    alias_method :nihicrest_pbCrestEntry, :pbCrestEntry if !defined?(nihicrest_pbCrestEntry)
+    def pbCrestEntry(index, pokemon)
+      nihicrest_pbCrestEntry(index, pokemon)
+      battler = @battlers[index]
+      if pbWeather(nil) == :RAINDANCE || [:UNDERWATER, :MURKWATERABYSS, :WATERSURFACE,:SWAMP,:MURKWATERSURFACE,:CORROSIVE,:CORROSIVEMIST,:CORRUPTED, :WASTELAND,].include?(@battle.FE)
+        if battler.crested == :NIHILEGO && battler.pbCanIncreaseStatStage?(PBStats::DEFENSE, battler, battler, showMessage: false) && !battler.effects[:lvc_nihicrest_used]
+          battler.effects[:lvc_nihicrest_used] = true
+          amount = 1
+          amount = 2 if [:UNDERWATER,:MURKWATERABYSS, :WATERSURFACE,:SWAMP,:MURKWATERSURFACE,:CORROSIVE,:CORROSIVEMIST,:CORRUPTED, :WASTELAND,].include?(@battle.FE)
+          pbShowAbilityBox(battler,item:true)
+          battler.pbChangeStats(PBStats::DEFENSE, amount, battler, battler, abilitycheck: :skip)
+          pbHideAbilityBox(battler)
+        end
+      end
+    end
+
     def lvc_istherenihicrest?(mon)
       for battler in @battlers
         next if battler.isFainted?
