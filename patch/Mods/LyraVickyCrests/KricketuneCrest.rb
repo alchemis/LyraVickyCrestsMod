@@ -69,5 +69,5 @@ end
 
 #double metronome effect
 CodeInjector.insert_in_method(:PokeBattle_Move,:pbCalcDamage, "finalmult.append(PBMults::Metronome[[attacker.effects[:Metronome], 5].min]) if attitemworks && attacker.item == :METRONOME && @move == attacker.lastMoveUsed",
- "finalmult.append(PBMults::Metronome[[attacker.effects[:Metronome], 5].min]) if attacker.crested == :KRICKETUNE && @move == attacker.lastMoveUsed"
+ "finalmult.append(PBMults::Krickcrest[[attacker.effects[:Metronome], 5].min]) if attacker.crested == :KRICKETUNE && @move == attacker.lastMoveUsed"
 )
