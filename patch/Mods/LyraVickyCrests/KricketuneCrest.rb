@@ -19,12 +19,13 @@ class PokeBattle_Battler
   def applyPostMoveEffects(basemove, user, targets, hitflag)
     ret = krickcrest_applyPostMoveEffects(basemove, user, targets, hitflag)
     self.effects[:lvc_krickcrest_prio] = false if self.crested == :KRICKETUNE && self.effects[:lvc_krickcrest_prio]
-    if [:Success, :StatusSuccess].intersect?(hitflag)
+    if [:Success, :StatusSuccess].intersect?(hitflag) && !@applyingEntryEffects
       priority = @battle.setSpeedOrder
       for i in priority
           if i.crested == :KRICKETUNE && !self.pbIsOpposing?(i.index)
-            if basemove.priority >= 4 || @applyingEntryEffects then
-              i.effects[:lvc_krickcrest_prio] = true  
+            if basemove.priority >= 4  then
+              i.effects[:lvc_krickcrest_prio] = true
+              @battle.setMovePrioData
             else
               @battle.pbMoveAfter(i)
             end
