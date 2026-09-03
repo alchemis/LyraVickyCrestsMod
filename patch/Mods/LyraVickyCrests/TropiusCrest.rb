@@ -58,7 +58,7 @@ class PokeBattle_Move
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       damage = tropcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       type = movetype.nil? ? pbType(attacker) : movetype
-      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :ICE && opponent.crested == :TROPIUS && @battle.pbWeather(attacker) == :SUNNYDAY #@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
+      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :ICE && opponent.crested == :TROPIUS #@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
       return damage
     end
 
