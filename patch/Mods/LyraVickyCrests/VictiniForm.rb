@@ -49,7 +49,7 @@ class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
   def pbEffect(attacker, alltargets, hitnum = 0)
     if @move == :VDEVASTATE
       attacker.pbChangeStats([PBStats::DEFENSE, PBStats::SPDEF, PBStats::SPEED], -1, attacker, self, abilitycheck: :hide)
-    else return vicform_pbEffect(attacker,alltargets,hitnum)
+    else return #vicform_pbEffect(attacker,alltargets,hitnum)
     end
   end
 end
