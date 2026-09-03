@@ -46,40 +46,63 @@ class PokeBattle_Battler
       end
       tropcrest_crestStats
     end
-    alias_method :tropcrest_pbOnStartUse, :pbOnStartUse if !method_defined?(:tropcrest_pbOnStartUse)
-    def pbOnStartUse(user, targets, basemove, flags)
-      for i in targets
-        if i.crested == :TROPIUS && @battle.pbWeather(i) == :SUNNYDAY && basemove.pbType(user) == :ICE && basemove.pbIsDamaging?
-            @battle.pbShowAbilityBox(i, item: true)
-            @battle.pbDisplay(_INTL("The tropical sun thawed the move!", i.pbThis))
-            @battle.pbHideAbilityBox(i)
-            @effects[:lvc_targetting_tropcrest] = true
-            break
-        end
-      end
-      return tropcrest_pbOnStartUse(user, targets, basemove, flags)
-    end
-end #battler.effects[:lvc_targetting_tropcrest] = nil
+end 
 
 class PokeBattle_Move
+
     alias_method :tropcrest_pbType, :pbType if !method_defined?(:tropcrest_pbType)
     def pbType(attacker, type = @type)
       type = tropcrest_pbType(attacker, type)
-      if defined?(battler.effects[:lvc_targetting_tropcrest]) && battler.effects[:lvc_targetting_tropcrest] && type == :ICE
+      if type == :ICE && @battle.pbWeather(nil) == :SUNNYDAY && (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS))
         type = :WATER
       end
       return type
     end
 
-end
-#make the ai aware of it, not of the spread effect
-class PokeBattle_AI
-    alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !method_defined?(:tropcrest_pbTypeModNoMessages)
-    def pbTypeModNoMessages(type = @move.type, attacker = @attacker, opponent = @opponent, move = @move, skill = @mondata.skill)
-      typemod = tropcrest_pbTypeModNoMessages(type, attacker, opponent, move, skill)
-      if skill >= HIGHSKILL && type == :ICE
-          typemod = Typemod.half * Typemod.half  * Typemod.half if opponent.crested == :TROPIUS && @battle.pbWeather(opponent) == :SUNNYDAY
-      end
-      return typemod
+    alias_method :tropcrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:tropcrest_pbCalcDamage)
+    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
+      damage = tropcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
+      type = movetype.nil? ? pbType(attacker) : movetype
+      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :ICE && @type == :WATER && @battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
+      return damage
+    end
+
+    alias_method :tropcrest_damageCalcMessages, :damageCalcMessages if !method_defined?(:tropcrest_damageCalcMessages)
+    def damageCalcMessages(attacker, feedbackMessages, late: false)
+        tropcrest_damageCalcMessages(attacker, feedbackMessages, late: late)
+        if late
+            #too mentally unwell to rewrite this properly
+            messageHash = {}
+            feedbackMessages.each_pair do |index, messages|
+              messages.each do |message|
+                messageHash[message] = [] unless messageHash.has_key?(message)
+                messageHash[message].push(index)
+              end
+            end
+            messageHash.each do |message, indexes|  
+                if message == :TropCrestThaw
+                  pbShowAbilityBox(@battle.battlers[index], item: true)
+                  pbDisplay(_INTL("The tropical sun thawed the move!"))
+                  pbHideAbilityBox(@battle.battlers[index])
+                  break  
+                end
+            end
+        end
     end
 end
+#make the ai aware of it, not of the spread effect
+#shouldnt be needed anymore
+# class PokeBattle_AI
+#     alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !method_defined?(:tropcrest_pbTypeModNoMessages)
+#     def pbTypeModNoMessages(type = @move.type, attacker = @attacker, opponent = @opponent, move = @move, skill = @mondata.skill)
+#       if skill >= HIGHSKILL && type == :ICE && @battle.pbWeather(opponent) == :SUNNYDAY &&
+#         (opponent.crested == :TROPIUS || #single target move targetting tropius
+#         (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS) && (move.pbTargetsAll?(attacker) || attacker.pbTarget(move) == :AllOpposing))) #spread move targetting tropius & its ally
+#         typemod = tropcrest_pbTypeModNoMessages(:WATER, attacker, opponent, move, skill)
+#         puts "This targets tropcrest! The typemod is #{typemod.multiplier}"
+#       else
+#         typemod = tropcrest_pbTypeModNoMessages(type, attacker, opponent, move, skill) 
+#       end
+#       return typemod
+#     end
+# end

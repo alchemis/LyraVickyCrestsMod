@@ -62,7 +62,7 @@ class PokeBattle_Battle
           pbShowAbilityBox(i,item:true)
           pbCommonAnimation("LeechSeed", i, source)
           pbDisplay(_INTL("{2} recovered some health!",source.pbThis,i.pbThis))
-          i.absorbHP(amt.round, source, :NihilegoCrest)
+          i.absorbHP(amt.floor, source, :NihilegoCrest)
           pbHideAbilityBox(i)
         end
       end
@@ -74,25 +74,25 @@ end
 
 #leechseed
 CodeInjector.insert_in_method_before(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = i.pbReduceHP(hploss, true, message: _INTL(\"{1}'s health is sapped by {2}!\", i.pbThis, getMoveName(:LEECHSEED)))",
- "hploss = (hploss * i.effects[:Toxic]).round if i.status == :POISON && i.statusCount > 0 && lvc_istherenihicrest?(i)"
+ "hploss = (hploss * i.effects[:Toxic]).floor if i.status == :POISON && i.statusCount > 0 && lvc_istherenihicrest?(i)"
 )
 CodeInjector.insert_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = i.pbReduceHP(hploss, true, message: _INTL(\"{1}'s health is sapped by {2}!\", i.pbThis, getMoveName(:LEECHSEED)))",
 "lvc_nihiheal(hploss/2,i) if hploss > 0")
 #partially trapping moves
-CodeInjector.replace_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "i.pbReduceHP((i.totalhp / binddiv).round, true, message: _INTL(\"{1} is hurt by {2}!\", i.pbThis, movename))",
- "hploss = (i.totalhp / binddiv).round
- hploss = (hploss * i.effects[:Toxic]).round if i.status == :POISON && i.statusCount > 0 && lvc_istherenihicrest?(i)
+CodeInjector.replace_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "i.pbReduceHP((i.totalhp / binddiv).floor, true, message: _INTL(\"{1} is hurt by {2}!\", i.pbThis, movename))",
+ "hploss = (i.totalhp / binddiv).floor
+ hploss = (hploss * i.effects[:Toxic]).floor if i.status == :POISON && i.statusCount > 0 && lvc_istherenihicrest?(i)
  i.pbReduceHP(hploss, true, message: _INTL(\"{1} is hurt by {2}!\", i.pbThis, movename))
  lvc_nihiheal((i.totalhp / binddiv)/2,i) if hploss > 0
  "
 )
 
 #poison
-CodeInjector.insert_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = (i.totalhp / 16.0).round * i.effects[:Toxic] if i.statusCount > 0",
+CodeInjector.insert_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = (i.totalhp / 16.0).floor * i.effects[:Toxic] if i.statusCount > 0",
  "lvc_nihiheal(hploss/2,i) if hploss > 0"
 )
 #burn
-CodeInjector.insert_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = (i.totalhp / 32.0).round if i.ability == :HEATPROOF || @field.effect == :ICY",
+CodeInjector.insert_in_method(:PokeBattle_Battle,:__clauses__pbEndOfRoundPhase, "hploss = (i.totalhp / 32.0).floor if i.ability == :HEATPROOF || @field.effect == :ICY",
  "lvc_nihiheal(hploss/2,i) if hploss > 0"
 )
 #petrification
