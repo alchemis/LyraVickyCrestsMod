@@ -35,6 +35,6 @@ class PokeBattle_Move
       case attacker.crested
         when :SPIDOPS then damage *= 2 if (!opponent.hasMovedThisRound? || @battle.switchedOut[opponent.index])
       end
-    return damage.floor
+    return damage.round
     end
 end

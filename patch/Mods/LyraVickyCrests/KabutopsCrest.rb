@@ -39,7 +39,7 @@ class PokeBattle_Battler
           #gain move
           @kabucrest_ogmove = {:move => @moves[0].move, :pp => @moves[0].pp, :totalpp => @moves[0].totalpp}
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:TECHNOBLAST), @pokemon)
-          @moves[0].pp = (@kabucrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @kabucrest_ogmove[:totalpp])).floor
+          @moves[0].pp = (@kabucrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @kabucrest_ogmove[:totalpp])).round
       end
       kabucrest_crestStats
     end

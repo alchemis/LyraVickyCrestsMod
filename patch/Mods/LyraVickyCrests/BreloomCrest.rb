@@ -27,7 +27,7 @@ class PokeBattle_Move
         damage *= 1.5 if attacker.ability == :TECHNICIAN && @basedamage <= 80 && @basedamage > 60 
         damage *= 1.3 if attacker.ability == :TOUGHCLAWS && self.pbIsPhysical?(attacker) && !self.contactMove?
       end
-      return damage.floor
+      return damage.round
       
     end
     

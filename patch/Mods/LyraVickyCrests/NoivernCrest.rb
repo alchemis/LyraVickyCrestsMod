@@ -27,7 +27,7 @@ class PokeBattle_Move
             damage *= 0.5
           end
 
-          return damage.floor
+          return damage.round
     end
 
 end

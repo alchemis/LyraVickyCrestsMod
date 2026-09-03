@@ -25,7 +25,7 @@ class PokeBattle_Move
         damage = [damage, (opponent.totalhp/2.to_f).ceil].min()
 
       end
-      return damage.floor
+      return damage.round
       
     end
 end
@@ -37,7 +37,7 @@ class PokeBattle_Battler
   alias_method :carracrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !method_defined?(:carracrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :CARRACOSTA then
-    return unless oldhp > (@totalhp / 2.0).floor && self.hp <= (@totalhp / 2.0).floor && self.hp != 0
+    return unless oldhp > (@totalhp / 2.0).round && self.hp <= (@totalhp / 2.0).round && self.hp != 0
 
     if self.pbCanIncreaseAnyStat?([PBStats::DEFENSE, PBStats::SPDEF], self, nil, showMessage: false)
       @battle.pbShowAbilityBox(self, item: true)

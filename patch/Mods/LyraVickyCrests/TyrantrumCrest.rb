@@ -36,7 +36,7 @@ class PokeBattle_Battler
     def pbSpeed()
       speed = tyracrest_pbSpeed
       if self.crested == :TYRANTRUM && @battle.pbWeather(nil) == :SUNNYDAY
-        speed *= 2 #guaranteed to be a whole number so we dont have to .floor
+        speed *= 2 #guaranteed to be a whole number so we dont have to .round
       end
       return speed
     end

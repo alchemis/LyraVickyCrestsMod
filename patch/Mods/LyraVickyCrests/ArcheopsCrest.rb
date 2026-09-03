@@ -28,7 +28,7 @@ class PokeBattle_Move
         damage = [damage, ((opponent.totalhp/4.to_f)*3).ceil].min()
 
       end
-      return damage.floor
+      return damage.round
       
     end
 end
@@ -40,7 +40,7 @@ class PokeBattle_Battler
   def pbInitialize(pkmn, index, batonpass)
     ret = archcrest_pbInitialize(pkmn, index, batonpass)
     if self.crested == :ARCHEOPS && @pokemon && @hp > 0 && self.status != :PETRIFIED
-      self.pbRecoverHP((self.totalhp / 3.0).floor, false, false) # Healing isn't shown on HP bar before switching
+      self.pbRecoverHP((self.totalhp / 3.0).round, false, false) # Healing isn't shown on HP bar before switching
     end
     return ret
   end
@@ -48,7 +48,7 @@ class PokeBattle_Battler
   alias_method :archcrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !method_defined?(:archcrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :ARCHEOPS then
-    return unless oldhp > (@totalhp / 2.0).floor && self.hp <= (@totalhp / 2.0).floor && self.hp != 0
+    return unless oldhp > (@totalhp / 2.0).round && self.hp <= (@totalhp / 2.0).round && self.hp != 0
 
     if @battle.FE == :COLOSSEUM
         @battle.pbAbilityBoxAndDisplay(self, _INTL("{1} has nowhere to run!", self.pbThis), item: true)

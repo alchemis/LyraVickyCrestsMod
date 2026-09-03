@@ -32,7 +32,7 @@ class PokeBattle_Move
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
     damage = heliocrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       if attacker.crested == :HELIOLISK && @type == :NORMAL #@type is original move type
-        damage = (damage*1.2).floor
+        damage = (damage*1.2).round
       end
     return damage
     end

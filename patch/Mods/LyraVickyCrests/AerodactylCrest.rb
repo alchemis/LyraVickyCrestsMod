@@ -53,7 +53,7 @@ class PokeBattle_Battler
           #gain move
           @aerocrest_ogmove = {:move => @moves[0].move, :pp => @moves[0].pp, :totalpp => @moves[0].totalpp}
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:MULTIATTACK), @pokemon)
-          @moves[0].pp = (@aerocrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @aerocrest_ogmove[:totalpp])).floor
+          @moves[0].pp = (@aerocrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @aerocrest_ogmove[:totalpp])).round
       end
       aerocrest_crestStats
     end

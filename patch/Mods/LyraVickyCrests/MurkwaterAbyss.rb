@@ -247,7 +247,7 @@ class PokeBattle_Battle
         typemod = battler.murkwaterabyssPassiveDamage
         if !typemod.immune?
           mult = typemod.multiplier
-          battler.pbReduceHP((battler.totalhp / 8.0 * mult).floor, true, message: _INTL("The toxic water hurt {1}!", battler.pbThis))
+          battler.pbReduceHP((battler.totalhp / 8.0 * mult).round, true, message: _INTL("The toxic water hurt {1}!", battler.pbThis))
           battler.pbFaint if battler.isFainted?
         end
       end
