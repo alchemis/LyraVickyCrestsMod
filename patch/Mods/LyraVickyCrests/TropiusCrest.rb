@@ -41,27 +41,19 @@ class PokeBattle_Battler
 end 
 
 class PokeBattle_Move
-    # too op, removed
-    # alias_method :tropcrest_pbType, :pbType if !method_defined?(:tropcrest_pbType)
-    # def pbType(attacker, type = @type)
-    #   type = tropcrest_pbType(attacker, type)
-    #   if type == :ICE && @battle.pbWeather(nil) == :SUNNYDAY && (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS))
-    #     type = :WATER
-    #   end
-    #   return type
-    # end
 
-      alias_method :tropcrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:tropcrest_irregularTypeMods)
-      def irregularTypeMods(attacker, opponent, typemod, type)
-        typemod = tropcrest_irregularTypeMods(attacker, opponent, typemod, type)
-        case opponent.crested
-          when :TROPIUS
-            if @battle.pbWeather(attacker) == :SUNNYDAY then
-              typemod = Typemod.half * Typemod.half if [:ICE].include?(type)
-            end
-        end
-        return typemod
+    alias_method :tropcrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:tropcrest_irregularTypeMods)
+    def irregularTypeMods(attacker, opponent, typemod, type)
+      typemod = tropcrest_irregularTypeMods(attacker, opponent, typemod, type)
+      case opponent.crested
+        when :TROPIUS
+          if @battle.pbWeather(attacker) == :SUNNYDAY then
+            typemod = Typemod.half * Typemod.half if [:ICE].include?(type)
+          end
       end
+      return typemod
+    end
+
     alias_method :tropcrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:tropcrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       damage = tropcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
@@ -89,7 +81,6 @@ class PokeBattle_Move
                   @battle.pbShowAbilityBox(@battle.battlers[index], item: true)
                   @battle.pbDisplay(_INTL("The tropical sun thawed the move!"))
                   @battle.pbHideAbilityBox(@battle.battlers[index])
-                  break  
                 end
               end
             end
