@@ -15,7 +15,7 @@ ModCacheInjection.hook(:items) {
 # Turns out none of the stuff below works... so uh :pleading: Lyra heeeeellllp
 # should work now but i cba testing it
 class PokeBattle_Battle
-    alias_method :spidopscrest_pbCrestEntry, :pbCrestEntry if !defined?(spidopscrest_pbCrestEntry)
+    alias_method :spidopscrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:spidopscrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       spidopscrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
@@ -29,7 +29,7 @@ class PokeBattle_Battle
 end
 
 class PokeBattle_Move
-    alias_method :spidopscrest_pbCalcDamage, :pbCalcDamage if !defined?(spidopscrest_pbCalcDamage)
+    alias_method :spidopscrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:spidopscrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
     damage = spidopscrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       case attacker.crested

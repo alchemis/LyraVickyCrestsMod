@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Battler
-  alias_method :krickcrest_applyPostMoveEffects, :applyPostMoveEffects if !defined?(krickcrest_applyPostMoveEffects)
+  alias_method :krickcrest_applyPostMoveEffects, :applyPostMoveEffects if !method_defined?(:krickcrest_applyPostMoveEffects)
   
   def applyPostMoveEffects(basemove, user, targets, hitflag)
     ret = krickcrest_applyPostMoveEffects(basemove, user, targets, hitflag)
@@ -38,7 +38,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Battle
-  alias_method :krickcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(krickcrest_pbEndOfRoundPhase)
+  alias_method :krickcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:krickcrest_pbEndOfRoundPhase)
   def pbEndOfRoundPhase(skipcelebi = false)
       priority = setSpeedOrder
       for battler in priority
@@ -49,7 +49,7 @@ class PokeBattle_Battle
 end
 
 class PokeBattle_Move
-      alias_method :krickcrest_priorityCheck, :priorityCheck if !defined?(krickcrest_priorityCheck)
+      alias_method :krickcrest_priorityCheck, :priorityCheck if !method_defined?(:krickcrest_priorityCheck)
       def priorityCheck(attacker)
           return krickcrest_priorityCheck(attacker) if !attacker.crested == :KRICKETUNE || !attacker.effects[:lvc_krickcrest_prio]
           return 3

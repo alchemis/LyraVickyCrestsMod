@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battle
-    alias_method :nihicrest_protosynthesisCheck, :protosynthesisCheck if !defined?(nihicrest_protosynthesisCheck)
+    alias_method :nihicrest_protosynthesisCheck, :protosynthesisCheck if !method_defined?(:nihicrest_protosynthesisCheck)
     def protosynthesisCheck
       if pbWeather(nil) == :RAINDANCE || [:UNDERWATER, :MURKWATERABYSS, :WATERSURFACE,:SWAMP,:MURKWATERSURFACE,:CORROSIVE,:CORROSIVEMIST,:CORRUPTED, :WASTELAND,].include?(@battle.FE)
         priority = setSpeedOrder
@@ -30,7 +30,7 @@ class PokeBattle_Battle
       end
       nihicrest_protosynthesisCheck
     end
-    alias_method :nihicrest_pbCrestEntry, :pbCrestEntry if !defined?(nihicrest_pbCrestEntry)
+    alias_method :nihicrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:nihicrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       nihicrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]

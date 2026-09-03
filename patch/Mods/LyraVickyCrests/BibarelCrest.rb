@@ -18,7 +18,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Move
-    alias_method :bibacrest_pbCalcDamage, :pbCalcDamage if !defined?(bibacrest_pbCalcDamage)
+    alias_method :bibacrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:bibacrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       if movetype then
         damage = bibacrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
@@ -34,7 +34,7 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battler
-  alias_method :bibacrest_pbCanReduceAnyStat?, :pbCanReduceAnyStat? if !defined?(bibacrest_pbCanReduceAnyStat?)
+  alias_method :bibacrest_pbCanReduceAnyStat?, :pbCanReduceAnyStat? if !method_defined?(:bibacrest_pbCanReduceAnyStat?)
   def pbCanReduceAnyStat?(stats, statinducer, move, showMessage: false, ignoreContrary: false)
     if self.crested == :BIBAREL && statinducer != self then
       @battle.pbAbilityBoxAndDisplay(self, _INTL("{1}'s stats were not lowered!", pbThis),item: true) if showMessage

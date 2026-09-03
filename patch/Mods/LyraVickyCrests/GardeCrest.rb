@@ -69,7 +69,7 @@ end
 #Form change
 class PokeBattle_Battle
 
-  alias_method :gardecrest_pbCrestEntry, :pbCrestEntry if !defined?(gardecrest_pbCrestEntry)
+  alias_method :gardecrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:gardecrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
       battler = @battlers[index]
       if battler.species == :GARDEVOIR && battler.item == :LVCGARDECREST && battler.form == 0 then
@@ -87,7 +87,7 @@ class PokeBattle_Battle
   end
 end
 class PokeBattle_Pokemon
-  alias_method :gardecrest_changeFormOnBattleEnd, :changeFormOnBattleEnd if !defined?(gardecrest_changeFormOnBattleEnd)
+  alias_method :gardecrest_changeFormOnBattleEnd, :changeFormOnBattleEnd if !method_defined?(:gardecrest_changeFormOnBattleEnd)
   def changeFormOnBattleEnd
       if @species == :GARDEVOIR && (@form == 5 || @form == 6) then
           self.form = 0
@@ -98,7 +98,7 @@ class PokeBattle_Pokemon
       end 
   end
 
-  alias_method :gardecrest_hasMegaForm?, :hasMegaForm? if !defined?(gardecrest_hasMegaForm?)
+  alias_method :gardecrest_hasMegaForm?, :hasMegaForm? if !method_defined?(:gardecrest_hasMegaForm?)
   def hasMegaForm?
       if @species == :GARDEVOIR && form == 5 then
           return true 
@@ -110,7 +110,7 @@ class PokeBattle_Pokemon
 end
 
 class PokeBattle_Battle
-    alias_method :gardecrest_pbCanMegaEvolve?, :pbCanMegaEvolve? if !defined?(gardecrest_pbCanMegaEvolve?)
+    alias_method :gardecrest_pbCanMegaEvolve?, :pbCanMegaEvolve? if !method_defined?(:gardecrest_pbCanMegaEvolve?)
 
     def pbCanMegaEvolve?(index, aiBattler: nil)
       ret = aiBattler ? gardecrest_pbCanMegaEvolve?(index, aiBattler: aiBattler) : gardecrest_pbCanMegaEvolve?(index)

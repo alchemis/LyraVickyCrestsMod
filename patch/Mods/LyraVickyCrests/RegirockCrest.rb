@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Battler
-  alias_method :rockcrest_pbCanStatus?, :pbCanStatus? if !defined?(rockcrest_pbCanStatus?)
+  alias_method :rockcrest_pbCanStatus?, :pbCanStatus? if !method_defined?(:rockcrest_pbCanStatus?)
   def pbCanStatus?(attacker, move, ignorestatus: false, showMessage: false)
     can_status = rockcrest_pbCanStatus?(attacker, move, ignorestatus: ignorestatus, showMessage: showMessage)
     if self.crested == :REGIROCK && can_status && move.move != :REST
@@ -30,7 +30,7 @@ class PokeBattle_Battler
 
 
 
-  alias_method :rockcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(rockcrest_pbEffectsOnDealingDamage)
+  alias_method :rockcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:rockcrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.crested == :REGIROCK then
       if move.pbIsPhysical?(user) && move.move != :BRAILLEBURST && !attackerNotPresent
@@ -42,7 +42,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Move
-  alias_method :rockcrest_irregularTypeMods, :irregularTypeMods if !defined?(rockcrest_irregularTypeMods)
+  alias_method :rockcrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:rockcrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = rockcrest_irregularTypeMods(attacker, opponent, typemod, type)
     case opponent.crested

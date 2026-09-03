@@ -15,7 +15,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Move_111 #f sight, doomdesire
-  alias_method :rachicrest_pbEffectTarget, :pbEffectTarget if !defined?(rachicrest_pbEffectTarget)
+  alias_method :rachicrest_pbEffectTarget, :pbEffectTarget if !method_defined?(:rachicrest_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
       ret = rachicrest_pbEffectTarget(attacker, opponent, hitnum, alltargets)
       opponent.effects[:RACHICREST_DOOMDESIRE_FLAG] = attacker.pokemon if @move == :DOOMDESIRE && attacker.crested == :JIRACHI
@@ -23,7 +23,7 @@ class PokeBattle_Move_111 #f sight, doomdesire
   end
 end
 class PokeBattle_Battle
-  alias_method :rachicrest_pbCrestEntry, :pbCrestEntry if !defined?(rachicrest_pbCrestEntry)
+  alias_method :rachicrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:rachicrest_pbCrestEntry)
   def pbCrestEntry(index, pokemon)
     rachicrest_pbCrestEntry(index, pokemon)
     battler = @battlers[index]
@@ -35,7 +35,7 @@ class PokeBattle_Battle
         pbHideAbilityBox(battler)
     end
   end
-  alias_method :rachicrest_pbLifeBlood, :pbLifeBlood if !defined?(rachicrest_pbLifeBlood)
+  alias_method :rachicrest_pbLifeBlood, :pbLifeBlood if !method_defined?(:rachicrest_pbLifeBlood)
   def pbLifeBlood #only thing i can hook onto that is in the correct spot
     eachBattler do |i| # not speed order
       next if i.effects[:FutureSight] != 0

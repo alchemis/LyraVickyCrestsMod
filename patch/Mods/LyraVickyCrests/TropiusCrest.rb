@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battle
-    alias_method :tropcrest_pbCrestEntry, :pbCrestEntry if !defined?(tropcrest_pbCrestEntry)
+    alias_method :tropcrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:tropcrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       tropcrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
@@ -25,7 +25,7 @@ class PokeBattle_Battle
       end
     end
 
-  alias_method :tropcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(tropcrest_pbEndOfRoundPhase)
+  alias_method :tropcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:tropcrest_pbEndOfRoundPhase)
   def pbEndOfRoundPhase(skipcelebi = false)
       priority = setSpeedOrder
       for battler in priority
@@ -36,7 +36,7 @@ class PokeBattle_Battle
 end
 
 class PokeBattle_Battler
-    alias_method :tropcrest_crestStats, :crestStats if !defined?(tropcrest_crestStats)
+    alias_method :tropcrest_crestStats, :crestStats if !method_defined?(:tropcrest_crestStats)
     def crestStats
       
       if @crested == :TROPIUS
@@ -46,7 +46,7 @@ class PokeBattle_Battler
       end
       tropcrest_crestStats
     end
-    alias_method :tropcrest_pbOnStartUse, :pbOnStartUse if !defined?(tropcrest_pbOnStartUse)
+    alias_method :tropcrest_pbOnStartUse, :pbOnStartUse if !method_defined?(:tropcrest_pbOnStartUse)
     def pbOnStartUse(user, targets, basemove, flags)
       for i in targets
         if i.crested == :TROPIUS && @battle.pbWeather(i) == :SUNNYDAY && basemove.pbType(user) == :ICE && basemove.pbIsDamaging?
@@ -62,7 +62,7 @@ class PokeBattle_Battler
 end #battler.effects[:lvc_targetting_tropcrest] = nil
 
 class PokeBattle_Move
-    alias_method :tropcrest_pbType, :pbType if !defined?(tropcrest_pbType)
+    alias_method :tropcrest_pbType, :pbType if !method_defined?(:tropcrest_pbType)
     def pbType(attacker, type = @type)
       type = tropcrest_pbType(attacker, type)
       if defined?(battler.effects[:lvc_targetting_tropcrest]) && battler.effects[:lvc_targetting_tropcrest] && type == :ICE
@@ -74,7 +74,7 @@ class PokeBattle_Move
 end
 #make the ai aware of it, not of the spread effect
 class PokeBattle_AI
-    alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !defined?(tropcrest_pbTypeModNoMessages)
+    alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !method_defined?(:tropcrest_pbTypeModNoMessages)
     def pbTypeModNoMessages(type = @move.type, attacker = @attacker, opponent = @opponent, move = @move, skill = @mondata.skill)
       typemod = tropcrest_pbTypeModNoMessages(type, attacker, opponent, move, skill)
       if skill >= HIGHSKILL && type == :ICE

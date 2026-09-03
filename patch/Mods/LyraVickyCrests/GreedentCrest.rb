@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
   })
 }
 class PokeBattle_Battler
-    alias_method :greedcrest_hasCrest?, :hasCrest? if !defined?(greedcrest_hasCrest?)
+    alias_method :greedcrest_hasCrest?, :hasCrest? if !method_defined?(:greedcrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :GREEDENT then
           return true if $PokemonBag.pbQuantity(:LVCGREEDCREST) > 0 && @battle.pbOwnedByPlayer?(@index)
@@ -23,7 +23,7 @@ class PokeBattle_Battler
         end
     end
 
-    alias_method :greedcrest_pbEatBerry, :pbEatBerry if !defined?(greedcrest_pbEatBerry)
+    alias_method :greedcrest_pbEatBerry, :pbEatBerry if !method_defined?(:greedcrest_pbEatBerry)
     def pbEatBerry(berry = nil, animation: true)
         ret = greedcrest_pbEatBerry(berry, animation: animation)
         berry = self.item if berry.nil?
@@ -33,7 +33,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Battle
-  alias_method :greedcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(greedcrest_pbEndOfRoundPhase)
+  alias_method :greedcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:greedcrest_pbEndOfRoundPhase)
   def pbEndOfRoundPhase(skipcelebi = false)
       priority = setSpeedOrder
       for i in priority
@@ -55,7 +55,7 @@ end
         
                   
 class PokeBattle_Move
-  alias_method :greedcrest_irregularTypeMods, :irregularTypeMods if !defined?(greedcrest_irregularTypeMods)
+  alias_method :greedcrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:greedcrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = greedcrest_irregularTypeMods(attacker, opponent, typemod, type)
     if opponent.crested == :GREEDENT && defined?(opponent.effects[:lvc_greedcrest_berry] ) && opponent.effects[:lvc_greedcrest_berry] && pbNaturalGiftType(opponent.effects[:lvc_greedcrest_berry]) != :NORMAL

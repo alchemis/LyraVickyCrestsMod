@@ -35,7 +35,7 @@ ModCacheInjection.hook(:moves) {
 }
 
 class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
-  alias_method :vicform_pbShowAnimation, :pbShowAnimation if !defined?(vicform_pbShowAnimation)
+  alias_method :vicform_pbShowAnimation, :pbShowAnimation if !method_defined?(:vicform_pbShowAnimation)
   def pbShowAnimation(id,attacker,opponent,hitnum=0,alltargets=nil,showanimation=true)
     if showanimation
       if id == :VDEVASTATE
@@ -45,7 +45,7 @@ class PokeBattle_Move_309 < PokeBattle_Move #SHELL SIDE ARM
       end
     end
   end
-  alias_method :vicform_pbEffect, :pbEffect if !defined?(vicform_pbEffect)
+  alias_method :vicform_pbEffect, :pbEffect if !method_defined?(:vicform_pbEffect)
   def pbEffect(attacker, alltargets, hitnum = 0)
     if @move == :VDEVASTATE
       attacker.pbChangeStats([PBStats::DEFENSE, PBStats::SPDEF, PBStats::SPEED], -1, attacker, self, abilitycheck: :hide)

@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     
-    alias_method :stcrest_crestStats, :crestStats if !defined?(stcrest_crestStats)
+    alias_method :stcrest_crestStats, :crestStats if !method_defined?(:stcrest_crestStats)
     def crestStats
       
       case @crested
@@ -26,7 +26,7 @@ class PokeBattle_Battler
     end
 
 
-    alias_method :stcrest_hasWorkingItem, :hasWorkingItem if !defined?(stcrest_hasWorkingItem)
+    alias_method :stcrest_hasWorkingItem, :hasWorkingItem if !method_defined?(:stcrest_hasWorkingItem)
     def hasWorkingItem(item, ignorefainted: false)
       ignorefainted = false if !defined?(ignorefainted)
       if item == :AIRBALLOON and @crested == :SCREAMTAIL and (!defined?(@stcrest_popped) or !@stcrest_popped) then
@@ -36,7 +36,7 @@ class PokeBattle_Battler
     end
 
 
-    alias_method :stcrest_pbDisposeItem, :pbDisposeItem if !defined?(stcrest_pbDisposeItem)
+    alias_method :stcrest_pbDisposeItem, :pbDisposeItem if !method_defined?(:stcrest_pbDisposeItem)
     def pbDisposeItem(burp: true, symbiosis: true, pickupable: true, duringattack: false)
         burp = true if !defined?(burp)
         symbiosis = true if !defined?(symbiosis)
@@ -49,7 +49,7 @@ class PokeBattle_Battler
         end
     end
 
-    alias_method :stcrest_pbOnKillEffects, :pbOnKillEffects if !defined?(stcrest_pbOnKillEffects)
+    alias_method :stcrest_pbOnKillEffects, :pbOnKillEffects if !method_defined?(:stcrest_pbOnKillEffects)
     def pbOnKillEffects(targets, basemove, flags = { totaldamage: 0 })
       ret = stcrest_pbOnKillEffects(targets,basemove,flags)
       if @crested == :SCREAMTAIL then

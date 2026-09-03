@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 #Stab on sound moves
 class PokeBattle_Move
-  alias_method :altacrest_pbModifySTAB, :pbModifySTAB if !defined?(altacrest_pbModifySTAB)
+  alias_method :altacrest_pbModifySTAB, :pbModifySTAB if !method_defined?(:altacrest_pbModifySTAB)
   def pbModifySTAB(stabmult, type, attacker, opponent)
     if attacker.crested == :ALTARIA && self.isSoundBased? then
         stabmult += 0.5 if stabmult <= 1
@@ -25,7 +25,7 @@ end
 
 #ECHO
 class PokeBattle_Battler
-  alias_method :altacrest_pbDancerMoveCheck, :pbDancerMoveCheck if !defined?(altacrest_pbDancerMoveCheck)
+  alias_method :altacrest_pbDancerMoveCheck, :pbDancerMoveCheck if !method_defined?(:altacrest_pbDancerMoveCheck)
   
   def pbDancerMoveCheck(id)
     priority = @battle.setSpeedOrder
@@ -45,7 +45,7 @@ end
 
 #reset at turn end
 class PokeBattle_Battle
-  alias_method :altacrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(altacrest_pbEndOfRoundPhase)
+  alias_method :altacrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:altacrest_pbEndOfRoundPhase)
   def pbEndOfRoundPhase(skipcelebi = false)
       priority = setSpeedOrder
       for battler in priority
