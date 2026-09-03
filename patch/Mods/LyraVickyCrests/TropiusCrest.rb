@@ -90,19 +90,3 @@ class PokeBattle_Move
         end
     end
 end
-#make the ai aware of it, not of the spread effect
-#shouldnt be needed anymore
-# class PokeBattle_AI
-#     alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !method_defined?(:tropcrest_pbTypeModNoMessages)
-#     def pbTypeModNoMessages(type = @move.type, attacker = @attacker, opponent = @opponent, move = @move, skill = @mondata.skill)
-#       if skill >= HIGHSKILL && type == :ICE && @battle.pbWeather(opponent) == :SUNNYDAY &&
-#         (opponent.crested == :TROPIUS || #single target move targetting tropius
-#         (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS) && (move.pbTargetsAll?(attacker) || attacker.pbTarget(move) == :AllOpposing))) #spread move targetting tropius & its ally
-#         typemod = tropcrest_pbTypeModNoMessages(:WATER, attacker, opponent, move, skill)
-#         puts "This targets tropcrest! The typemod is #{typemod.multiplier}"
-#       else
-#         typemod = tropcrest_pbTypeModNoMessages(type, attacker, opponent, move, skill) 
-#       end
-#       return typemod
-#     end
-# end
