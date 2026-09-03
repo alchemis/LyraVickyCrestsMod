@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 EXTRAKICKMOVES = [:TRIPLEAXEL,]
 class PokeBattle_Move
-  alias_method :tsarcrest_pbModifySTAB, :pbModifySTAB if !defined?(tsarcrest_pbModifySTAB)
+  alias_method :tsarcrest_pbModifySTAB, :pbModifySTAB if !method_defined?(:tsarcrest_pbModifySTAB)
   def pbModifySTAB(stabmult, type, attacker, opponent)
     if attacker.crested == :TSAREENA && ($cache.moves[@move]&.checkFlag?(:kickmove) || EXTRAKICKMOVES.include?(@move)) then
         stabmult += 0.5 if stabmult <= 1
@@ -23,7 +23,7 @@ class PokeBattle_Move
   end
 end
 class PokeBattle_Battle
-  alias_method :tsarcrest_pbCrestEffects, :pbCrestEffects if !defined?(tsarcrest_pbCrestEffects)
+  alias_method :tsarcrest_pbCrestEffects, :pbCrestEffects if !method_defined?(:tsarcrest_pbCrestEffects)
   def pbCrestEffects(index, pokemon)
       tsarcrest_pbCrestEffects(index, pokemon)
       battler = @battlers[index]

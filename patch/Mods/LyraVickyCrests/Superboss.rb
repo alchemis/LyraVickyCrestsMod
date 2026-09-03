@@ -15,7 +15,7 @@ ModCacheInjection.hook(:trainertypes) {
 
 def lvc_bossinit
   PokeBattle_AI.class_eval{  
-  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !defined?(lvc_superbossgetSwitchInScoresParty)
+  alias_method :lvc_superbossgetSwitchInScoresParty, :getSwitchInScoresParty if !method_defined?(:lvc_superbossgetSwitchInScoresParty)
   def getSwitchInScoresParty(hard_switch, revival: false, doublereplace: false, batonpass: true)
       partyscores = lvc_superbossgetSwitchInScoresParty(hard_switch, revival: revival, doublereplace: doublereplace, batonpass: batonpass)
       if @battle.opponent.is_a?(Array) && !@battle.opponent.nil? && @battle.opponent[0].trainertype == :LVCVICTORY
@@ -563,7 +563,7 @@ end
 
 #Boss reward stuff
 class PokemonSummaryScene
-    alias_method :lvc_drawPageOne, :drawPageOne if !defined?(lvc_drawPageOne)
+    alias_method :lvc_drawPageOne, :drawPageOne if !method_defined?(:lvc_drawPageOne)
     def drawPageOne(pokemon)
         if pokemon.flickerOT then
           ot = pokemon.ot.dup

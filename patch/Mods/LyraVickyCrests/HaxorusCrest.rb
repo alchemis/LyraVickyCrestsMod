@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 #class PokeBattle_Move
-    #alias_method :haxcrest_pbCalcDamage, :pbCalcDamage if !defined?(haxcrest_pbCalcDamage)
+    #alias_method :haxcrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:haxcrest_pbCalcDamage)
     #def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
           #if movetype then
             #damage = haxcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
@@ -31,7 +31,7 @@ ModCacheInjection.hook(:items) {
 
 #Sharpness Stab
 class PokeBattle_Move
-  alias_method :haxcrest_pbModifySTAB, :pbModifySTAB if !defined?(haxcrest_pbModifySTAB)
+  alias_method :haxcrest_pbModifySTAB, :pbModifySTAB if !method_defined?(:haxcrest_pbModifySTAB)
   def pbModifySTAB(stabmult, type, attacker, opponent)
     if attacker.crested == :HAXORUS && self.sharpMove? then
         stabmult += 0.5 if stabmult <= 1
@@ -41,7 +41,7 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battler
-    alias_method :haxcrest_crestStats, :crestStats if !defined?(haxcrest_crestStats)
+    alias_method :haxcrest_crestStats, :crestStats if !method_defined?(:haxcrest_crestStats)
     def crestStats
       
       case @crested

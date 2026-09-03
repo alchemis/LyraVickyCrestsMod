@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Move
-    alias_method :noivcrest_pbCalcDamage, :pbCalcDamage if !defined?(noivcrest_pbCalcDamage)
+    alias_method :noivcrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:noivcrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
           if movetype then
             damage = noivcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
@@ -27,14 +27,14 @@ class PokeBattle_Move
             damage *= 0.5
           end
 
-          return damage.floor
+          return damage.round
     end
 
 end
 
 #ECHO
 class PokeBattle_Battler
-  alias_method :noivcrest_applyPostMoveEffects, :applyPostMoveEffects if !defined?(noivcrest_applyPostMoveEffects)
+  alias_method :noivcrest_applyPostMoveEffects, :applyPostMoveEffects if !method_defined?(:noivcrest_applyPostMoveEffects)
   
   def applyPostMoveEffects(basemove, user, targets, hitflag)
     ret = noivcrest_applyPostMoveEffects(basemove, user, targets, hitflag)

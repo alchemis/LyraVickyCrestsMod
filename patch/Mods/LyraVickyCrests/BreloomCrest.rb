@@ -17,7 +17,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Move
-    alias_method :brecrest_pbCalcDamage, :pbCalcDamage if !defined?(brecrest_pbCalcDamage)
+    alias_method :brecrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:brecrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       if movetype then
         damage = brecrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype) #attacker, opponent, hitnum, feedbackMessages, movetype
@@ -27,11 +27,11 @@ class PokeBattle_Move
         damage *= 1.5 if attacker.ability == :TECHNICIAN && @basedamage <= 80 && @basedamage > 60 
         damage *= 1.3 if attacker.ability == :TOUGHCLAWS && self.pbIsPhysical?(attacker) && !self.contactMove?
       end
-      return damage.floor
+      return damage.round
       
     end
     
-    alias_method :brecrest_pbIsSpecial?, :pbIsSpecial? if !defined?(brecrest_pbIsSpecial?)
+    alias_method :brecrest_pbIsSpecial?, :pbIsSpecial? if !method_defined?(:brecrest_pbIsSpecial?)
     def pbIsSpecial?(attacker, type = @type)
       if attacker.crested == :BRELOOM && attacker.ability == :TECHNICIAN then
         return false
@@ -40,7 +40,7 @@ class PokeBattle_Move
 
     end
 
-    alias_method :brecrest_pbIsPhysical?, :pbIsPhysical? if !defined?(brecrest_pbIsPhysical?)
+    alias_method :brecrest_pbIsPhysical?, :pbIsPhysical? if !method_defined?(:brecrest_pbIsPhysical?)
     def pbIsPhysical?(attacker, type = @type)
       if attacker.crested == :BRELOOM && attacker.ability == :TECHNICIAN then
         return true
@@ -49,7 +49,7 @@ class PokeBattle_Move
 
     end
 
-    alias_method :brecrest_pbHitsSpecialStat?, :pbHitsSpecialStat? if !defined?(brecrest_pbHitsSpecialStat?)
+    alias_method :brecrest_pbHitsSpecialStat?, :pbHitsSpecialStat? if !method_defined?(:brecrest_pbHitsSpecialStat?)
     def pbHitsSpecialStat?(attacker, type = @type)
       if attacker.crested == :BRELOOM && attacker.ability == :TECHNICIAN then
         return !(@category == :special) if @function == 0x122 #psyshock, etc
@@ -62,7 +62,7 @@ end
 
 class PokeBattle_Battler
 
-    alias_method :brecrest_crestStats, :crestStats if !defined?(brecrest_crestStats)
+    alias_method :brecrest_crestStats, :crestStats if !method_defined?(:brecrest_crestStats)
     def crestStats
       if @crested == :BRELOOM 
         case @ability
@@ -77,7 +77,7 @@ class PokeBattle_Battler
       brecrest_crestStats
     end
 
-    alias_method :brecrest_pbResolveMoveEffects, :pbResolveMoveEffects if !defined?(brecrest_pbResolveMoveEffects)
+    alias_method :brecrest_pbResolveMoveEffects, :pbResolveMoveEffects if !method_defined?(:brecrest_pbResolveMoveEffects)
     def pbResolveMoveEffects(user, basemove, targets, calcdamage, hitflag, hitcount, flags = { totaldamage: 0, UserFaintCause: [] })
       ret = brecrest_pbResolveMoveEffects(user, basemove, targets, calcdamage, hitflag, hitcount, flags)
       if user.crested == :BRELOOM && !(hitcount > 1)
@@ -106,7 +106,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Battle
-    alias_method :brecrest_pbCrestEntry, :pbCrestEntry if !defined?(brecrest_pbCrestEntry)
+    alias_method :brecrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:brecrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       brecrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]

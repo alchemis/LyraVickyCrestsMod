@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #only works for base form
-    alias_method :articrest_hasCrest?, :hasCrest? if !defined?(articrest_hasCrest?)
+    alias_method :articrest_hasCrest?, :hasCrest? if !method_defined?(:articrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :ARTICUNO && @item == :LVCARTICREST && @form != 0 then
           return false
@@ -24,7 +24,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Move
-  alias_method :articrest_irregularTypeMods, :irregularTypeMods if !defined?(articrest_irregularTypeMods)
+  alias_method :articrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:articrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = articrest_irregularTypeMods(attacker, opponent, typemod, type)
     case opponent.crested
@@ -38,7 +38,7 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battle
-    alias_method :articrest_pbCrestEntry, :pbCrestEntry if !defined?(articrest_pbCrestEntry)
+    alias_method :articrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:articrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       articrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]

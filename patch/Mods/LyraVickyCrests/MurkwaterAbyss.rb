@@ -237,7 +237,7 @@ FieldIDToSym[99] = :MURKWATERABYSS
 
 
 class PokeBattle_Battle
-  alias_method :murkabyss_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(murkabyss_pbEndOfRoundPhase)
+  alias_method :murkabyss_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:murkabyss_pbEndOfRoundPhase)
   def pbEndOfRoundPhase(skipcelebi = false)
     murkabyss_pbEndOfRoundPhase(skipcelebi)
     if @field.effect == :MURKWATERABYSS
@@ -247,7 +247,7 @@ class PokeBattle_Battle
         typemod = battler.murkwaterabyssPassiveDamage
         if !typemod.immune?
           mult = typemod.multiplier
-          battler.pbReduceHP((battler.totalhp / 8.0 * mult).floor, true, message: _INTL("The toxic water hurt {1}!", battler.pbThis))
+          battler.pbReduceHP((battler.totalhp / 8.0 * mult).round, true, message: _INTL("The toxic water hurt {1}!", battler.pbThis))
           battler.pbFaint if battler.isFainted?
         end
       end
@@ -279,7 +279,7 @@ class PokeBattle_Battler
   end
 
   #reduce nonpoison spdef by 1 stage
-  alias_method :murkabyss_pbAbilitiesOnField, :pbAbilitiesOnField if !defined?(murkabyss_pbAbilitiesOnField)
+  alias_method :murkabyss_pbAbilitiesOnField, :pbAbilitiesOnField if !method_defined?(:murkabyss_pbAbilitiesOnField)
   def pbAbilitiesOnField(delayStatChangeChecks = false, applySwitchInAbility: false)
       if !applySwitchInAbility
         return if @battle.preSurgeField && @battle.FE == @battle.preSurgeField

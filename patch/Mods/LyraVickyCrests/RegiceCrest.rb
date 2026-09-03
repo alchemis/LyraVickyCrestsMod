@@ -14,7 +14,7 @@ ModCacheInjection.hook(:items) {
 
 
 class PokeBattle_Battler
-  alias_method :icecrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(icecrest_pbEffectsOnDealingDamage)
+  alias_method :icecrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:icecrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.crested == :REGICE then
       if move.pbIsSpecial?(user) && move.move != :BRAILLEBURST && !attackerNotPresent
@@ -24,7 +24,7 @@ class PokeBattle_Battler
     return icecrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
   end
 
-  alias_method :icecrest_pbSuccessCheck, :pbSuccessCheck if !defined?(icecrest_pbSuccessCheck)
+  alias_method :icecrest_pbSuccessCheck, :pbSuccessCheck if !method_defined?(:icecrest_pbSuccessCheck)
   def pbSuccessCheck(basemove, targets, flags, accuracy = true)
       hitflags = icecrest_pbSuccessCheck(basemove, targets, flags, accuracy)
       return hitflags if targets.difference([self]).none? 
@@ -37,7 +37,7 @@ class PokeBattle_Battler
       return hitflags
   end
 
-  alias_method :icecrest_moveFailureEffects, :moveFailureEffects if !defined?(moveFailureEffects)
+  alias_method :icecrest_moveFailureEffects, :moveFailureEffects if !method_defined?(:icecrest_moveFailureEffects)
   def moveFailureEffects(user, basemove, target, hitflag)
     # messaging of move failure
     if hitflag == :MagicBouncedCrest

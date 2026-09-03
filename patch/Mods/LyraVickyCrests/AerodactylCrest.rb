@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #look for crest in bag/trainer items instead
-    alias_method :aerocrest_hasCrest?, :hasCrest? if !defined?(aerocrest_hasCrest?)
+    alias_method :aerocrest_hasCrest?, :hasCrest? if !method_defined?(:aerocrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :AERODACTYL then
           return true if $PokemonBag.pbQuantity(:LVCAERODACTYLCREST) > 0 && @battle.pbOwnedByPlayer?(@index) && PBStuff::SILVALLYCRESTABILITIES.has_key?(@item)
@@ -26,7 +26,7 @@ class PokeBattle_Battler
         end
     end
     #type change
-    alias_method :aerocrest_crestStats, :crestStats if !defined?(aerocrest_crestStats)
+    alias_method :aerocrest_crestStats, :crestStats if !method_defined?(:aerocrest_crestStats)
     def crestStats
       
       if @crested == :AERODACTYL
@@ -53,7 +53,7 @@ class PokeBattle_Battler
           #gain move
           @aerocrest_ogmove = {:move => @moves[0].move, :pp => @moves[0].pp, :totalpp => @moves[0].totalpp}
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:MULTIATTACK), @pokemon)
-          @moves[0].pp = (@aerocrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @aerocrest_ogmove[:totalpp])).floor
+          @moves[0].pp = (@aerocrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @aerocrest_ogmove[:totalpp])).round
       end
       aerocrest_crestStats
     end

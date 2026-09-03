@@ -17,7 +17,7 @@ ModCacheInjection.hook(:items) {
 
 #cant take more than half its hp if at full
 class PokeBattle_Move
-    alias_method :carracrest_pbCalcDamage, :pbCalcDamage if !defined?(carracrest_pbCalcDamage)
+    alias_method :carracrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:carracrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       damage = carracrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       if opponent.crested == :CARRACOSTA and opponent.hp == opponent.totalhp and damage >= (opponent.totalhp/2)
@@ -25,7 +25,7 @@ class PokeBattle_Move
         damage = [damage, (opponent.totalhp/2.to_f).ceil].min()
 
       end
-      return damage.floor
+      return damage.round
       
     end
 end
@@ -34,10 +34,10 @@ end
 class PokeBattle_Battler
 
   #sharply raise defenses
-  alias_method :carracrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !defined?(carracrest_pbEmergencyExitCheck)
+  alias_method :carracrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !method_defined?(:carracrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :CARRACOSTA then
-    return unless oldhp > (@totalhp / 2.0).floor && self.hp <= (@totalhp / 2.0).floor && self.hp != 0
+    return unless oldhp > (@totalhp / 2.0).round && self.hp <= (@totalhp / 2.0).round && self.hp != 0
 
     if self.pbCanIncreaseAnyStat?([PBStats::DEFENSE, PBStats::SPDEF], self, nil, showMessage: false)
       @battle.pbShowAbilityBox(self, item: true)
@@ -50,7 +50,7 @@ class PokeBattle_Battler
   end
 
   #just for abilitybox
-  alias_method :carracrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(carracrest_pbEffectsOnDealingDamage)
+  alias_method :carracrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:carracrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.effects[:LVC_TANKEDHIT] && target.crested == :CARRACOSTA
       @battle.pbAbilityBoxAndDisplay(target, _INTL("{1} tanked the hit!", target.pbThis), item: true)

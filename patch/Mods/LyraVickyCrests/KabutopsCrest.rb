@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #look for crest in bag/trainer items instead
-    alias_method :kabucrest_hasCrest?, :hasCrest? if !defined?(kabucrest_hasCrest?)
+    alias_method :kabucrest_hasCrest?, :hasCrest? if !method_defined?(:kabucrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :KABUTOPS then
           return true if $PokemonBag.pbQuantity(:LVCKABUTOPSCREST) > 0 && @battle.pbOwnedByPlayer?(@index) && [:BURNDRIVE,:DOUSEDRIVE,:SHOCKDRIVE,:CHILLDRIVE].include?(@item)
@@ -26,7 +26,7 @@ class PokeBattle_Battler
         end
     end
     #type change
-    alias_method :kabucrest_crestStats, :crestStats if !defined?(kabucrest_crestStats)
+    alias_method :kabucrest_crestStats, :crestStats if !method_defined?(:kabucrest_crestStats)
     def crestStats
       
       if @crested == :KABUTOPS
@@ -39,7 +39,7 @@ class PokeBattle_Battler
           #gain move
           @kabucrest_ogmove = {:move => @moves[0].move, :pp => @moves[0].pp, :totalpp => @moves[0].totalpp}
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:TECHNOBLAST), @pokemon)
-          @moves[0].pp = (@kabucrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @kabucrest_ogmove[:totalpp])).floor
+          @moves[0].pp = (@kabucrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @kabucrest_ogmove[:totalpp])).round
       end
       kabucrest_crestStats
     end
@@ -47,7 +47,7 @@ class PokeBattle_Battler
 end
 
 class PokeBattle_Move
-  alias_method :kabucrest_pbIsSpecial?, :pbIsSpecial? if !defined?(kabucrest_pbIsSpecial?)
+  alias_method :kabucrest_pbIsSpecial?, :pbIsSpecial? if !method_defined?(:kabucrest_pbIsSpecial?)
   def pbIsSpecial?(attacker, type = @type)
     if attacker.crested == :KABUTOPS then
       return false
@@ -55,7 +55,7 @@ class PokeBattle_Move
     end
 
   end
-  alias_method :kabucrest_pbIsPhysical?, :pbIsPhysical? if !defined?(kabucrest_pbIsPhysical?)
+  alias_method :kabucrest_pbIsPhysical?, :pbIsPhysical? if !method_defined?(:kabucrest_pbIsPhysical?)
   def pbIsPhysical?(attacker, type = @type)
     if attacker.crested == :KABUTOPS then
       return true
@@ -63,7 +63,7 @@ class PokeBattle_Move
     end
 
   end
-  alias_method :kabucrest_pbHitsSpecialStat?, :pbHitsSpecialStat? if !defined?(kabucrest_pbHitsSpecialStat?)
+  alias_method :kabucrest_pbHitsSpecialStat?, :pbHitsSpecialStat? if !method_defined?(:kabucrest_pbHitsSpecialStat?)
   def pbHitsSpecialStat?(attacker, type = @type)
     if attacker.crested == :KABUTOPS then
       return !(@category == :special) if @function == 0x122 #psyshock, etc

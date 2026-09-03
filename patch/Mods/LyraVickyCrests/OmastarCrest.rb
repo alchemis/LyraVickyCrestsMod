@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #look for crest in bag/trainer items instead
-    alias_method :helixcrest_hasCrest?, :hasCrest? if !defined?(helixcrest_hasCrest?)
+    alias_method :helixcrest_hasCrest?, :hasCrest? if !method_defined?(:helixcrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :OMASTAR then
           plates = [:INSECTPLATE,:DREADPLATE,:DRACOPLATE,:ZAPPLATE,:FISTPLATE,
@@ -30,7 +30,7 @@ class PokeBattle_Battler
         end
     end
     #type change
-    alias_method :helixcrest_crestStats, :crestStats if !defined?(helixcrest_crestStats)
+    alias_method :helixcrest_crestStats, :crestStats if !method_defined?(:helixcrest_crestStats)
     def crestStats
       
       if @crested == :OMASTAR
@@ -56,7 +56,7 @@ class PokeBattle_Battler
           #gain move
           @helixcrest_ogmove = {:move => @moves[0].move, :pp => @moves[0].pp, :totalpp => @moves[0].totalpp}
           @moves[0] = PokeBattle_Move.pbFromPBMove(@battle, PBMove.new(:JUDGMENT), @pokemon)
-          @moves[0].pp = (@helixcrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @helixcrest_ogmove[:totalpp])).floor
+          @moves[0].pp = (@helixcrest_ogmove[:pp] * (@moves[0].totalpp.to_f / @helixcrest_ogmove[:totalpp])).round
       end
       helixcrest_crestStats
     end

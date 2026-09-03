@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battler
-    alias_method :pyroarcrest_crestStats, :crestStats if !defined?(pyroarcrest_crestStats)
+    alias_method :pyroarcrest_crestStats, :crestStats if !method_defined?(:pyroarcrest_crestStats)
     def crestStats
       
       case @crested

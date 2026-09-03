@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Move
-  alias_method :heliocrest_pbType, :pbType if !defined?(heliocrest_pbType)
+  alias_method :heliocrest_pbType, :pbType if !method_defined?(:heliocrest_pbType)
   def pbType(attacker, type = @type)
     type = heliocrest_pbType(attacker,type)
     if attacker.crested == :HELIOLISK && type == :NORMAL then
@@ -28,18 +28,18 @@ class PokeBattle_Move
 end
 #shadowbuffing to match -ate abilities
 class PokeBattle_Move
-    alias_method :heliocrest_pbCalcDamage, :pbCalcDamage if !defined?(heliocrest_pbCalcDamage)
+    alias_method :heliocrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:heliocrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
     damage = heliocrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       if attacker.crested == :HELIOLISK && @type == :NORMAL #@type is original move type
-        damage = (damage*1.2).floor
+        damage = (damage*1.2).round
       end
     return damage
     end
 end
 
 class PokeBattle_Battler
-    alias_method :heliocrest_crestStats, :crestStats if !defined?(heliocrest_crestStats)
+    alias_method :heliocrest_crestStats, :crestStats if !method_defined?(:heliocrest_crestStats)
     def crestStats
       
       case @crested

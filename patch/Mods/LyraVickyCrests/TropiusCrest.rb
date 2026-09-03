@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 
 class PokeBattle_Battle
-    alias_method :tropcrest_pbCrestEntry, :pbCrestEntry if !defined?(tropcrest_pbCrestEntry)
+    alias_method :tropcrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:tropcrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       tropcrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
@@ -24,19 +24,10 @@ class PokeBattle_Battle
           pbHideAbilityBox(battler)
       end
     end
-
-  alias_method :tropcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !defined?(tropcrest_pbEndOfRoundPhase)
-  def pbEndOfRoundPhase(skipcelebi = false)
-      priority = setSpeedOrder
-      for battler in priority
-        battler.effects[:lvc_targetting_tropcrest] = false if battler.effects[:lvc_targetting_tropcrest]
-      end
-      tropcrest_pbEndOfRoundPhase(skipcelebi)
-  end
 end
 
 class PokeBattle_Battler
-    alias_method :tropcrest_crestStats, :crestStats if !defined?(tropcrest_crestStats)
+    alias_method :tropcrest_crestStats, :crestStats if !method_defined?(:tropcrest_crestStats)
     def crestStats
       
       if @crested == :TROPIUS
@@ -46,40 +37,50 @@ class PokeBattle_Battler
       end
       tropcrest_crestStats
     end
-    alias_method :tropcrest_pbOnStartUse, :pbOnStartUse if !defined?(tropcrest_pbOnStartUse)
-    def pbOnStartUse(user, targets, basemove, flags)
-      for i in targets
-        if i.crested == :TROPIUS && @battle.pbWeather(i) == :SUNNYDAY && basemove.pbType(user) == :ICE && basemove.pbIsDamaging?
-            @battle.pbShowAbilityBox(i, item: true)
-            @battle.pbDisplay(_INTL("The tropical sun thawed the move!", i.pbThis))
-            @battle.pbHideAbilityBox(i)
-            @effects[:lvc_targetting_tropcrest] = true
-            break
-        end
-      end
-      return tropcrest_pbOnStartUse(user, targets, basemove, flags)
-    end
-end #battler.effects[:lvc_targetting_tropcrest] = nil
+end 
 
 class PokeBattle_Move
-    alias_method :tropcrest_pbType, :pbType if !defined?(tropcrest_pbType)
+
+    alias_method :tropcrest_pbType, :pbType if !method_defined?(:tropcrest_pbType)
     def pbType(attacker, type = @type)
       type = tropcrest_pbType(attacker, type)
-      if defined?(battler.effects[:lvc_targetting_tropcrest]) && battler.effects[:lvc_targetting_tropcrest] && type == :ICE
+      if type == :ICE && @battle.pbWeather(nil) == :SUNNYDAY && (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS))
         type = :WATER
       end
       return type
     end
 
-end
-#make the ai aware of it, not of the spread effect
-class PokeBattle_AI
-    alias_method :tropcrest_pbTypeModNoMessages, :pbTypeModNoMessages if !defined?(tropcrest_pbTypeModNoMessages)
-    def pbTypeModNoMessages(type = @move.type, attacker = @attacker, opponent = @opponent, move = @move, skill = @mondata.skill)
-      typemod = tropcrest_pbTypeModNoMessages(type, attacker, opponent, move, skill)
-      if skill >= HIGHSKILL && type == :ICE
-          typemod = Typemod.half * Typemod.half  * Typemod.half if opponent.crested == :TROPIUS && @battle.pbWeather(opponent) == :SUNNYDAY
-      end
-      return typemod
+    alias_method :tropcrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:tropcrest_pbCalcDamage)
+    def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
+      damage = tropcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
+      type = movetype.nil? ? pbType(attacker) : movetype
+      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :WATER && @type == :ICE && @battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
+      return damage
+    end
+
+    alias_method :tropcrest_damageCalcMessages, :damageCalcMessages if !method_defined?(:tropcrest_damageCalcMessages)
+    def damageCalcMessages(attacker, feedbackMessages, late: false)
+      #this shit doesnt work stupid bitch
+        tropcrest_damageCalcMessages(attacker, feedbackMessages, late: late)
+        if !late
+            #too mentally unwell to rewrite this properly
+            messageHash = {}
+            feedbackMessages.each_pair do |index, messages|
+              messages.each do |message|
+                messageHash[message] = [] unless messageHash.has_key?(message)
+                messageHash[message].push(index)
+              end
+            end
+            messageHash.each do |message, indexes|
+              indexes.each do |index|
+                if message == :TropCrestThaw
+                  @battle.pbShowAbilityBox(@battle.battlers[index], item: true)
+                  @battle.pbDisplay(_INTL("The tropical sun thawed the move!"))
+                  @battle.pbHideAbilityBox(@battle.battlers[index])
+                  break  
+                end
+              end
+            end
+        end
     end
 end

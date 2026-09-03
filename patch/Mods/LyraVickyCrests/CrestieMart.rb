@@ -19,6 +19,7 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCGREEDCREST).costs(10000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 2']),
       
       ItemStock.of(:LVCROSECREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
+      ItemStock.of(:LVCLURACREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
       ItemStock.of(:LVCSPIDCREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
       ItemStock.of(:LVCPYROARCREST).costs(40000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 4']),
       
@@ -26,12 +27,13 @@ ModCacheInjection.hook(:marts) {
       ItemStock.of(:LVCKLINCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
       ItemStock.of(:LVCBIBACREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
       ItemStock.of(:LVCWAILCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
-      ItemStock.of(:LVCTROPCREST).costs(60000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 6']),
+
 
       ItemStock.of(:LVCSLAKCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
       ItemStock.of(:LVCTSARCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
       ItemStock.of(:LVCNOIVCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
-      
+      ItemStock.of(:LVCTROPCREST).costs(80000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 8']),
+
       ItemStock.of(:LVCTYRACREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
       ItemStock.of(:LVCAUROCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),
       ItemStock.of(:LVCJMPLFFCREST).costs(100000).limit().properties(conditions: ['!searchItem(self.item) && $Trainer.numbadges >= 10']),

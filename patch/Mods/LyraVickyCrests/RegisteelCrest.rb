@@ -16,7 +16,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
 
-  alias_method :steelcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(steelcrest_pbEffectsOnDealingDamage)
+  alias_method :steelcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:steelcrest_pbEffectsOnDealingDamage)
   def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
     if target.crested == :REGISTEEL then
       if (move.pbIsSpecial?(user) || move.pbIsPhysical?(user)) && move.move != :BRAILLEBURST && !attackerNotPresent
@@ -26,7 +26,7 @@ class PokeBattle_Battler
     return steelcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
   end
 
-  alias_method :steelcrest_pbSuccessCheck, :pbSuccessCheck if !defined?(steelcrest_pbSuccessCheck)
+  alias_method :steelcrest_pbSuccessCheck, :pbSuccessCheck if !method_defined?(:steelcrest_pbSuccessCheck)
   def pbSuccessCheck(basemove, targets, flags, accuracy = true)
       hitflags = steelcrest_pbSuccessCheck(basemove, targets, flags, accuracy)
       return hitflags if targets.difference([self]).none? 
@@ -39,7 +39,7 @@ class PokeBattle_Battler
       return hitflags
   end
 
-  alias_method :steelcrest_moveFailureEffects, :moveFailureEffects if !defined?(moveFailureEffects)
+  alias_method :steelcrest_moveFailureEffects, :moveFailureEffects if !method_defined?(:steelcrest_moveFailureEffects)
   def moveFailureEffects(user, basemove, target, hitflag)
     # messaging of move failure
     if hitflag == :GoodAsGoldCrest

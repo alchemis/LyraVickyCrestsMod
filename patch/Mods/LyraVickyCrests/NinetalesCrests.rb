@@ -26,7 +26,7 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
     #form check..
-    alias_method :atalescrest_hasCrest?, :hasCrest? if !defined?(atalescrest_hasCrest?)
+    alias_method :atalescrest_hasCrest?, :hasCrest? if !method_defined?(:atalescrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :NINETALES then
           return true if @item == :LVCATALESCREST && form == 1
@@ -38,7 +38,7 @@ class PokeBattle_Battler
 
 
     #stats
-    alias_method :atalescrest_crestStats, :crestStats if !defined?(atalescrest_crestStats)
+    alias_method :atalescrest_crestStats, :crestStats if !method_defined?(:atalescrest_crestStats)
     def crestStats
       
       case @crested
@@ -51,7 +51,7 @@ class PokeBattle_Battler
     end
 
     #item stuff
-    alias_method :atalescrest_hasWorkingItem, :hasWorkingItem if !defined?(atalescrest_hasWorkingItem)
+    alias_method :atalescrest_hasWorkingItem, :hasWorkingItem if !method_defined?(:atalescrest_hasWorkingItem)
     def hasWorkingItem(item, ignorefainted: false)
       ignorefainted = false if !defined?(ignorefainted)
       if @crested == :NINETALES && form == 1 then
@@ -67,7 +67,7 @@ class PokeBattle_Battler
     end
 
     #curse effect
-    alias_method :atalescrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !defined?(atalescrest_pbEffectsOnDealingDamage)
+    alias_method :atalescrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:atalescrest_pbEffectsOnDealingDamage)
     def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
       if target.crested == :NINETALES && target.form == 0 then
         if user.makesContact?(move) && !user.effects[:Curse] 
@@ -85,7 +85,7 @@ end
 
 class PokeBattle_Move
 
-  alias_method :atalescrest_pbModifySTAB, :pbModifySTAB if !defined?(atalescrest_pbModifySTAB)
+  alias_method :atalescrest_pbModifySTAB, :pbModifySTAB if !method_defined?(:atalescrest_pbModifySTAB)
   def pbModifySTAB(stabmult, type, attacker, opponent)
     if attacker.crested == :NINETALES && attacker.form == 0 && type == :GHOST then
         stabmult += 0.5 if stabmult <= 1
@@ -93,7 +93,7 @@ class PokeBattle_Move
     return atalescrest_pbModifySTAB(stabmult, type, attacker, opponent)
   end
 
-  alias_method :atalescrest_irregularTypeMods, :irregularTypeMods if !defined?(atalescrest_irregularTypeMods)
+  alias_method :atalescrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:atalescrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = atalescrest_irregularTypeMods(attacker, opponent, typemod, type)
     if opponent.crested == :NINETALES && opponent.form == 0

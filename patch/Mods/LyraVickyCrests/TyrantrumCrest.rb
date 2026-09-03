@@ -23,7 +23,7 @@ end
 
 
 class PokeBattle_Battler
-    alias_method :tyracrest_crestStats, :crestStats if !defined?(tyracrest_crestStats)
+    alias_method :tyracrest_crestStats, :crestStats if !method_defined?(:tyracrest_crestStats)
     def crestStats
       
       case @crested
@@ -32,16 +32,16 @@ class PokeBattle_Battler
       end
       tyracrest_crestStats
     end
-    alias_method :tyracrest_pbSpeed, :pbSpeed if !defined?(tyracrest_pbSpeed)
+    alias_method :tyracrest_pbSpeed, :pbSpeed if !method_defined?(:tyracrest_pbSpeed)
     def pbSpeed()
       speed = tyracrest_pbSpeed
       if self.crested == :TYRANTRUM && @battle.pbWeather(nil) == :SUNNYDAY
-        speed *= 2 #guaranteed to be a whole number so we dont have to .floor
+        speed *= 2 #guaranteed to be a whole number so we dont have to .round
       end
       return speed
     end
     
-    # alias_method :tyracrest_pbCanStatus?, :pbCanStatus? if !defined?(tyracrest_pbCanStatus?)
+    # alias_method :tyracrest_pbCanStatus?, :pbCanStatus? if !method_defined?(:tyracrest_pbCanStatus?)
     # def pbCanStatus?(attacker, move, ignorestatus: false, showMessage: false)
     #   can_status = tyracrest_pbCanStatus?(attacker, move, ignorestatus: ignorestatus, showMessage: showMessage)
     #   if self.crested == :TYRANTRUM && @battle.pbWeather(nil) == :SUNNYDAY && can_status

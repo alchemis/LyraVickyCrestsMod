@@ -13,7 +13,7 @@ ModCacheInjection.hook(:items) {
 }
 class PokeBattle_Battler
     #only works for base form
-    alias_method :zapcrest_hasCrest?, :hasCrest? if !defined?(zapcrest_hasCrest?)
+    alias_method :zapcrest_hasCrest?, :hasCrest? if !method_defined?(:zapcrest_hasCrest?)
     def hasCrest?(species = self.species)
         if species == :ZAPDOS && @item == :LVCZAPCREST && @form != 0 then
           return false
@@ -22,7 +22,7 @@ class PokeBattle_Battler
     end
 end
 class PokeBattle_Move
-  alias_method :zapcrest_irregularTypeMods, :irregularTypeMods if !defined?(zapcrest_irregularTypeMods)
+  alias_method :zapcrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:zapcrest_irregularTypeMods)
   def irregularTypeMods(attacker, opponent, typemod, type)
     typemod = zapcrest_irregularTypeMods(attacker, opponent, typemod, type)
     case attacker.crested
@@ -36,7 +36,7 @@ class PokeBattle_Move
 end
 
 class PokeBattle_Battle
-    alias_method :zapcrest_pbCrestEntry, :pbCrestEntry if !defined?(zapcrest_pbCrestEntry)
+    alias_method :zapcrest_pbCrestEntry, :pbCrestEntry if !method_defined?(:zapcrest_pbCrestEntry)
     def pbCrestEntry(index, pokemon)
       zapcrest_pbCrestEntry(index, pokemon)
       battler = @battlers[index]
