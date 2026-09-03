@@ -25,6 +25,14 @@ class PokeBattle_Battle
       end
     end
 
+  alias_method :tropcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:tropcrest_pbEndOfRoundPhase)
+  def pbEndOfRoundPhase(skipcelebi = false)
+      priority = setSpeedOrder
+      for battler in priority
+        battler.effects[:lvc_targetting_tropcrest] = false if battler.effects[:lvc_targetting_tropcrest]
+      end
+      tropcrest_pbEndOfRoundPhase(skipcelebi)
+  end
 end
 
 class PokeBattle_Battler
@@ -41,32 +49,21 @@ class PokeBattle_Battler
 end 
 
 class PokeBattle_Move
-    # too op, removed
-    # alias_method :tropcrest_pbType, :pbType if !method_defined?(:tropcrest_pbType)
-    # def pbType(attacker, type = @type)
-    #   type = tropcrest_pbType(attacker, type)
-    #   if type == :ICE && @battle.pbWeather(nil) == :SUNNYDAY && (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS))
-    #     type = :WATER
-    #   end
-    #   return type
-    # end
 
-      alias_method :tropcrest_irregularTypeMods, :irregularTypeMods if !method_defined?(:tropcrest_irregularTypeMods)
-      def irregularTypeMods(attacker, opponent, typemod, type)
-        typemod = tropcrest_irregularTypeMods(attacker, opponent, typemod, type)
-        case opponent.crested
-          when :TROPIUS
-            if @battle.pbWeather(attacker) == :SUNNYDAY then
-              typemod = Typemod.half * Typemod.half if [:ICE].include?(type)
-            end
-        end
-        return typemod
+    alias_method :tropcrest_pbType, :pbType if !method_defined?(:tropcrest_pbType)
+    def pbType(attacker, type = @type)
+      type = tropcrest_pbType(attacker, type)
+      if type == :ICE && @battle.pbWeather(nil) == :SUNNYDAY && (@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS))
+        type = :WATER
       end
+      return type
+    end
+
     alias_method :tropcrest_pbCalcDamage, :pbCalcDamage if !method_defined?(:tropcrest_pbCalcDamage)
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       damage = tropcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       type = movetype.nil? ? pbType(attacker) : movetype
-      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :ICE && opponent.crested == :TROPIUS #@battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
+      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :WATER && @type == :ICE && @battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
       return damage
     end
 
