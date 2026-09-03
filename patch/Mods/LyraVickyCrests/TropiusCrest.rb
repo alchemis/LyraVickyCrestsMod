@@ -24,15 +24,6 @@ class PokeBattle_Battle
           pbHideAbilityBox(battler)
       end
     end
-
-  alias_method :tropcrest_pbEndOfRoundPhase, :pbEndOfRoundPhase if !method_defined?(:tropcrest_pbEndOfRoundPhase)
-  def pbEndOfRoundPhase(skipcelebi = false)
-      priority = setSpeedOrder
-      for battler in priority
-        battler.effects[:lvc_targetting_tropcrest] = false if battler.effects[:lvc_targetting_tropcrest]
-      end
-      tropcrest_pbEndOfRoundPhase(skipcelebi)
-  end
 end
 
 class PokeBattle_Battler
