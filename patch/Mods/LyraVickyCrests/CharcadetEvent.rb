@@ -1,3 +1,7 @@
+if !(File.exist?('patch/Init/0000.cache_injection.rb') or !File.exist?('patch/Init/0000.map_injection.rb')) then 
+  print("Error, patching libraries not found. Please download 0000.cache_injection.rb and 0000.map_injection.rb from wiresegal's modpack at: github.com/yrsegal/rejuvenation-modpack")
+end
+
 ModCacheInjection.hook(:bosses) {
   $cache.bosses[:LVCGRISELDAGUARD] = BossData.new(:LVCGRISELDAGUARD, {
     name: "Agravain",
@@ -25,7 +29,7 @@ ModCacheInjection.hook(:bosses) {
         statDropCure: true, 
         statusCure: true,
         effectClear: true,
-        itemchange: :FIREGEM
+        itemchange: :FIREGEM,
         bossStatChanges: => {
           PBStats::ATTACK => 1,
           PBSTATS::SPEED => 1
@@ -73,7 +77,7 @@ ModCacheInjection.hook(:bosses) {
         statDropCure: true, 
         statusCure: true,
         effectClear: true,
-        itemchange: :FIREGEM
+        itemchange: :FIREGEM,
         bossStatChanges: => {
           PBStats::SPATK => 1,
           PBSTATS::SPEED => 1
@@ -129,7 +133,7 @@ InjectionHelper.defineMapPatch(219) { # Lost Castle
           choice("No") {}
           choice("Yes") {
             branch('pbDoubleWildBattle(:LVCGRISELDAGUARD, 80, :LVCGRISELDAGUARD_A, 80)'){
-              text "A Charcadet came out of nowhere!?!" #it spawned from the griseldussy
+              text "A Charcadet came out of nowhere!?!" 
               script 'lvcknight_givebossreward'
               self_switch["A"] = true
             }
@@ -140,3 +144,42 @@ InjectionHelper.defineMapPatch(219) { # Lost Castle
     newPage { requiresSelfSwitch 'A' }
   }
 }
+
+ModCacheInjection.hook(:pkmn) {
+  ModCacheInjection.createNewForm(:CHARCADET,"Ghovoran Guard",1,
+      {
+		    :Abilities => [:SWORNDUTY],
+        :ExcludeDex => true,
+      }
+  )
+  ModCacheInjection.createNewForm(:CERULEDGE,"Ghovoran Guard",1,
+      {
+        :BaseStats => [75, 125, 80, 60, 100, 85],
+		    :Abilities => [:SHARPNESS],
+        :preevo => {
+          :species => :CHARCADET,
+          :form => 1,
+        },
+        :ExcludeDex => true,
+      }
+  )
+  ModCacheInjection.createNewForm(:ARMAROUGE,"Ghovoran Guard",1,
+      {
+        :BaseStats => [80, 60, 100, 125, 80, 75], 
+		    :Abilities => [:SHARPNESS],
+        :preevo => {
+          :species => :CHARCADET,
+          :form => 1,
+        },
+        :ExcludeDex => true,
+      }
+  )
+}
+
+# TO-DO:
+#   DONE 1. Add Charcadet Form 1 (Only difference between it and Form 0 is that it evolves into...)
+#   DONE 2. Add Ceruledge and Armarouge Form 1 (Sharpness/Mega Launcher and Relearns Hexing Slash/Vorpal Blade and Terrain Pulse/Heal Pulse respectively)
+#   3. Add "Queen's Guard", a Ghost-type Follow Me variant that also Protects the user from damaging moves. (Ceruledge/Armarouge Form 1 learns on Evo.)
+#      > "The user protects its ally from any attack!" or something like that for a description? maybe reference Griselda?
+#   4. Make Vorpal Blade into a Sharp move. Why isn't it already a Sharp move?
+#   5. ??? I added a 5 but I forgot what I was supposed to do.... uh oh -Victory
