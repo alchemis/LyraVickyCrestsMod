@@ -71,7 +71,6 @@ class PokeBattle_Move
     def damageCalcMessages(attacker, feedbackMessages, late: false)
       #this shit doesnt work stupid bitch
         tropcrest_damageCalcMessages(attacker, feedbackMessages, late: late)
-        puts feedbackMessages
         if !late
             #too mentally unwell to rewrite this properly
             messageHash = {}
