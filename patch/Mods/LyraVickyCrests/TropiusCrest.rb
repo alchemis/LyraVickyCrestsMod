@@ -63,14 +63,16 @@ class PokeBattle_Move
     def pbCalcDamage(attacker, opponent, hitnum = 0, feedbackMessages = { opponent.index => [] }, movetype: nil)
       damage = tropcrest_pbCalcDamage(attacker, opponent, hitnum, feedbackMessages, movetype: movetype)
       type = movetype.nil? ? pbType(attacker) : movetype
-      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :ICE && @type == :WATER && @battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
+      feedbackMessages[opponent.index].push(:TropCrestThaw) if type == :WATER && @type == :ICE && @battle.pbLVC_OpposingCrestCheck(attacker,:TROPIUS)
       return damage
     end
 
     alias_method :tropcrest_damageCalcMessages, :damageCalcMessages if !method_defined?(:tropcrest_damageCalcMessages)
     def damageCalcMessages(attacker, feedbackMessages, late: false)
+      #this shit doesnt work stupid bitch
         tropcrest_damageCalcMessages(attacker, feedbackMessages, late: late)
-        if late
+        puts feedbackMessages
+        if !late
             #too mentally unwell to rewrite this properly
             messageHash = {}
             feedbackMessages.each_pair do |index, messages|
@@ -79,13 +81,15 @@ class PokeBattle_Move
                 messageHash[message].push(index)
               end
             end
-            messageHash.each do |message, indexes|  
+            messageHash.each do |message, indexes|
+              indexes.each do |index|
                 if message == :TropCrestThaw
-                  pbShowAbilityBox(@battle.battlers[index], item: true)
-                  pbDisplay(_INTL("The tropical sun thawed the move!"))
-                  pbHideAbilityBox(@battle.battlers[index])
+                  @battle.pbShowAbilityBox(@battle.battlers[index], item: true)
+                  @battle.pbDisplay(_INTL("The tropical sun thawed the move!"))
+                  @battle.pbHideAbilityBox(@battle.battlers[index])
                   break  
                 end
+              end
             end
         end
     end
