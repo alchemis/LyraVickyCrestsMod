@@ -21,24 +21,30 @@ def lvc_useregimove(target,user,battle,move)
     target.effects[:lvc_brailleburstBP] = nil
 end
 class PokeBattle_Move_000 < PokeBattle_Move #No special effect
+  alias_method :regimove_pbOnStartUse, :pbOnStartUse if !method_defined?(:regimove_pbOnStartUse)
   def pbOnStartUse(attacker, targets)
     if @move == :BRAILLEBURST
       moldBrokenArray = [0, 1, 2, 3].map { |index| @battle.battlers[index].moldbroken }
       @category = self.smartDamageCategory(attacker, targets[0], moldBrokenArray: moldBrokenArray)
       return true
-    else super(attacker,targets)
+    else regimove_pbOnStartUse(attacker,targets)
     end
   end
 
   # smartdamage category overrule glitch
+  alias_method :regimove_pbIsPhysical?, :pbIsPhysical? if !method_defined?(:regimove_pbIsPhysical?)
   def pbIsPhysical?(attacker, type = @type)
-    return @category == :physical
+    return @category == :physical if @move == :BRAILLEBURST
+    return regimove_pbIsPhysical?(attacker, type)
   end
 
+  alias_method :regimove_pbIsSpecial?, :pbIsSpecial? if !method_defined?(:regimove_pbIsSpecial?)
   def pbIsSpecial?(attacker, type = @type)
-    return @category == :special
+    return @category == :special  if @move == :BRAILLEBURST
+    return regimove_pbIsSpecial?(attacker, type)
   end
 
+  alias_method :regimove_pbShowAnimation, :pbShowAnimation if !method_defined?(:regimove_pbShowAnimation)
   def pbShowAnimation(id,attacker,opponent,hitnum=0,alltargets=nil,showanimation=true)
     if showanimation
       if @move == :BRAILLEBURST
@@ -49,11 +55,12 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
         else @battle.pbAnimation(:MIRRORSHOT,attacker,opponent,hitnum)
         end
       else
-        @battle.pbAnimation(id,attacker,opponent,hitnum)
+        regimove_pbShowAnimation(id,attacker,opponent,hitnum,alltargets,showanimation)
       end
     end
   end
 
+  alias_method :regimove_pbEffectTarget, :pbEffectTarget if !method_defined?(:regimove_pbEffectTarget)
   def pbEffectTarget(attacker, opponent, hitnum = 0, alltargets = nil)
     if @move == :BRAILLEBURST
       damage = opponent.lastHPLost
@@ -61,15 +68,19 @@ class PokeBattle_Move_000 < PokeBattle_Move #No special effect
         hpgain = (damage * 0.5).round
         attacker.absorbHP(hpgain, opponent, :HPDrainingMove, self)
       end
+    else
+      regimove_pbEffectTarget(attacker, opponent, hitnum, alltargets)
     end
   end
+  alias_method :regimove_pbBaseDamage, :pbBaseDamage if !method_defined?(:regimove_pbBaseDamage)
   def pbBaseDamage(basedmg, attacker, opponent)
     return basedmg =  [5, attacker.effects[:lvc_brailleburstBP] || 0].max if @move == :BRAILLEBURST
-    return basedmg
+    return regimove_pbBaseDamage(basedmg, attacker, opponent)
   end
 
+  alias_method :regimove_pbType, :pbType if !method_defined?(:regimove_pbType)
   def pbType(attacker, type = @type)
     return attacker.type1 if @move == :BRAILLEBURST && (attacker.species == :REGIROCK || attacker.species == :REGICE || attacker.species == :REGISTEEL)
-    return super(attacker)
+    return regimove_pbType(attacker,type)
   end
 end
