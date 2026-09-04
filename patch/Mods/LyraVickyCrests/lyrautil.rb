@@ -10,6 +10,8 @@ class PokeBattle_Battle
   end
 end
 
+
+
 #Boss reward stuff
 class PokemonSummaryScene
     alias_method :lvc_drawPageOne, :drawPageOne if !method_defined?(:lvc_drawPageOne)
@@ -37,6 +39,24 @@ class PokeBattle_Pokemon
     end
     return @flickerOT[:display]
   end
+end
+
+def lvc_make_flicker(arr, amt, incl_real = false, chance: 50, use_all_chars: false)
+    flicker_arr = []
+    flicker_chars = ["$","#","!","%","/","=","+","&"]
+    for item in arr
+        flicker_arr.push(item) if incl_real
+        for _ in 0..amt
+            curr = item.dup()
+            curr = curr.chars()
+            for i in 0..(curr.length-1)
+              curr[i] = flicker_chars.sample() if curr[i] != " " && chance > rand(99) && !use_all_chars
+              curr[i] = rand(33..126).chr if curr[i] != " " && chance > rand(99) && use_all_chars
+            end
+            flicker_arr.push(curr.join)
+        end
+    end
+    return flicker_arr
 end
 
 def lvc_testsuperboss(rene = false)
