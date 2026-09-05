@@ -96,7 +96,7 @@ ModCacheInjection.hook(:trainers) {
       { #tr side
         species: :AURORUS,
         level: 100,
-        moves: [:BLOODMOON,:POWERGEM,:THUNDERBOLT,:BLIZZARD],
+        moves: [:BLOODMOON,:METEORBEAM,:THUNDERBOLT,:POWERGEM],
         item: :LVCAUROCREST,
         ability: :REFRIGERATE,
         nature: :QUIET,
@@ -326,7 +326,7 @@ ModCacheInjection.hook(:trainers) {
       { #tr side
         species: :AURORUS,
         level: 100,
-        moves: [:BLOODMOON,:POWERGEM,:THUNDERBOLT,:BLIZZARD],
+        moves: [:BLOODMOON,:METEORBEAM,:THUNDERBOLT,:POWERGEM],
         item: :LVCAUROCREST,
         ability: :REFRIGERATE,
         nature: :QUIET,
