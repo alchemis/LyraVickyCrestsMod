@@ -31,13 +31,13 @@ class PokeBattle_Battler
 
 
   alias_method :rockcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:rockcrest_pbEffectsOnDealingDamage)
-  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
     if target.crested == :REGIROCK then
       if move.pbIsPhysical?(user) && move.move != :BRAILLEBURST && !attackerNotPresent
         lvc_useregimove(target,user,@battle,move) #defined in regimove.rb
       end
     end
-    return rockcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+    return rockcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
   end
 end
 

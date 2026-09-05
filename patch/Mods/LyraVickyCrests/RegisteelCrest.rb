@@ -17,13 +17,13 @@ ModCacheInjection.hook(:items) {
 class PokeBattle_Battler
 
   alias_method :steelcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:steelcrest_pbEffectsOnDealingDamage)
-  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
     if target.crested == :REGISTEEL then
       if (move.pbIsSpecial?(user) || move.pbIsPhysical?(user)) && move.move != :BRAILLEBURST && !attackerNotPresent
         lvc_useregimove(target,user,@battle,move) #defined in regimove.rb
       end
     end
-    return steelcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+    return steelcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
   end
 
   alias_method :steelcrest_pbSuccessCheck, :pbSuccessCheck if !method_defined?(:steelcrest_pbSuccessCheck)

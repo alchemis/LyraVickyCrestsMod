@@ -47,11 +47,12 @@ class PokeBattle_Battler
     end
 
     alias_method :wailcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:wailcrest_pbEffectsOnDealingDamage)
-    def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+    def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
+      
       if target.crested and target.species == :WAILORD then
         target.pbUpdate() 
       end
-      return wailcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+      return wailcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
     end
 end
 

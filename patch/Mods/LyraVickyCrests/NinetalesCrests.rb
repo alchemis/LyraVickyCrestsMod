@@ -68,7 +68,7 @@ class PokeBattle_Battler
 
     #curse effect
     alias_method :atalescrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:atalescrest_pbEffectsOnDealingDamage)
-    def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+    def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
       if target.crested == :NINETALES && target.form == 0 then
         if user.makesContact?(move) && !user.effects[:Curse] 
           @battle.pbShowAbilityBox(target, item:true)
@@ -77,7 +77,7 @@ class PokeBattle_Battler
           @battle.pbHideAbilityBox(target)
         end
       end
-      return atalescrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+      return atalescrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
     end
 
 
