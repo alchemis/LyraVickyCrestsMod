@@ -21,7 +21,7 @@ class PokeBattle_Battle
         when :TREVENANT
           pbShowAbilityBox(battler, item: true)
           battler.pbUseMoveSimple(:INGRAIN, -1, -1)
-          if battler.pbCanIncreaseAnyStat?([PBStats::SPDEF, PBStats::DEFENSE], battler, nil, showMessage: false)
+          if battler.pbCanIncreaseAnyStat?([PBStats::DEFENSE, PBStats::SPDEF], battler, nil, showMessage: false)
             pbDisplay(_INTL("{1} hardens its bark!", battler.pbThis))
             battler.pbChangeStats([PBStats::SPDEF, PBStats::DEFENSE], 1, battler, nil, abilitycheck: :skip)
           end
