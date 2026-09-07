@@ -48,7 +48,7 @@ class PokeBattle_Battler
   alias_method :archcrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !method_defined?(:archcrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :ARCHEOPS then
-    return unless oldhp > (@totalhp / 2.0).round && self.hp <= (@totalhp / 2.0).round && self.hp != 0
+    return unless oldhp > (@totalhp / 4.0).round && self.hp <= (@totalhp / 4.0).round && self.hp != 0
 
     if @battle.FE == :COLOSSEUM
         @battle.pbAbilityBoxAndDisplay(self, _INTL("{1} has nowhere to run!", self.pbThis), item: true)
