@@ -19,12 +19,12 @@ class PokeBattle_Battler
       case @crested
         when :MAWILE
           if form == 0
-            @defense += @attack/2
-            @spdef += @attack/2
+            @defense += @attack/3
+            @spdef += @attack/3
             @spatk += @attack
           else
-            @defense += @attack
-            @spdef += @attack
+            @defense += @attack*0.66
+            @spdef += @attack*0.66
             @spatk += @attack*2
           end
       end

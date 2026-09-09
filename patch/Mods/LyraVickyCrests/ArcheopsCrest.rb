@@ -48,7 +48,7 @@ class PokeBattle_Battler
   alias_method :archcrest_pbEmergencyExitCheck, :pbEmergencyExitCheck if !method_defined?(:archcrest_pbEmergencyExitCheck)
   def pbEmergencyExitCheck(oldhp)
     if self.crested == :ARCHEOPS then
-    return unless oldhp > (@totalhp / 2.0).round && self.hp <= (@totalhp / 2.0).round && self.hp != 0
+    return unless oldhp > (@totalhp / 4.0).round && self.hp <= (@totalhp / 4.0).round && self.hp != 0
 
     if @battle.FE == :COLOSSEUM
         @battle.pbAbilityBoxAndDisplay(self, _INTL("{1} has nowhere to run!", self.pbThis), item: true)
@@ -75,12 +75,12 @@ class PokeBattle_Battler
   end
   #just for abilitybox
   alias_method :archcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:archcrest_pbEffectsOnDealingDamage)
-  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
     if target.effects[:LVC_TANKEDHIT] && target.crested == :ARCHEOPS
       @battle.pbAbilityBoxAndDisplay(target, _INTL("{1} tanked the hit!", target.pbThis), item: true)
       target.effects[:LVC_TANKEDHIT] = false
       @battle.pbHideAbilityBox(target)
     end
-    return archcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+    return archcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
   end
 end

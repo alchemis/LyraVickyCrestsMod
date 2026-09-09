@@ -15,13 +15,13 @@ ModCacheInjection.hook(:items) {
 
 class PokeBattle_Battler
   alias_method :icecrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:icecrest_pbEffectsOnDealingDamage)
-  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
     if target.crested == :REGICE then
       if move.pbIsSpecial?(user) && move.move != :BRAILLEBURST && !attackerNotPresent
         lvc_useregimove(target,user,@battle,move) #defined in regimove.rb
       end
     end
-    return icecrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+    return icecrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
   end
 
   alias_method :icecrest_pbSuccessCheck, :pbSuccessCheck if !method_defined?(:icecrest_pbSuccessCheck)

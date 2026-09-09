@@ -51,12 +51,12 @@ class PokeBattle_Battler
 
   #just for abilitybox
   alias_method :carracrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:carracrest_pbEffectsOnDealingDamage)
-  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false)
+  def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
     if target.effects[:LVC_TANKEDHIT] && target.crested == :CARRACOSTA
       @battle.pbAbilityBoxAndDisplay(target, _INTL("{1} tanked the hit!", target.pbThis), item: true)
       target.effects[:LVC_TANKEDHIT] = false
       @battle.pbHideAbilityBox(target)
     end
-    return carracrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent || false)
+    return carracrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
   end
 end
