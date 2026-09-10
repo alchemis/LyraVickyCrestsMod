@@ -25,11 +25,11 @@ class PokeBattle_Battler
     end
 
     alias_method :wailcrest_pbRecoverHP, :pbRecoverHP if !method_defined?(:wailcrest_pbRecoverHP)
-    def pbRecoverHP(amt, anim = false, hpbaranim = true, message: nil, hpamt: amt)
+    def pbRecoverHP(amt, anim = false, hpbaranim = true, message: nil, fullrecover: false)
       anim = anim
       hpbaranim = hpbaranim
       message = nil if !defined?(message)
-      ret = wailcrest_pbRecoverHP(amt, anim, hpbaranim, message: message, hpamt: amt)
+      ret = wailcrest_pbRecoverHP(amt, anim, hpbaranim, message: message, fullrecover: fullrecover)
       if @crested and @species == :WAILORD then
         self.pbUpdate() 
       end
