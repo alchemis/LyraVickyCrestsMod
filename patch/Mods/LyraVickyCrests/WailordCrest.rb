@@ -30,7 +30,7 @@ class PokeBattle_Battler
       hpbaranim = hpbaranim
       message = nil if !defined?(message)
       ret = wailcrest_pbRecoverHP(amt, anim, hpbaranim, message: message, fullrecover: fullrecover)
-      if @crested and @species == :WAILORD then
+      if @crested == :WAILORD then
         self.pbUpdate() 
       end
       return ret
@@ -40,7 +40,7 @@ class PokeBattle_Battler
     def pbReduceHP(amt, anim = false, emercheck = true, message: nil)
         message = nil if !defined?(message)
         ret = wailcrest_pbReduceHP(amt, anim, emercheck, message: message)
-        if @crested and @species == :WAILORD then
+        if @crested == :WAILORD then
           self.pbUpdate() 
         end
         return ret
@@ -49,7 +49,7 @@ class PokeBattle_Battler
     alias_method :wailcrest_pbEffectsOnDealingDamage, :pbEffectsOnDealingDamage if !method_defined?(:wailcrest_pbEffectsOnDealingDamage)
     def pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent = false, futureSight = false)
       
-      if target.crested and target.species == :WAILORD then
+      if target.crested == :WAILORD then
         target.pbUpdate() 
       end
       return wailcrest_pbEffectsOnDealingDamage(move, user, target, damage, attackerNotPresent, futureSight)
