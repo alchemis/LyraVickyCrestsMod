@@ -210,7 +210,10 @@ class PokeBattle_Battle
         priority = setSpeedOrder
         for battler in priority
           if Overlays && @field.overlay && @field.effect != :FROZENDIMENSION && @battle.OV == :CONCERT3 && battler.crested == :EXPLOUD && @field.overlayCounter <= 3
-              @field.overlayCounter += 1 
+            @field.overlayCounter = 3
+          end
+          if @battle.ProgressiveFieldCheck(PBFields::CONCERT, 1, 4) && @field.duration > 0 && field.duration <= 3 && battler.crested == :EXPLOUD
+            @field.duration = 3
           end
         end
         expcrest_pbEndOfRoundPhase(skipcelebi)
