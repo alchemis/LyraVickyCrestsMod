@@ -157,7 +157,7 @@ ModCacheInjection.hook(:trainers) {
   lvc_getTrainer(["Madelis", :XENMADELIS, 1]).party[3][:moves] = [:POWERWHIP, :HIJUMPKICK, :PROTECT, :TRIPLEAXEL]
 
 
-  lvc_getTrainer(["Cassandra", :XENADMIN_1, 2]).party[1][:item] = :LVCTSARCREST #i like to think this is madelis' tsareena
+  lvc_getTrainer(["Cassandra", :CASSANDRAPURGATORIUM, 2]).party[1][:item] = :LVCTSARCREST #i like to think this is madelis' tsareena
 
   lvc_getTrainer(["Novae", :WANDERER, 2]).party[3][:item] = :LVCTSARCREST
   lvc_getTrainer(["Novae", :WANDERER, 2]).party[3][:moves] = [:TROPKICK, :KNOCKOFF, :PLAYROUGH, :TRIPLEAXEL]
